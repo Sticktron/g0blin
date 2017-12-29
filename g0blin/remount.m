@@ -27,8 +27,7 @@ kern_return_t do_remount(uint64_t slide) {
     uint32_t v_flag = rk32(v_mount + KSTRUCT_OFFSET_MOUNT_MNT_FLAG + 1);
     
     // unset rootfs flag
-    //wk32(v_mount + KSTRUCT_OFFSET_MOUNT_MNT_FLAG + 1, v_flag & ~(MNT_ROOTFS >> 8));
-    wk32(v_mount + 0x71, v_flag & (~(0x1<<6)));
+    wk32(v_mount + KSTRUCT_OFFSET_MOUNT_MNT_FLAG + 1, v_flag & (~(0x1<<6)));
     
     // remount
     char *nmz = strdup("/dev/disk0s1s1");
