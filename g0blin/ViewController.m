@@ -51,6 +51,14 @@ static uint64_t kbase;
     uname(&u);
     [self log:[NSString stringWithFormat:@"%s \n", u.version]];
     
+    // abort if already jailbroken
+    if (strstr(u.version, "MarijuanARM")) {
+        self.goButton.enabled = NO;
+        self.goButton.backgroundColor = UIColor.darkGrayColor;
+        [self.goButton setTitle:@"jailbroke yo!" forState:UIControlStateDisabled];
+    }
+    
+    
     if (init_offsets() != KERN_SUCCESS) {
         self.goButton.enabled = NO;
         self.goButton.backgroundColor = UIColor.darkGrayColor;
@@ -121,32 +129,32 @@ static uint64_t kbase;
 }
 
 - (void)remount {
-    
+
     [self.progressView setProgress:0.5 animated:YES];
     [self log:@"remounting / as r/w"];
-    
+
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        
+
         if (do_remount(kslide) != KERN_SUCCESS) {
             [self log:@"ERROR: failed to remount system partition \n"];
             return;
         }
-        
+
         [self bootstrap];
   });
 }
 
 - (void)bootstrap {
     
-//    [self.progressView setProgress:0.6 animated:YES];
-//    [self log:@"installing bootstrap"];
+    [self.progressView setProgress:0.6 animated:YES];
+    [self log:@"installing bootstrap"];
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         
-//        if (do_bootstrap() != KERN_SUCCESS) {
-//            [self log:@"ERROR: failed to install bootstrap \n"];
-//            return;
-//        }
+        if (do_bootstrap() != KERN_SUCCESS) {
+            [self log:@"ERROR: failed to install bootstrap \n"];
+            return;
+        }
         
         [self finish];
     });
@@ -157,6 +165,19 @@ static uint64_t kbase;
     [self log:@"All done, peace!"];
 
     [self.goButton setTitle:@"jailbroke yo!" forState:UIControlStateDisabled];
+    
+    
+    // start launchdaemons ...
+    
+    LOG("reloading...");
+    pid_t pid;
+    posix_spawn(&pid, "/bin/launchctl", 0, 0, (char**)&(const char*[]){"/bin/launchctl", "load", "/Library/LaunchDaemons/0.reload.plist", NULL}, NULL);
+    
+    //    LOG("starting dropbear...");
+    //    posix_spawn(&pid, "/bin/launchctl", 0, 0, (char**)&(const char*[]){"/bin/launchctl", "load", "/Library/LaunchDaemons/dropbear.plist", NULL}, NULL);
+    
+    sleep(2);
+    
 }
 
 @end

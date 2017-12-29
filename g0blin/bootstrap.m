@@ -24,7 +24,8 @@ kern_return_t do_bootstrap() {
     NSString* execpath = [[NSString stringWithUTF8String:pt] stringByDeletingLastPathComponent];
     
     int f = open("/.installed_g0blin", O_RDONLY);
-    if (f == -1) {
+//    if (f == -1) {
+    if (f == f) { // ALWAYS INSTALL THE BOOTSTRAP FOR NOW.....
         LOG("bootstrap not yet installed");
         
         NSString* bootstrap = [execpath stringByAppendingPathComponent:@"bootstrap.tar"];
@@ -34,13 +35,11 @@ kern_return_t do_bootstrap() {
         unlink("/bin/tar");
         unlink("/bin/launchctl");
         
-        // copy over launchctl
-        copyfile([launchctl UTF8String], "/bin/launchctl", 0, COPYFILE_ALL);
-        chmod("/bin/launchctl", 0755);
-        
-        // copy over tar
+        // copy over tar, launchctl
         copyfile([tar UTF8String], "/bin/tar", 0, COPYFILE_ALL);
         chmod("/bin/tar", 0777);
+        copyfile([launchctl UTF8String], "/bin/launchctl", 0, COPYFILE_ALL);
+        chmod("/bin/launchctl", 0755);
         
         // unpack bootstrap tarball
         chdir("/");
@@ -73,7 +72,7 @@ kern_return_t do_bootstrap() {
         [plist writeToFile:@"/var/mobile/Library/Preferences/com.apple.springboard.plist" atomically:YES];
         posix_spawn(&pd, "killall", 0, 0, (char**)&(const char*[]){"killall", "-9", "cfprefsd", NULL}, NULL);
     }
-    LOG("bootstrapped");
+    LOG("bootstrap untarred");
     
     
     // copy reload
@@ -116,15 +115,13 @@ kern_return_t do_bootstrap() {
     chown("/var/MobileAsset/Assets/com_apple_MobileAsset_SoftwareUpdate", 0, 0);
     LOG("killed OTA updater");
     
-//    WriteAnywhere64(bsd_task+0x100, orig_cred);
     
-    // reload
-    LOG("reloading");
-    posix_spawn(&pid, "/bin/launchctl", 0, 0, (char**)&(const char*[]){"/bin/launchctl", "load", "/Library/LaunchDaemons/0.reload.plist", NULL}, NULL);
+    // reload launchdaemons
+//    LOG("reloading...");
+//    posix_spawn(&pid, "/bin/launchctl", 0, 0, (char**)&(const char*[]){"/bin/launchctl", "load", "/Library/LaunchDaemons/0.reload.plist", NULL}, NULL);
     
-    sleep(2);
+//    sleep(2);
     
     
-    // done.
     return KERN_SUCCESS;
 }
