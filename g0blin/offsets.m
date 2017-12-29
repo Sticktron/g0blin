@@ -56,14 +56,14 @@ kern_return_t init_offsets() {
         OFFSET_BCOPY                                = 0xfffffff007081dc0;
         OFFSET_COPYIN                               = 0xfffffff0071806f4;
         OFFSET_COPYOUT                              = 0xfffffff0071808e8;
-        OFFSET_CHGPROCCNT                           = 0xfffffff007049df1;
-        OFFSET_KAUTH_CRED_REF                       = 0xfffffff007367cf4;
+//        OFFSET_CHGPROCCNT                           = 0xfffffff007049df1;
+//        OFFSET_KAUTH_CRED_REF                       = 0xfffffff007367cf4;
         OFFSET_IPC_PORT_ALLOC_SPECIAL               = 0xfffffff007099e94; /* convert_task_suspension_token_to_port */
         OFFSET_IPC_KOBJECT_SET                      = 0xfffffff0070ad16c; /* convert_task_suspension_token_to_port */
         OFFSET_IPC_PORT_MAKE_SEND                   = 0xfffffff0070999b8; /* "ipc_host_init" */
         OFFSET_IOSURFACEROOTUSERCLIENT_VTAB         = 0xfffffff006e7c9f8;
         OFFSET_ROP_ADD_X0_X0_0x10                   = 0xfffffff0064b1398;
-        OFFSET_ROP_LDR_X0_X0_0x10                   = 0xfffffff0074c31d4;
+//        OFFSET_ROP_LDR_X0_X0_0x10                   = 0xfffffff0074c31d4;
         OFFSET_ROOT_MOUNT_V_NODE                    = 0xfffffff0075a40b0;
         LOG("loaded offsets for iPhone 6S on 10.3.2");
     }
@@ -78,14 +78,14 @@ kern_return_t init_offsets() {
         OFFSET_BCOPY                                = 0xfffffff0070c1dc0;
         OFFSET_COPYIN                               = 0xfffffff0071c6134;
         OFFSET_COPYOUT                              = 0xfffffff0071c6414;
-        OFFSET_CHGPROCCNT                           = 0xfffffff007049e4b;
-        OFFSET_KAUTH_CRED_REF                       = 0xfffffff0073ada04;
+//        OFFSET_CHGPROCCNT                           = 0xfffffff007049e4b;
+//        OFFSET_KAUTH_CRED_REF                       = 0xfffffff0073ada04;
         OFFSET_IPC_PORT_ALLOC_SPECIAL               = 0xfffffff0070df05c;
         OFFSET_IPC_KOBJECT_SET                      = 0xfffffff0070f22b4;
         OFFSET_IPC_PORT_MAKE_SEND                   = 0xfffffff0070deb80;
         OFFSET_IOSURFACEROOTUSERCLIENT_VTAB         = 0xfffffff006e4a238;
         OFFSET_ROP_ADD_X0_X0_0x10                   = 0xfffffff0064ff0a8;
-        OFFSET_ROP_LDR_X0_X0_0x10                   = 0xfffffff0074cf02c;
+//        OFFSET_ROP_LDR_X0_X0_0x10                   = 0xfffffff0074cf02c;
         OFFSET_ROOT_MOUNT_V_NODE                    = 0xfffffff0075ec0b0;
         LOG("loaded offsets for iPhone 7 on 10.3.1");
     }
