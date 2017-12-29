@@ -26,6 +26,7 @@
 		EE9828CA1FF418800085B633 /* launchctl in Resources */ = {isa = PBXBuildFile; fileRef = EE9828C61FF4187F0085B633 /* launchctl */; };
 		EE9828CB1FF418800085B633 /* reload in Resources */ = {isa = PBXBuildFile; fileRef = EE9828C71FF4187F0085B633 /* reload */; };
 		EEE1C50F1FF5B42800A77E2C /* bootstrap.tar in Resources */ = {isa = PBXBuildFile; fileRef = EEE1C50E1FF5B42800A77E2C /* bootstrap.tar */; };
+		EEF6994B1FF68F6A00932DB7 /* dropbear.plist in Resources */ = {isa = PBXBuildFile; fileRef = EEE1C5101FF5D3FE00A77E2C /* dropbear.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,6 +62,7 @@
 		EE9828C61FF4187F0085B633 /* launchctl */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = launchctl; sourceTree = "<group>"; };
 		EE9828C71FF4187F0085B633 /* reload */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = reload; sourceTree = "<group>"; };
 		EEE1C50E1FF5B42800A77E2C /* bootstrap.tar */ = {isa = PBXFileReference; lastKnownFileType = archive.tar; path = bootstrap.tar; sourceTree = "<group>"; };
+		EEE1C5101FF5D3FE00A77E2C /* dropbear.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = dropbear.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,11 +138,12 @@
 		EE9828CC1FF4188B0085B633 /* payload */ = {
 			isa = PBXGroup;
 			children = (
+				EE9828C41FF4187F0085B633 /* tar */,
 				EEE1C50E1FF5B42800A77E2C /* bootstrap.tar */,
-				EE9828C51FF4187F0085B633 /* 0.reload.plist */,
 				EE9828C61FF4187F0085B633 /* launchctl */,
 				EE9828C71FF4187F0085B633 /* reload */,
-				EE9828C41FF4187F0085B633 /* tar */,
+				EE9828C51FF4187F0085B633 /* 0.reload.plist */,
+				EEE1C5101FF5D3FE00A77E2C /* dropbear.plist */,
 			);
 			name = payload;
 			sourceTree = "<group>";
@@ -203,6 +206,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EEF6994B1FF68F6A00932DB7 /* dropbear.plist in Resources */,
 				EEE1C50F1FF5B42800A77E2C /* bootstrap.tar in Resources */,
 				EE9828C81FF418800085B633 /* tar in Resources */,
 				EE9828C91FF418800085B633 /* 0.reload.plist in Resources */,
