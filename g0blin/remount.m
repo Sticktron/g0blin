@@ -18,6 +18,11 @@
 
 
 kern_return_t do_remount(uint64_t slide) {
+    if(!OFFSET_ROOT_MOUNT_V_NODE)
+    {
+        LOG("Can't find offset for mounting /");
+        return KERN_FAILURE;
+    }
     
     uint64_t _rootnode = OFFSET_ROOT_MOUNT_V_NODE + slide;
     uint64_t rootfs_vnode = rk64(_rootnode);

@@ -16,7 +16,7 @@
 #include "remount.h"
 #include "bootstrap.h"
 #include <sys/utsname.h>
-
+#include <sys/sysctl.h>
 
 #define GRAPE [UIColor colorWithRed:0.5 green:0 blue:1 alpha:1]
 
@@ -67,6 +67,17 @@ static uint64_t kbase;
         return;
     }
     
+    int d_prop[2] = {CTL_HW, HW_MACHINE};
+    char device[20];
+    size_t d_prop_len = sizeof(device);
+    sysctl(d_prop, 2, device, &d_prop_len, NULL, 0);
+    
+    int version_prop[2] = {CTL_KERN, KERN_OSVERSION};
+    char osversion[20];
+    size_t version_prop_len = sizeof(osversion);
+    sysctl(version_prop, 2, osversion, &version_prop_len, NULL, 0);
+    
+    [self log:[NSString stringWithFormat:@"%s on %s\n", device, osversion]];
     [self log:@"Ready. \n"];
 }
 
@@ -108,7 +119,16 @@ static uint64_t kbase;
         kbase = kslide + 0xFFFFFFF007004000;
         LOG("kern base -> 0x%llx", kbase);
         [self log:@"Patching com.apple.System.boot-nonce"];
-        nvpatch(tfp0, kbase, "com.apple.System.boot-nonce");
+        int nv_err = nvpatch(tfp0, kbase, "com.apple.System.boot-nonce");
+        if(nv_err)
+        {
+            [self log:@"Patching failed"];
+        }
+        else
+        {
+            [self log:@"Patching successful"];
+        }
+        
         [self bypassKPP];
     });
 }
@@ -180,6 +200,11 @@ static uint64_t kbase;
     
     sleep(2);
     
+}
+
+- (UIStatusBarStyle) preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
 }
 
 @end

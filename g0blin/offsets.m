@@ -341,6 +341,7 @@ kern_return_t init_offsets()
           OFFSET_ROP_ADD_X0_X0_0x10              = 0xfffffff006462174;
           OFFSET_OSSERIALIZER_SERIALIZE          = 0xfffffff007440a20;
           OFFSET_ROP_LDR_X0_X0_0x10              = 0xfffffff0063b0a84;
+          
 
 
       }
@@ -365,6 +366,7 @@ kern_return_t init_offsets()
           OFFSET_ROP_ADD_X0_X0_0x10              = 0xfffffff0064b1398;
           OFFSET_OSSERIALIZER_SERIALIZE          = 0xfffffff007440ad0;
           OFFSET_ROP_LDR_X0_X0_0x10              = 0xfffffff0063b4a84;
+          OFFSET_ROOT_MOUNT_V_NODE               = 0xfffffff0075a40b0;
 
 
       }
@@ -389,6 +391,7 @@ kern_return_t init_offsets()
           OFFSET_ROP_ADD_X0_X0_0x10              = 0xfffffff006465174;
           OFFSET_OSSERIALIZER_SERIALIZE          = 0xfffffff00744053c;
           OFFSET_ROP_LDR_X0_X0_0x10              = 0xfffffff0063b4a84;
+          OFFSET_ROOT_MOUNT_V_NODE               = 0xfffffff0075a40b0;
 
 
       }
@@ -754,202 +757,7 @@ kern_return_t init_offsets()
       }
   }
 
-  // Apple TV 4 (2015)
-  if(!strcmp(device, "AppleTV5,3"))
-  {
-      // 10.2.2
-      if(!strcmp(osversion, "14W756"))
-      {
-          OFFSET_ZONE_MAP                        = 0xfffffff007558478;
-          OFFSET_KERNEL_MAP                      = 0xfffffff0075b4050;
-          OFFSET_KERNEL_TASK                     = 0xfffffff0075b4048;
-          OFFSET_REALHOST                        = 0xfffffff00753aba0;
-          OFFSET_BZERO                           = 0xfffffff00708df80;
-          OFFSET_BCOPY                           = 0xfffffff00708ddc0;
-          OFFSET_COPYIN                          = 0xfffffff00718d028;
-          OFFSET_COPYOUT                         = 0xfffffff00718d21c;
-          OFFSET_ROOTVNODE                       = 0xfffffff0075b40b0;
-          OFFSET_CHGPROCCNT                      = 0xfffffff00739aa04;
-          OFFSET_KAUTH_CRED_REF                  = 0xfffffff007374d90;
-          OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a60b4;
-          OFFSET_IPC_KOBJECT_SET                 = 0xfffffff0070b938c;
-          OFFSET_IPC_PORT_MAKE_SEND              = 0xfffffff0070a5bd8;
-          OFFSET_IOSURFACEROOTUSERCLIENT_VTAB    = 0xfffffff006f11678;
-          OFFSET_ROP_ADD_X0_X0_0x10              = 0xfffffff006935398;
-          OFFSET_OSSERIALIZER_SERIALIZE          = 0xfffffff00744db90;
-          OFFSET_ROP_LDR_X0_X0_0x10              = 0xfffffff00666a09c;
-
-
-      }
-      // 10.2.1
-      if(!strcmp(osversion, "14W585a"))
-      {
-          OFFSET_ZONE_MAP                        = 0xfffffff007558478;
-          OFFSET_KERNEL_MAP                      = 0xfffffff0075b4050;
-          OFFSET_KERNEL_TASK                     = 0xfffffff0075b4048;
-          OFFSET_REALHOST                        = 0xfffffff00753aba0;
-          OFFSET_BZERO                           = 0xfffffff00708df80;
-          OFFSET_BCOPY                           = 0xfffffff00708ddc0;
-          OFFSET_COPYIN                          = 0xfffffff00718d37c;
-          OFFSET_COPYOUT                         = 0xfffffff00718d570;
-          OFFSET_ROOTVNODE                       = 0xfffffff0075b40b0;
-          OFFSET_CHGPROCCNT                      = 0xfffffff00739aab4;
-          OFFSET_KAUTH_CRED_REF                  = 0xfffffff007374e6c;
-          OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a60b4;
-          OFFSET_IPC_KOBJECT_SET                 = 0xfffffff0070b938c;
-          OFFSET_IPC_PORT_MAKE_SEND              = 0xfffffff0070a5bd8;
-          OFFSET_IOSURFACEROOTUSERCLIENT_VTAB    = 0xfffffff006f15678;
-          OFFSET_ROP_ADD_X0_X0_0x10              = 0xfffffff00693a398;
-          OFFSET_OSSERIALIZER_SERIALIZE          = 0xfffffff00744dc40;
-          OFFSET_ROP_LDR_X0_X0_0x10              = 0xfffffff00666e09c;
-
-
-      }
-      // 10.2
-      if(!strcmp(osversion, "14W265"))
-      {
-          OFFSET_ZONE_MAP                        = 0xfffffff007558478;
-          OFFSET_KERNEL_MAP                      = 0xfffffff0075b4050;
-          OFFSET_KERNEL_TASK                     = 0xfffffff0075b4048;
-          OFFSET_REALHOST                        = 0xfffffff00753aba0;
-          OFFSET_BZERO                           = 0xfffffff00708df80;
-          OFFSET_BCOPY                           = 0xfffffff00708ddc0;
-          OFFSET_COPYIN                          = 0xfffffff00718d3a8;
-          OFFSET_COPYOUT                         = 0xfffffff00718d59c;
-          OFFSET_ROOTVNODE                       = 0xfffffff0075b40b0;
-          OFFSET_CHGPROCCNT                      = 0xfffffff00739a78c;
-          OFFSET_KAUTH_CRED_REF                  = 0xfffffff007374b2c;
-          OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a611c;
-          OFFSET_IPC_KOBJECT_SET                 = 0xfffffff0070b9374;
-          OFFSET_IPC_PORT_MAKE_SEND              = 0xfffffff0070a5c40;
-          OFFSET_IOSURFACEROOTUSERCLIENT_VTAB    = 0xfffffff006f15678;
-          OFFSET_ROP_ADD_X0_X0_0x10              = 0xfffffff00693d398;
-          OFFSET_OSSERIALIZER_SERIALIZE          = 0xfffffff00744d6ac;
-          OFFSET_ROP_LDR_X0_X0_0x10              = 0xfffffff00667109c;
-
-
-      }
-      // 10.1.1
-      if(!strcmp(osversion, "14U712a"))
-      {
-          OFFSET_ZONE_MAP                        = 0xfffffff007566360;
-          OFFSET_KERNEL_MAP                      = 0xfffffff0075c2058;
-          OFFSET_KERNEL_TASK                     = 0xfffffff0075c2050;
-          OFFSET_REALHOST                        = 0xfffffff007548a98;
-          OFFSET_BZERO                           = 0xfffffff00708e140;
-          OFFSET_BCOPY                           = 0xfffffff00708df80;
-          OFFSET_COPYIN                          = 0xfffffff00718f76c;
-          OFFSET_COPYOUT                         = 0xfffffff00718f974;
-          OFFSET_ROOTVNODE                       = 0xfffffff0075c20b8;
-          OFFSET_CHGPROCCNT                      = 0xfffffff0073a4940;
-          OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737e6d4;
-          OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a6200;
-          OFFSET_IPC_KOBJECT_SET                 = 0xfffffff0070b98a0;
-          OFFSET_IPC_PORT_MAKE_SEND              = 0xfffffff0070a5d44;
-          OFFSET_IOSURFACEROOTUSERCLIENT_VTAB    = 0xfffffff006f1c960;
-          OFFSET_ROP_ADD_X0_X0_0x10              = 0xfffffff00697e29c;
-          OFFSET_OSSERIALIZER_SERIALIZE          = 0xfffffff00745b100;
-          OFFSET_ROP_LDR_X0_X0_0x10              = 0xfffffff0066b30b4;
-
-
-      }
-      // 10.1
-      if(!strcmp(osversion, "14U593"))
-      {
-          OFFSET_ZONE_MAP                        = 0xfffffff007566360;
-          OFFSET_KERNEL_MAP                      = 0xfffffff0075c2058;
-          OFFSET_KERNEL_TASK                     = 0xfffffff0075c2050;
-          OFFSET_REALHOST                        = 0xfffffff007548a98;
-          OFFSET_BZERO                           = 0xfffffff00708e140;
-          OFFSET_BCOPY                           = 0xfffffff00708df80;
-          OFFSET_COPYIN                          = 0xfffffff00718f748;
-          OFFSET_COPYOUT                         = 0xfffffff00718f950;
-          OFFSET_ROOTVNODE                       = 0xfffffff0075c20b8;
-          OFFSET_CHGPROCCNT                      = 0xfffffff0073a491c;
-          OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737e6b0;
-          OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a6200;
-          OFFSET_IPC_KOBJECT_SET                 = 0xfffffff0070b987c;
-          OFFSET_IPC_PORT_MAKE_SEND              = 0xfffffff0070a5d44;
-          OFFSET_IOSURFACEROOTUSERCLIENT_VTAB    = 0xfffffff006f1c960;
-          OFFSET_ROP_ADD_X0_X0_0x10              = 0xfffffff00697e29c;
-          OFFSET_OSSERIALIZER_SERIALIZE          = 0xfffffff00745b0dc;
-          OFFSET_ROP_LDR_X0_X0_0x10              = 0xfffffff0066b30b4;
-
-
-      }
-      // 10.0.1
-      if(!strcmp(osversion, "14U100"))
-      {
-          OFFSET_ZONE_MAP                        = 0xfffffff007562160;
-          OFFSET_KERNEL_MAP                      = 0xfffffff0075be058;
-          OFFSET_KERNEL_TASK                     = 0xfffffff0075be050;
-          OFFSET_REALHOST                        = 0xfffffff007544898;
-          OFFSET_BZERO                           = 0xfffffff00708a140;
-          OFFSET_BCOPY                           = 0xfffffff007089f80;
-          OFFSET_COPYIN                          = 0xfffffff00718baf8;
-          OFFSET_COPYOUT                         = 0xfffffff00718bd00;
-          OFFSET_ROOTVNODE                       = 0xfffffff0075be0b8;
-          OFFSET_CHGPROCCNT                      = 0xfffffff0073a0d48;
-          OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737ab58;
-          OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a1bf0;
-          OFFSET_IPC_KOBJECT_SET                 = 0xfffffff0070b4e10;
-          OFFSET_IPC_PORT_MAKE_SEND              = 0xfffffff0070a18a4;
-          OFFSET_IOSURFACEROOTUSERCLIENT_VTAB    = 0xfffffff006f1c7a0;
-          OFFSET_ROP_ADD_X0_X0_0x10              = 0xfffffff00698629c;
-          OFFSET_OSSERIALIZER_SERIALIZE          = 0xfffffff007456cb8;
-          OFFSET_ROP_LDR_X0_X0_0x10              = 0xfffffff0066bb0b4;
-
-
-      }
-      // 10.0.1
-      if(!strcmp(osversion, "14U71"))
-      {
-          OFFSET_ZONE_MAP                        = 0xfffffff007562160;
-          OFFSET_KERNEL_MAP                      = 0xfffffff0075be058;
-          OFFSET_KERNEL_TASK                     = 0xfffffff0075be050;
-          OFFSET_REALHOST                        = 0xfffffff007544898;
-          OFFSET_BZERO                           = 0xfffffff00708a140;
-          OFFSET_BCOPY                           = 0xfffffff007089f80;
-          OFFSET_COPYIN                          = 0xfffffff00718baf8;
-          OFFSET_COPYOUT                         = 0xfffffff00718bd00;
-          OFFSET_ROOTVNODE                       = 0xfffffff0075be0b8;
-          OFFSET_CHGPROCCNT                      = 0xfffffff0073a0d48;
-          OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737ab58;
-          OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a1bf0;
-          OFFSET_IPC_KOBJECT_SET                 = 0xfffffff0070b4e10;
-          OFFSET_IPC_PORT_MAKE_SEND              = 0xfffffff0070a18a4;
-          OFFSET_IOSURFACEROOTUSERCLIENT_VTAB    = 0xfffffff006f1c7a0;
-          OFFSET_ROP_ADD_X0_X0_0x10              = 0xfffffff00698629c;
-          OFFSET_OSSERIALIZER_SERIALIZE          = 0xfffffff007456cb8;
-          OFFSET_ROP_LDR_X0_X0_0x10              = 0xfffffff0066bb0b4;
-
-
-      }
-      // 10.0
-      if(!strcmp(osversion, "14T330"))
-      {
-          OFFSET_ZONE_MAP                        = 0xfffffff00755e160;
-          OFFSET_KERNEL_MAP                      = 0xfffffff0075ba058;
-          OFFSET_KERNEL_TASK                     = 0xfffffff0075ba050;
-          OFFSET_REALHOST                        = 0xfffffff007540898;
-          OFFSET_BZERO                           = 0xfffffff00708a140;
-          OFFSET_BCOPY                           = 0xfffffff007089f80;
-          OFFSET_COPYIN                          = 0xfffffff00718ae90;
-          OFFSET_COPYOUT                         = 0xfffffff00718b098;
-          OFFSET_ROOTVNODE                       = 0xfffffff0075ba0b8;
-          OFFSET_CHGPROCCNT                      = 0xfffffff00739f8c8;
-          OFFSET_KAUTH_CRED_REF                  = 0xfffffff007379a90;
-          OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a16ec;
-          OFFSET_IPC_KOBJECT_SET                 = 0xfffffff0070b47b0;
-          OFFSET_IPC_PORT_MAKE_SEND              = 0xfffffff0070a13a0;
-          OFFSET_IOSURFACEROOTUSERCLIENT_VTAB    = 0xfffffff006f1c720;
-          OFFSET_ROP_ADD_X0_X0_0x10              = 0xfffffff0066d30a8;
-          OFFSET_OSSERIALIZER_SERIALIZE          = 0xfffffff007455748;
-          OFFSET_ROP_LDR_X0_X0_0x10              = 0xfffffff0066bb0b4;
-
-
-      }
-  }
+ 
 
   // iPad Air (WiFi), iPad Air (China) and iPad Air (Cellular)
   if(!strcmp(device, "iPad4,1") || !strcmp(device, "iPad4,3") || !strcmp(device, "iPad4,2"))
@@ -6103,6 +5911,7 @@ kern_return_t init_offsets()
           OFFSET_ROP_ADD_X0_X0_0x10              = 0xfffffff006465174;
           OFFSET_OSSERIALIZER_SERIALIZE          = 0xfffffff00744053c;
           OFFSET_ROP_LDR_X0_X0_0x10              = 0xfffffff0063b4a84;
+          OFFSET_ROOT_MOUNT_V_NODE               = 0xfffffff0075a40b0;
 
 
       }
