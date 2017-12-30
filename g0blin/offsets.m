@@ -62,7 +62,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00708ddc0;
     		OFFSET_COPYIN                          = 0xfffffff00718d028;
     		OFFSET_COPYOUT                         = 0xfffffff00718d21c;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b40b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739aa04;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007374d90;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a60b4;
@@ -85,7 +84,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00708ddc0;
     		OFFSET_COPYIN                          = 0xfffffff00718d37c;
     		OFFSET_COPYOUT                         = 0xfffffff00718d570;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b40b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739aab4;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007374e6c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a60b4;
@@ -108,7 +106,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00708ddc0;
     		OFFSET_COPYIN                          = 0xfffffff00718d3a8;
     		OFFSET_COPYOUT                         = 0xfffffff00718d59c;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b40b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739a78c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007374b2c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a611c;
@@ -131,7 +128,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00708ddc0;
     		OFFSET_COPYIN                          = 0xfffffff00718d3a8;
     		OFFSET_COPYOUT                         = 0xfffffff00718d59c;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b40b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739a78c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007374b2c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a611c;
@@ -154,7 +150,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00708df80;
     		OFFSET_COPYIN                          = 0xfffffff00718f76c;
     		OFFSET_COPYOUT                         = 0xfffffff00718f974;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075c20b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073a4940;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737e6d4;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a6200;
@@ -177,7 +172,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00708df80;
     		OFFSET_COPYIN                          = 0xfffffff00718f748;
     		OFFSET_COPYOUT                         = 0xfffffff00718f950;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075c20b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073a491c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737e6b0;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a6200;
@@ -200,7 +194,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007089f80;
     		OFFSET_COPYIN                          = 0xfffffff00718baf8;
     		OFFSET_COPYOUT                         = 0xfffffff00718bd00;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075be0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073a0d48;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737ab58;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a1bf0;
@@ -223,7 +216,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007089f80;
     		OFFSET_COPYIN                          = 0xfffffff00718baf8;
     		OFFSET_COPYOUT                         = 0xfffffff00718bd00;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075be0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073a0d48;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737ab58;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a1bf0;
@@ -246,7 +238,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007089f80;
     		OFFSET_COPYIN                          = 0xfffffff00718baf8;
     		OFFSET_COPYOUT                         = 0xfffffff00718bd00;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075be0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073a0d48;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737ab58;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a1bf0;
@@ -269,7 +260,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007089f80;
     		OFFSET_COPYIN                          = 0xfffffff00718af28;
     		OFFSET_COPYOUT                         = 0xfffffff00718b130;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ba0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739f960;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007379b28;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a16ec;
@@ -292,7 +282,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007089f80;
     		OFFSET_COPYIN                          = 0xfffffff00718af28;
     		OFFSET_COPYOUT                         = 0xfffffff00718b130;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ba0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739f960;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007379b28;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a16ec;
@@ -320,7 +309,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081dc0;
     		OFFSET_COPYIN                          = 0xfffffff0071803a0;
     		OFFSET_COPYOUT                         = 0xfffffff007180594;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075a40b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00738d894;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007367c18;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099e94;
@@ -343,7 +331,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081dc0;
     		OFFSET_COPYIN                          = 0xfffffff0071806f4;
     		OFFSET_COPYOUT                         = 0xfffffff0071808e8;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075a40b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00738d944;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007367cf4;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099e94;
@@ -366,7 +353,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081dc0;
     		OFFSET_COPYIN                          = 0xfffffff007180720;
     		OFFSET_COPYOUT                         = 0xfffffff007180914;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075a40b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00738d61c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073679b4;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099efc;
@@ -389,7 +375,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081dc0;
     		OFFSET_COPYIN                          = 0xfffffff007180720;
     		OFFSET_COPYOUT                         = 0xfffffff007180914;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075a40b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00738d61c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073679b4;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099efc;
@@ -412,7 +397,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081f80;
     		OFFSET_COPYIN                          = 0xfffffff007182af0;
     		OFFSET_COPYOUT                         = 0xfffffff007182cf8;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b20b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073977c0;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737154c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099fe0;
@@ -435,7 +419,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081f80;
     		OFFSET_COPYIN                          = 0xfffffff007182af0;
     		OFFSET_COPYOUT                         = 0xfffffff007182cf8;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b20b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073977c0;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737154c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099fe0;
@@ -458,7 +441,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081f80;
     		OFFSET_COPYIN                          = 0xfffffff007182acc;
     		OFFSET_COPYOUT                         = 0xfffffff007182cd4;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b20b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739779c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007371528;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099fe0;
@@ -481,7 +463,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081f80;
     		OFFSET_COPYIN                          = 0xfffffff007182acc;
     		OFFSET_COPYOUT                         = 0xfffffff007182cd4;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b20b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739779c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007371528;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099fe0;
@@ -504,7 +485,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ee48;
     		OFFSET_COPYOUT                         = 0xfffffff00717f050;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007393b94;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d99c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070959d0;
@@ -527,7 +507,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ee48;
     		OFFSET_COPYOUT                         = 0xfffffff00717f050;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007393b94;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d99c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070959d0;
@@ -550,7 +529,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ee48;
     		OFFSET_COPYOUT                         = 0xfffffff00717f050;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007393b94;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d99c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070959d0;
@@ -573,7 +551,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ee48;
     		OFFSET_COPYOUT                         = 0xfffffff00717f050;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007393b94;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d99c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070959d0;
@@ -596,7 +573,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ee48;
     		OFFSET_COPYOUT                         = 0xfffffff00717f050;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007393b94;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d99c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070959d0;
@@ -619,7 +595,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ee48;
     		OFFSET_COPYOUT                         = 0xfffffff00717f050;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007393b94;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d99c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070959d0;
@@ -642,7 +617,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717e258;
     		OFFSET_COPYOUT                         = 0xfffffff00717e460;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739278c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736c94c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070954ac;
@@ -665,7 +639,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717e258;
     		OFFSET_COPYOUT                         = 0xfffffff00717e460;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739278c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736c94c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070954ac;
@@ -688,7 +661,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717e258;
     		OFFSET_COPYOUT                         = 0xfffffff00717e460;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739278c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736c94c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070954ac;
@@ -711,7 +683,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717e258;
     		OFFSET_COPYOUT                         = 0xfffffff00717e460;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739278c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736c94c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070954ac;
@@ -739,7 +710,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00708ddc0;
     		OFFSET_COPYIN                          = 0xfffffff00718d028;
     		OFFSET_COPYOUT                         = 0xfffffff00718d21c;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b40b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739aa04;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007374d90;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a60b4;
@@ -762,7 +732,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00708ddc0;
     		OFFSET_COPYIN                          = 0xfffffff00718d37c;
     		OFFSET_COPYOUT                         = 0xfffffff00718d570;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b40b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739aab4;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007374e6c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a60b4;
@@ -785,7 +754,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00708ddc0;
     		OFFSET_COPYIN                          = 0xfffffff00718d3a8;
     		OFFSET_COPYOUT                         = 0xfffffff00718d59c;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b40b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739a78c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007374b2c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a611c;
@@ -808,7 +776,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00708df80;
     		OFFSET_COPYIN                          = 0xfffffff00718f76c;
     		OFFSET_COPYOUT                         = 0xfffffff00718f974;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075c20b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073a4940;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737e6d4;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a6200;
@@ -831,7 +798,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00708df80;
     		OFFSET_COPYIN                          = 0xfffffff00718f748;
     		OFFSET_COPYOUT                         = 0xfffffff00718f950;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075c20b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073a491c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737e6b0;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a6200;
@@ -854,7 +820,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007089f80;
     		OFFSET_COPYIN                          = 0xfffffff00718baf8;
     		OFFSET_COPYOUT                         = 0xfffffff00718bd00;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075be0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073a0d48;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737ab58;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a1bf0;
@@ -877,7 +842,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007089f80;
     		OFFSET_COPYIN                          = 0xfffffff00718baf8;
     		OFFSET_COPYOUT                         = 0xfffffff00718bd00;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075be0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073a0d48;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737ab58;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a1bf0;
@@ -900,7 +864,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007089f80;
     		OFFSET_COPYIN                          = 0xfffffff00718ae90;
     		OFFSET_COPYOUT                         = 0xfffffff00718b098;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ba0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739f8c8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007379a90;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a16ec;
@@ -928,7 +891,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081dc0;
     		OFFSET_COPYIN                          = 0xfffffff007180e98;
     		OFFSET_COPYOUT                         = 0xfffffff00718108c;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075a80b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00738e77c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007368b08;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099f14;
@@ -951,7 +913,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081dc0;
     		OFFSET_COPYIN                          = 0xfffffff0071811ec;
     		OFFSET_COPYOUT                         = 0xfffffff0071813e0;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075a80b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00738e82c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007368be4;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099f14;
@@ -974,7 +935,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081dc0;
     		OFFSET_COPYIN                          = 0xfffffff007181218;
     		OFFSET_COPYOUT                         = 0xfffffff00718140c;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075a80b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00738e504;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073688a4;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099f7c;
@@ -997,7 +957,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081dc0;
     		OFFSET_COPYIN                          = 0xfffffff007181218;
     		OFFSET_COPYOUT                         = 0xfffffff00718140c;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075a80b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00738e504;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073688a4;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099f7c;
@@ -1025,7 +984,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081dc0;
     		OFFSET_COPYIN                          = 0xfffffff007180e98;
     		OFFSET_COPYOUT                         = 0xfffffff00718108c;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075a80b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00738e77c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007368b08;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099f14;
@@ -1048,7 +1006,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081dc0;
     		OFFSET_COPYIN                          = 0xfffffff0071811ec;
     		OFFSET_COPYOUT                         = 0xfffffff0071813e0;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075a80b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00738e82c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007368be4;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099f14;
@@ -1071,7 +1028,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081dc0;
     		OFFSET_COPYIN                          = 0xfffffff007181218;
     		OFFSET_COPYOUT                         = 0xfffffff00718140c;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075a80b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00738e504;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073688a4;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099f7c;
@@ -1094,7 +1050,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081dc0;
     		OFFSET_COPYIN                          = 0xfffffff007181218;
     		OFFSET_COPYOUT                         = 0xfffffff00718140c;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075a80b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00738e504;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073688a4;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099f7c;
@@ -1122,7 +1077,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081f80;
     		OFFSET_COPYIN                          = 0xfffffff0071835dc;
     		OFFSET_COPYOUT                         = 0xfffffff0071837e4;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073986b0;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007372444;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff00709a060;
@@ -1145,7 +1099,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081f80;
     		OFFSET_COPYIN                          = 0xfffffff0071835b8;
     		OFFSET_COPYOUT                         = 0xfffffff0071837c0;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739868c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007372420;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff00709a060;
@@ -1168,7 +1121,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717f968;
     		OFFSET_COPYOUT                         = 0xfffffff00717fb70;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007394ab8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736e8c8;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007095a50;
@@ -1191,7 +1143,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717f968;
     		OFFSET_COPYOUT                         = 0xfffffff00717fb70;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007394ab8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736e8c8;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007095a50;
@@ -1214,7 +1165,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717f968;
     		OFFSET_COPYOUT                         = 0xfffffff00717fb70;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007394ab8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736e8c8;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007095a50;
@@ -1237,7 +1187,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ed98;
     		OFFSET_COPYOUT                         = 0xfffffff00717efa0;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073936d0;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d898;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff00709554c;
@@ -1260,7 +1209,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ed98;
     		OFFSET_COPYOUT                         = 0xfffffff00717efa0;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073936d0;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d898;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff00709554c;
@@ -1288,7 +1236,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081f80;
     		OFFSET_COPYIN                          = 0xfffffff0071835dc;
     		OFFSET_COPYOUT                         = 0xfffffff0071837e4;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073986b0;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007372444;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff00709a060;
@@ -1311,7 +1258,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081f80;
     		OFFSET_COPYIN                          = 0xfffffff0071835b8;
     		OFFSET_COPYOUT                         = 0xfffffff0071837c0;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739868c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007372420;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff00709a060;
@@ -1334,7 +1280,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717f968;
     		OFFSET_COPYOUT                         = 0xfffffff00717fb70;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007394ab8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736e8c8;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007095a50;
@@ -1357,7 +1302,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717f968;
     		OFFSET_COPYOUT                         = 0xfffffff00717fb70;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007394ab8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736e8c8;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007095a50;
@@ -1380,7 +1324,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717f968;
     		OFFSET_COPYOUT                         = 0xfffffff00717fb70;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007394ab8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736e8c8;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007095a50;
@@ -1403,7 +1346,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ed98;
     		OFFSET_COPYOUT                         = 0xfffffff00717efa0;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073936d0;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d898;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff00709554c;
@@ -1426,7 +1368,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ed98;
     		OFFSET_COPYOUT                         = 0xfffffff00717efa0;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073936d0;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d898;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff00709554c;
@@ -1454,7 +1395,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081f80;
     		OFFSET_COPYIN                          = 0xfffffff0071835dc;
     		OFFSET_COPYOUT                         = 0xfffffff0071837e4;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073986b0;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007372444;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff00709a060;
@@ -1477,7 +1417,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081f80;
     		OFFSET_COPYIN                          = 0xfffffff0071835b8;
     		OFFSET_COPYOUT                         = 0xfffffff0071837c0;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739868c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007372420;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff00709a060;
@@ -1500,7 +1439,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717f968;
     		OFFSET_COPYOUT                         = 0xfffffff00717fb70;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007394ab8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736e8c8;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007095a50;
@@ -1523,7 +1461,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717f968;
     		OFFSET_COPYOUT                         = 0xfffffff00717fb70;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007394ab8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736e8c8;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007095a50;
@@ -1546,7 +1483,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717f968;
     		OFFSET_COPYOUT                         = 0xfffffff00717fb70;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007394ab8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736e8c8;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007095a50;
@@ -1569,7 +1505,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ed98;
     		OFFSET_COPYOUT                         = 0xfffffff00717efa0;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073936d0;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d898;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff00709554c;
@@ -1592,7 +1527,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ed98;
     		OFFSET_COPYOUT                         = 0xfffffff00717efa0;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073936d0;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d898;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff00709554c;
@@ -1620,7 +1554,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081f80;
     		OFFSET_COPYIN                          = 0xfffffff0071835dc;
     		OFFSET_COPYOUT                         = 0xfffffff0071837e4;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073986b0;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007372444;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff00709a060;
@@ -1643,7 +1576,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081f80;
     		OFFSET_COPYIN                          = 0xfffffff0071835b8;
     		OFFSET_COPYOUT                         = 0xfffffff0071837c0;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739868c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007372420;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff00709a060;
@@ -1666,7 +1598,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717f968;
     		OFFSET_COPYOUT                         = 0xfffffff00717fb70;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007394ab8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736e8c8;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007095a50;
@@ -1689,7 +1620,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717f968;
     		OFFSET_COPYOUT                         = 0xfffffff00717fb70;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007394ab8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736e8c8;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007095a50;
@@ -1712,7 +1642,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717f968;
     		OFFSET_COPYOUT                         = 0xfffffff00717fb70;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007394ab8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736e8c8;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007095a50;
@@ -1735,7 +1664,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ed98;
     		OFFSET_COPYOUT                         = 0xfffffff00717efa0;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073936d0;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d898;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff00709554c;
@@ -1758,7 +1686,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ed98;
     		OFFSET_COPYOUT                         = 0xfffffff00717efa0;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073936d0;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d898;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff00709554c;
@@ -1786,7 +1713,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081f80;
     		OFFSET_COPYIN                          = 0xfffffff0071835dc;
     		OFFSET_COPYOUT                         = 0xfffffff0071837e4;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073986b0;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007372444;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff00709a060;
@@ -1809,7 +1735,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081f80;
     		OFFSET_COPYIN                          = 0xfffffff0071835b8;
     		OFFSET_COPYOUT                         = 0xfffffff0071837c0;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739868c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007372420;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff00709a060;
@@ -1832,7 +1757,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717f968;
     		OFFSET_COPYOUT                         = 0xfffffff00717fb70;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007394ab8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736e8c8;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007095a50;
@@ -1855,7 +1779,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717f968;
     		OFFSET_COPYOUT                         = 0xfffffff00717fb70;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007394ab8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736e8c8;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007095a50;
@@ -1878,7 +1801,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717f968;
     		OFFSET_COPYOUT                         = 0xfffffff00717fb70;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007394ab8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736e8c8;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007095a50;
@@ -1901,7 +1823,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ed98;
     		OFFSET_COPYOUT                         = 0xfffffff00717efa0;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073936d0;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d898;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff00709554c;
@@ -1924,7 +1845,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ed98;
     		OFFSET_COPYOUT                         = 0xfffffff00717efa0;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073936d0;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d898;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff00709554c;
@@ -1952,7 +1872,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081f80;
     		OFFSET_COPYIN                          = 0xfffffff0071835dc;
     		OFFSET_COPYOUT                         = 0xfffffff0071837e4;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073986b0;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007372444;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff00709a060;
@@ -1975,7 +1894,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081f80;
     		OFFSET_COPYIN                          = 0xfffffff0071835b8;
     		OFFSET_COPYOUT                         = 0xfffffff0071837c0;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739868c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007372420;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff00709a060;
@@ -1998,7 +1916,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717f968;
     		OFFSET_COPYOUT                         = 0xfffffff00717fb70;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007394ab8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736e8c8;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007095a50;
@@ -2021,7 +1938,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717f968;
     		OFFSET_COPYOUT                         = 0xfffffff00717fb70;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007394ab8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736e8c8;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007095a50;
@@ -2044,7 +1960,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717f968;
     		OFFSET_COPYOUT                         = 0xfffffff00717fb70;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007394ab8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736e8c8;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007095a50;
@@ -2067,7 +1982,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ed98;
     		OFFSET_COPYOUT                         = 0xfffffff00717efa0;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073936d0;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d898;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff00709554c;
@@ -2090,7 +2004,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ed98;
     		OFFSET_COPYOUT                         = 0xfffffff00717efa0;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073936d0;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d898;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff00709554c;
@@ -2118,7 +2031,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081dc0;
     		OFFSET_COPYIN                          = 0xfffffff007180e98;
     		OFFSET_COPYOUT                         = 0xfffffff00718108c;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075a80b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00738e77c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007368b08;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099f14;
@@ -2141,7 +2053,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081dc0;
     		OFFSET_COPYIN                          = 0xfffffff0071811ec;
     		OFFSET_COPYOUT                         = 0xfffffff0071813e0;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075a80b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00738e82c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007368be4;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099f14;
@@ -2164,7 +2075,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081dc0;
     		OFFSET_COPYIN                          = 0xfffffff007181218;
     		OFFSET_COPYOUT                         = 0xfffffff00718140c;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075a80b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00738e504;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073688a4;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099f7c;
@@ -2187,7 +2097,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081dc0;
     		OFFSET_COPYIN                          = 0xfffffff007181218;
     		OFFSET_COPYOUT                         = 0xfffffff00718140c;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075a80b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00738e504;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073688a4;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099f7c;
@@ -2210,7 +2119,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081dc0;
     		OFFSET_COPYIN                          = 0xfffffff0071811ec;
     		OFFSET_COPYOUT                         = 0xfffffff0071813e0;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075a80b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00738e82c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007368be4;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099f14;
@@ -2238,7 +2146,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00708ddc0;
     		OFFSET_COPYIN                          = 0xfffffff00718d120;
     		OFFSET_COPYOUT                         = 0xfffffff00718d314;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b40b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739ac28;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007374fb4;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a60b4;
@@ -2261,7 +2168,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00708ddc0;
     		OFFSET_COPYIN                          = 0xfffffff00718d474;
     		OFFSET_COPYOUT                         = 0xfffffff00718d668;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b40b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739acd8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007375090;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a60b4;
@@ -2284,7 +2190,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00708ddc0;
     		OFFSET_COPYIN                          = 0xfffffff00718d4a0;
     		OFFSET_COPYOUT                         = 0xfffffff00718d694;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b40b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739a9b0;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007374d50;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a611c;
@@ -2307,7 +2212,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00708ddc0;
     		OFFSET_COPYIN                          = 0xfffffff00718d4a0;
     		OFFSET_COPYOUT                         = 0xfffffff00718d694;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b40b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739a9b0;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007374d50;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a611c;
@@ -2330,7 +2234,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00708ddc0;
     		OFFSET_COPYIN                          = 0xfffffff00718d474;
     		OFFSET_COPYOUT                         = 0xfffffff00718d668;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b40b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739acd8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007375090;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a60b4;
@@ -2358,7 +2261,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00708ddc0;
     		OFFSET_COPYIN                          = 0xfffffff00718d028;
     		OFFSET_COPYOUT                         = 0xfffffff00718d21c;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b40b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739aa04;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007374d90;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a60b4;
@@ -2381,7 +2283,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00708ddc0;
     		OFFSET_COPYIN                          = 0xfffffff00718d37c;
     		OFFSET_COPYOUT                         = 0xfffffff00718d570;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b40b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739aab4;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007374e6c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a60b4;
@@ -2404,7 +2305,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00708ddc0;
     		OFFSET_COPYIN                          = 0xfffffff00718d3a8;
     		OFFSET_COPYOUT                         = 0xfffffff00718d59c;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b40b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739a78c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007374b2c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a611c;
@@ -2427,7 +2327,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00708ddc0;
     		OFFSET_COPYIN                          = 0xfffffff00718d3a8;
     		OFFSET_COPYOUT                         = 0xfffffff00718d59c;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b40b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739a78c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007374b2c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a611c;
@@ -2450,7 +2349,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00708ddc0;
     		OFFSET_COPYIN                          = 0xfffffff00718d37c;
     		OFFSET_COPYOUT                         = 0xfffffff00718d570;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b40b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739aab4;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007374e6c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a60b4;
@@ -2478,7 +2376,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081f80;
     		OFFSET_COPYIN                          = 0xfffffff0071835dc;
     		OFFSET_COPYOUT                         = 0xfffffff0071837e4;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073986b0;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007372444;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff00709a060;
@@ -2501,7 +2398,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081f80;
     		OFFSET_COPYIN                          = 0xfffffff0071835b8;
     		OFFSET_COPYOUT                         = 0xfffffff0071837c0;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739868c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007372420;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff00709a060;
@@ -2524,7 +2420,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717f968;
     		OFFSET_COPYOUT                         = 0xfffffff00717fb70;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007394ab8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736e8c8;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007095a50;
@@ -2547,7 +2442,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717f968;
     		OFFSET_COPYOUT                         = 0xfffffff00717fb70;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007394ab8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736e8c8;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007095a50;
@@ -2570,7 +2464,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717f968;
     		OFFSET_COPYOUT                         = 0xfffffff00717fb70;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007394ab8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736e8c8;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007095a50;
@@ -2593,7 +2486,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ed98;
     		OFFSET_COPYOUT                         = 0xfffffff00717efa0;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073936d0;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d898;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff00709554c;
@@ -2616,7 +2508,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ed98;
     		OFFSET_COPYOUT                         = 0xfffffff00717efa0;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073936d0;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d898;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff00709554c;
@@ -2644,7 +2535,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081f80;
     		OFFSET_COPYIN                          = 0xfffffff0071835dc;
     		OFFSET_COPYOUT                         = 0xfffffff0071837e4;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073986b0;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007372444;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff00709a060;
@@ -2667,7 +2557,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081f80;
     		OFFSET_COPYIN                          = 0xfffffff0071835b8;
     		OFFSET_COPYOUT                         = 0xfffffff0071837c0;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739868c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007372420;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff00709a060;
@@ -2690,7 +2579,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717f968;
     		OFFSET_COPYOUT                         = 0xfffffff00717fb70;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007394ab8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736e8c8;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007095a50;
@@ -2713,7 +2601,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717f968;
     		OFFSET_COPYOUT                         = 0xfffffff00717fb70;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007394ab8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736e8c8;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007095a50;
@@ -2736,7 +2623,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717f968;
     		OFFSET_COPYOUT                         = 0xfffffff00717fb70;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007394ab8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736e8c8;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007095a50;
@@ -2759,7 +2645,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ed98;
     		OFFSET_COPYOUT                         = 0xfffffff00717efa0;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073936d0;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d898;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff00709554c;
@@ -2782,7 +2667,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ed98;
     		OFFSET_COPYOUT                         = 0xfffffff00717efa0;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073936d0;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d898;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff00709554c;
@@ -2810,7 +2694,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00708df80;
     		OFFSET_COPYIN                          = 0xfffffff00718f864;
     		OFFSET_COPYOUT                         = 0xfffffff00718fa6c;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075c20b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073a4b64;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737e8f8;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a6200;
@@ -2833,7 +2716,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00708df80;
     		OFFSET_COPYIN                          = 0xfffffff00718f840;
     		OFFSET_COPYOUT                         = 0xfffffff00718fa48;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075c20b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073a4b40;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737e8d4;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a6200;
@@ -2856,7 +2738,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007089f80;
     		OFFSET_COPYIN                          = 0xfffffff00718bbf0;
     		OFFSET_COPYOUT                         = 0xfffffff00718bdf8;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075be0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073a0f6c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737ad7c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a1bf0;
@@ -2879,7 +2760,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007089f80;
     		OFFSET_COPYIN                          = 0xfffffff00718bbf0;
     		OFFSET_COPYOUT                         = 0xfffffff00718bdf8;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075be0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073a0f6c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737ad7c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a1bf0;
@@ -2902,7 +2782,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007089f80;
     		OFFSET_COPYIN                          = 0xfffffff00718bbf0;
     		OFFSET_COPYOUT                         = 0xfffffff00718bdf8;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075be0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073a0f6c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737ad7c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a1bf0;
@@ -2925,7 +2804,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007089f80;
     		OFFSET_COPYIN                          = 0xfffffff00718b020;
     		OFFSET_COPYOUT                         = 0xfffffff00718b228;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ba0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739fb84;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007379d4c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a16ec;
@@ -2948,7 +2826,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007089f80;
     		OFFSET_COPYIN                          = 0xfffffff00718b020;
     		OFFSET_COPYOUT                         = 0xfffffff00718b228;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ba0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739fb84;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007379d4c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a16ec;
@@ -2976,7 +2853,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00708df80;
     		OFFSET_COPYIN                          = 0xfffffff00718f76c;
     		OFFSET_COPYOUT                         = 0xfffffff00718f974;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075c20b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073a4940;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737e6d4;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a6200;
@@ -2999,7 +2875,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00708df80;
     		OFFSET_COPYIN                          = 0xfffffff00718f748;
     		OFFSET_COPYOUT                         = 0xfffffff00718f950;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075c20b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073a491c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737e6b0;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a6200;
@@ -3022,7 +2897,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007089f80;
     		OFFSET_COPYIN                          = 0xfffffff00718baf8;
     		OFFSET_COPYOUT                         = 0xfffffff00718bd00;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075be0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073a0d48;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737ab58;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a1bf0;
@@ -3045,7 +2919,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007089f80;
     		OFFSET_COPYIN                          = 0xfffffff00718baf8;
     		OFFSET_COPYOUT                         = 0xfffffff00718bd00;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075be0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073a0d48;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737ab58;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a1bf0;
@@ -3068,7 +2941,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007089f80;
     		OFFSET_COPYIN                          = 0xfffffff00718baf8;
     		OFFSET_COPYOUT                         = 0xfffffff00718bd00;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075be0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073a0d48;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737ab58;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a1bf0;
@@ -3091,7 +2963,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007089f80;
     		OFFSET_COPYIN                          = 0xfffffff00718af28;
     		OFFSET_COPYOUT                         = 0xfffffff00718b130;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ba0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739f960;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007379b28;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a16ec;
@@ -3114,7 +2985,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007089f80;
     		OFFSET_COPYIN                          = 0xfffffff00718af28;
     		OFFSET_COPYOUT                         = 0xfffffff00718b130;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ba0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739f960;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007379b28;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a16ec;
@@ -3142,7 +3012,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00708df80;
     		OFFSET_COPYIN                          = 0xfffffff00718f864;
     		OFFSET_COPYOUT                         = 0xfffffff00718fa6c;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075c20b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073a4b64;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737e8f8;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a6200;
@@ -3165,7 +3034,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00708df80;
     		OFFSET_COPYIN                          = 0xfffffff00718f840;
     		OFFSET_COPYOUT                         = 0xfffffff00718fa48;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075c20b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073a4b40;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737e8d4;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a6200;
@@ -3188,7 +3056,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007089f80;
     		OFFSET_COPYIN                          = 0xfffffff00718bbf0;
     		OFFSET_COPYOUT                         = 0xfffffff00718bdf8;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075be0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073a0f6c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737ad7c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a1bf0;
@@ -3211,7 +3078,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007089f80;
     		OFFSET_COPYIN                          = 0xfffffff00718bbf0;
     		OFFSET_COPYOUT                         = 0xfffffff00718bdf8;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075be0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073a0f6c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737ad7c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a1bf0;
@@ -3234,7 +3100,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007089f80;
     		OFFSET_COPYIN                          = 0xfffffff00718bbf0;
     		OFFSET_COPYOUT                         = 0xfffffff00718bdf8;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075be0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073a0f6c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737ad7c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a1bf0;
@@ -3257,7 +3122,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007089f80;
     		OFFSET_COPYIN                          = 0xfffffff00718b020;
     		OFFSET_COPYOUT                         = 0xfffffff00718b228;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ba0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739fb84;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007379d4c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a16ec;
@@ -3280,7 +3144,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007089f80;
     		OFFSET_COPYIN                          = 0xfffffff00718b020;
     		OFFSET_COPYOUT                         = 0xfffffff00718b228;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ba0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739fb84;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007379d4c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a16ec;
@@ -3308,7 +3171,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00708df80;
     		OFFSET_COPYIN                          = 0xfffffff00718f76c;
     		OFFSET_COPYOUT                         = 0xfffffff00718f974;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075c20b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073a4940;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737e6d4;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a6200;
@@ -3331,7 +3193,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00708df80;
     		OFFSET_COPYIN                          = 0xfffffff00718f748;
     		OFFSET_COPYOUT                         = 0xfffffff00718f950;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075c20b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073a491c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737e6b0;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a6200;
@@ -3354,7 +3215,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007089f80;
     		OFFSET_COPYIN                          = 0xfffffff00718baf8;
     		OFFSET_COPYOUT                         = 0xfffffff00718bd00;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075be0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073a0d48;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737ab58;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a1bf0;
@@ -3377,7 +3237,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007089f80;
     		OFFSET_COPYIN                          = 0xfffffff00718baf8;
     		OFFSET_COPYOUT                         = 0xfffffff00718bd00;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075be0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073a0d48;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737ab58;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a1bf0;
@@ -3400,7 +3259,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007089f80;
     		OFFSET_COPYIN                          = 0xfffffff00718baf8;
     		OFFSET_COPYOUT                         = 0xfffffff00718bd00;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075be0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073a0d48;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737ab58;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a1bf0;
@@ -3423,7 +3281,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007089f80;
     		OFFSET_COPYIN                          = 0xfffffff00718af28;
     		OFFSET_COPYOUT                         = 0xfffffff00718b130;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ba0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739f960;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007379b28;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a16ec;
@@ -3446,7 +3303,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007089f80;
     		OFFSET_COPYIN                          = 0xfffffff00718af28;
     		OFFSET_COPYOUT                         = 0xfffffff00718b130;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ba0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739f960;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007379b28;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a16ec;
@@ -3474,7 +3330,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081f80;
     		OFFSET_COPYIN                          = 0xfffffff0071835dc;
     		OFFSET_COPYOUT                         = 0xfffffff0071837e4;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073986b0;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007372444;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff00709a060;
@@ -3497,7 +3352,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081f80;
     		OFFSET_COPYIN                          = 0xfffffff0071835b8;
     		OFFSET_COPYOUT                         = 0xfffffff0071837c0;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739868c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007372420;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff00709a060;
@@ -3520,7 +3374,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717f968;
     		OFFSET_COPYOUT                         = 0xfffffff00717fb70;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007394ab8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736e8c8;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007095a50;
@@ -3543,7 +3396,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717f968;
     		OFFSET_COPYOUT                         = 0xfffffff00717fb70;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007394ab8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736e8c8;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007095a50;
@@ -3566,7 +3418,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717f968;
     		OFFSET_COPYOUT                         = 0xfffffff00717fb70;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007394ab8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736e8c8;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007095a50;
@@ -3589,7 +3440,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ed98;
     		OFFSET_COPYOUT                         = 0xfffffff00717efa0;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073936d0;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d898;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff00709554c;
@@ -3612,7 +3462,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ed98;
     		OFFSET_COPYOUT                         = 0xfffffff00717efa0;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073936d0;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d898;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff00709554c;
@@ -3640,7 +3489,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081dc0;
     		OFFSET_COPYIN                          = 0xfffffff0071803a0;
     		OFFSET_COPYOUT                         = 0xfffffff007180594;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075a40b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00738d894;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007367c18;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099e94;
@@ -3663,7 +3511,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081dc0;
     		OFFSET_COPYIN                          = 0xfffffff0071806f4;
     		OFFSET_COPYOUT                         = 0xfffffff0071808e8;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075a40b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00738d944;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007367cf4;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099e94;
@@ -3686,7 +3533,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081dc0;
     		OFFSET_COPYIN                          = 0xfffffff007180720;
     		OFFSET_COPYOUT                         = 0xfffffff007180914;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075a40b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00738d61c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073679b4;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099efc;
@@ -3709,7 +3555,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081dc0;
     		OFFSET_COPYIN                          = 0xfffffff007180720;
     		OFFSET_COPYOUT                         = 0xfffffff007180914;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075a40b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00738d61c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073679b4;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099efc;
@@ -3737,7 +3582,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081dc0;
     		OFFSET_COPYIN                          = 0xfffffff0071803a0;
     		OFFSET_COPYOUT                         = 0xfffffff007180594;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075a40b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00738d894;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007367c18;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099e94;
@@ -3760,7 +3604,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081dc0;
     		OFFSET_COPYIN                          = 0xfffffff0071806f4;
     		OFFSET_COPYOUT                         = 0xfffffff0071808e8;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075a40b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00738d944;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007367cf4;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099e94;
@@ -3783,7 +3626,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081dc0;
     		OFFSET_COPYIN                          = 0xfffffff007180720;
     		OFFSET_COPYOUT                         = 0xfffffff007180914;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075a40b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00738d61c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073679b4;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099efc;
@@ -3806,7 +3648,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081dc0;
     		OFFSET_COPYIN                          = 0xfffffff007180720;
     		OFFSET_COPYOUT                         = 0xfffffff007180914;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075a40b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00738d61c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073679b4;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099efc;
@@ -3834,7 +3675,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081f80;
     		OFFSET_COPYIN                          = 0xfffffff007182af0;
     		OFFSET_COPYOUT                         = 0xfffffff007182cf8;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b20b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073977c0;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737154c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099fe0;
@@ -3857,7 +3697,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081f80;
     		OFFSET_COPYIN                          = 0xfffffff007182acc;
     		OFFSET_COPYOUT                         = 0xfffffff007182cd4;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b20b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739779c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007371528;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099fe0;
@@ -3880,7 +3719,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ee48;
     		OFFSET_COPYOUT                         = 0xfffffff00717f050;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007393b94;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d99c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070959d0;
@@ -3903,7 +3741,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ee48;
     		OFFSET_COPYOUT                         = 0xfffffff00717f050;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007393b94;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d99c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070959d0;
@@ -3926,7 +3763,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ee48;
     		OFFSET_COPYOUT                         = 0xfffffff00717f050;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007393b94;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d99c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070959d0;
@@ -3949,7 +3785,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717e258;
     		OFFSET_COPYOUT                         = 0xfffffff00717e460;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739278c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736c94c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070954ac;
@@ -3972,7 +3807,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717e258;
     		OFFSET_COPYOUT                         = 0xfffffff00717e460;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739278c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736c94c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070954ac;
@@ -4000,7 +3834,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081f80;
     		OFFSET_COPYIN                          = 0xfffffff007182af0;
     		OFFSET_COPYOUT                         = 0xfffffff007182cf8;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b20b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073977c0;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737154c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099fe0;
@@ -4023,7 +3856,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081f80;
     		OFFSET_COPYIN                          = 0xfffffff007182acc;
     		OFFSET_COPYOUT                         = 0xfffffff007182cd4;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b20b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739779c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007371528;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099fe0;
@@ -4046,7 +3878,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ee48;
     		OFFSET_COPYOUT                         = 0xfffffff00717f050;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007393b94;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d99c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070959d0;
@@ -4069,7 +3900,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ee48;
     		OFFSET_COPYOUT                         = 0xfffffff00717f050;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007393b94;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d99c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070959d0;
@@ -4092,7 +3922,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ee48;
     		OFFSET_COPYOUT                         = 0xfffffff00717f050;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007393b94;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d99c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070959d0;
@@ -4115,7 +3944,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717e258;
     		OFFSET_COPYOUT                         = 0xfffffff00717e460;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739278c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736c94c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070954ac;
@@ -4138,7 +3966,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717e258;
     		OFFSET_COPYOUT                         = 0xfffffff00717e460;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739278c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736c94c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070954ac;
@@ -4166,7 +3993,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081dc0;
     		OFFSET_COPYIN                          = 0xfffffff0071803a0;
     		OFFSET_COPYOUT                         = 0xfffffff007180594;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075a40b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00738d894;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007367c18;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099e94;
@@ -4189,7 +4015,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081dc0;
     		OFFSET_COPYIN                          = 0xfffffff0071806f4;
     		OFFSET_COPYOUT                         = 0xfffffff0071808e8;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075a40b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00738d944;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007367cf4;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099e94;
@@ -4212,7 +4037,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081dc0;
     		OFFSET_COPYIN                          = 0xfffffff007180720;
     		OFFSET_COPYOUT                         = 0xfffffff007180914;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075a40b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00738d61c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073679b4;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099efc;
@@ -4235,7 +4059,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081dc0;
     		OFFSET_COPYIN                          = 0xfffffff007180720;
     		OFFSET_COPYOUT                         = 0xfffffff007180914;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075a40b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00738d61c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073679b4;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099efc;
@@ -4263,7 +4086,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081f80;
     		OFFSET_COPYIN                          = 0xfffffff007182af0;
     		OFFSET_COPYOUT                         = 0xfffffff007182cf8;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b20b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073977c0;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737154c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099fe0;
@@ -4286,7 +4108,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081f80;
     		OFFSET_COPYIN                          = 0xfffffff007182acc;
     		OFFSET_COPYOUT                         = 0xfffffff007182cd4;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b20b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739779c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007371528;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099fe0;
@@ -4309,7 +4130,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ee48;
     		OFFSET_COPYOUT                         = 0xfffffff00717f050;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007393b94;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d99c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070959d0;
@@ -4332,7 +4152,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ee48;
     		OFFSET_COPYOUT                         = 0xfffffff00717f050;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007393b94;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d99c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070959d0;
@@ -4355,7 +4174,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ee48;
     		OFFSET_COPYOUT                         = 0xfffffff00717f050;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007393b94;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d99c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070959d0;
@@ -4378,7 +4196,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717e258;
     		OFFSET_COPYOUT                         = 0xfffffff00717e460;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739278c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736c94c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070954ac;
@@ -4401,7 +4218,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717e258;
     		OFFSET_COPYOUT                         = 0xfffffff00717e460;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739278c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736c94c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070954ac;
@@ -4429,7 +4245,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081f80;
     		OFFSET_COPYIN                          = 0xfffffff007182af0;
     		OFFSET_COPYOUT                         = 0xfffffff007182cf8;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b20b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073977c0;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737154c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099fe0;
@@ -4452,7 +4267,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081f80;
     		OFFSET_COPYIN                          = 0xfffffff007182acc;
     		OFFSET_COPYOUT                         = 0xfffffff007182cd4;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b20b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739779c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007371528;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099fe0;
@@ -4475,7 +4289,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ee48;
     		OFFSET_COPYOUT                         = 0xfffffff00717f050;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007393b94;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d99c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070959d0;
@@ -4498,7 +4311,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ee48;
     		OFFSET_COPYOUT                         = 0xfffffff00717f050;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007393b94;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d99c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070959d0;
@@ -4521,7 +4333,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ee48;
     		OFFSET_COPYOUT                         = 0xfffffff00717f050;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007393b94;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d99c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070959d0;
@@ -4544,7 +4355,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717e258;
     		OFFSET_COPYOUT                         = 0xfffffff00717e460;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739278c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736c94c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070954ac;
@@ -4567,7 +4377,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717e258;
     		OFFSET_COPYOUT                         = 0xfffffff00717e460;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739278c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736c94c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070954ac;
@@ -4595,7 +4404,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff0070c1dc0;
     		OFFSET_COPYIN                          = 0xfffffff0071c5ecc;
     		OFFSET_COPYOUT                         = 0xfffffff0071c61ac;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ec0b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073d3b28;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073adeac;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070df014;
@@ -4618,7 +4426,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff0070c1dc0;
     		OFFSET_COPYIN                          = 0xfffffff0071c6220;
     		OFFSET_COPYOUT                         = 0xfffffff0071c6500;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ec0b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073d3bd8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073adf88;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070df014;
@@ -4646,7 +4453,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff0070c1dc0;
     		OFFSET_COPYIN                          = 0xfffffff0071c5ecc;
     		OFFSET_COPYOUT                         = 0xfffffff0071c61ac;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ec0b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073d3b28;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073adeac;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070df014;
@@ -4669,7 +4475,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff0070c1dc0;
     		OFFSET_COPYIN                          = 0xfffffff0071c6220;
     		OFFSET_COPYOUT                         = 0xfffffff0071c6500;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ec0b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073d3bd8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073adf88;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070df014;
@@ -4697,7 +4502,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081dc0;
     		OFFSET_COPYIN                          = 0xfffffff0071803a0;
     		OFFSET_COPYOUT                         = 0xfffffff007180594;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075a40b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00738d894;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007367c18;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099e94;
@@ -4720,7 +4524,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081dc0;
     		OFFSET_COPYIN                          = 0xfffffff0071806f4;
     		OFFSET_COPYOUT                         = 0xfffffff0071808e8;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075a40b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00738d944;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007367cf4;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099e94;
@@ -4743,7 +4546,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081dc0;
     		OFFSET_COPYIN                          = 0xfffffff007180720;
     		OFFSET_COPYOUT                         = 0xfffffff007180914;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075a40b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00738d61c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073679b4;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099efc;
@@ -4766,7 +4568,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081dc0;
     		OFFSET_COPYIN                          = 0xfffffff007180720;
     		OFFSET_COPYOUT                         = 0xfffffff007180914;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075a40b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00738d61c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073679b4;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099efc;
@@ -4789,7 +4590,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081f80;
     		OFFSET_COPYIN                          = 0xfffffff007182af0;
     		OFFSET_COPYOUT                         = 0xfffffff007182cf8;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b20b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073977c0;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737154c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099fe0;
@@ -4812,7 +4612,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081f80;
     		OFFSET_COPYIN                          = 0xfffffff007182af0;
     		OFFSET_COPYOUT                         = 0xfffffff007182cf8;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b20b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073977c0;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737154c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099fe0;
@@ -4835,7 +4634,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081f80;
     		OFFSET_COPYIN                          = 0xfffffff007182acc;
     		OFFSET_COPYOUT                         = 0xfffffff007182cd4;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b20b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739779c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007371528;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099fe0;
@@ -4858,7 +4656,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081f80;
     		OFFSET_COPYIN                          = 0xfffffff007182acc;
     		OFFSET_COPYOUT                         = 0xfffffff007182cd4;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b20b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739779c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007371528;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099fe0;
@@ -4881,7 +4678,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ee48;
     		OFFSET_COPYOUT                         = 0xfffffff00717f050;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007393b94;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d99c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070959d0;
@@ -4904,7 +4700,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ee48;
     		OFFSET_COPYOUT                         = 0xfffffff00717f050;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007393b94;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d99c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070959d0;
@@ -4927,7 +4722,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ee48;
     		OFFSET_COPYOUT                         = 0xfffffff00717f050;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007393b94;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d99c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070959d0;
@@ -4950,7 +4744,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ee48;
     		OFFSET_COPYOUT                         = 0xfffffff00717f050;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007393b94;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d99c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070959d0;
@@ -4973,7 +4766,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ee48;
     		OFFSET_COPYOUT                         = 0xfffffff00717f050;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007393b94;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d99c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070959d0;
@@ -4996,7 +4788,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ee48;
     		OFFSET_COPYOUT                         = 0xfffffff00717f050;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007393b94;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d99c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070959d0;
@@ -5019,7 +4810,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717e258;
     		OFFSET_COPYOUT                         = 0xfffffff00717e460;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739278c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736c94c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070954ac;
@@ -5042,7 +4832,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717e258;
     		OFFSET_COPYOUT                         = 0xfffffff00717e460;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739278c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736c94c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070954ac;
@@ -5065,7 +4854,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717e258;
     		OFFSET_COPYOUT                         = 0xfffffff00717e460;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739278c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736c94c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070954ac;
@@ -5088,7 +4876,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717e258;
     		OFFSET_COPYOUT                         = 0xfffffff00717e460;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739278c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736c94c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070954ac;
@@ -5116,7 +4903,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081dc0;
     		OFFSET_COPYIN                          = 0xfffffff007180e98;
     		OFFSET_COPYOUT                         = 0xfffffff00718108c;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075a80b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00738e77c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007368b08;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099f14;
@@ -5139,7 +4925,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081dc0;
     		OFFSET_COPYIN                          = 0xfffffff0071811ec;
     		OFFSET_COPYOUT                         = 0xfffffff0071813e0;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075a80b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00738e82c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007368be4;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099f14;
@@ -5162,7 +4947,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081dc0;
     		OFFSET_COPYIN                          = 0xfffffff007181218;
     		OFFSET_COPYOUT                         = 0xfffffff00718140c;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075a80b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00738e504;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073688a4;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099f7c;
@@ -5185,7 +4969,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081dc0;
     		OFFSET_COPYIN                          = 0xfffffff007181218;
     		OFFSET_COPYOUT                         = 0xfffffff00718140c;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075a80b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00738e504;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073688a4;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099f7c;
@@ -5213,7 +4996,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081f80;
     		OFFSET_COPYIN                          = 0xfffffff0071835dc;
     		OFFSET_COPYOUT                         = 0xfffffff0071837e4;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073986b0;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007372444;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff00709a060;
@@ -5236,7 +5018,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081f80;
     		OFFSET_COPYIN                          = 0xfffffff0071835b8;
     		OFFSET_COPYOUT                         = 0xfffffff0071837c0;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739868c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007372420;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff00709a060;
@@ -5259,7 +5040,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717f968;
     		OFFSET_COPYOUT                         = 0xfffffff00717fb70;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007394ab8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736e8c8;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007095a50;
@@ -5282,7 +5062,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717f968;
     		OFFSET_COPYOUT                         = 0xfffffff00717fb70;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007394ab8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736e8c8;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007095a50;
@@ -5305,7 +5084,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717f968;
     		OFFSET_COPYOUT                         = 0xfffffff00717fb70;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007394ab8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736e8c8;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007095a50;
@@ -5328,7 +5106,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ed98;
     		OFFSET_COPYOUT                         = 0xfffffff00717efa0;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073936d0;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d898;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff00709554c;
@@ -5351,7 +5128,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ed98;
     		OFFSET_COPYOUT                         = 0xfffffff00717efa0;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073936d0;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d898;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff00709554c;
@@ -5379,7 +5155,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081f80;
     		OFFSET_COPYIN                          = 0xfffffff0071835dc;
     		OFFSET_COPYOUT                         = 0xfffffff0071837e4;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073986b0;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007372444;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff00709a060;
@@ -5402,7 +5177,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081f80;
     		OFFSET_COPYIN                          = 0xfffffff0071835b8;
     		OFFSET_COPYOUT                         = 0xfffffff0071837c0;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739868c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007372420;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff00709a060;
@@ -5425,7 +5199,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717f968;
     		OFFSET_COPYOUT                         = 0xfffffff00717fb70;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007394ab8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736e8c8;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007095a50;
@@ -5448,7 +5221,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717f968;
     		OFFSET_COPYOUT                         = 0xfffffff00717fb70;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007394ab8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736e8c8;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007095a50;
@@ -5471,7 +5243,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717f968;
     		OFFSET_COPYOUT                         = 0xfffffff00717fb70;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007394ab8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736e8c8;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007095a50;
@@ -5494,7 +5265,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ed98;
     		OFFSET_COPYOUT                         = 0xfffffff00717efa0;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073936d0;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d898;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff00709554c;
@@ -5517,7 +5287,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ed98;
     		OFFSET_COPYOUT                         = 0xfffffff00717efa0;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073936d0;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d898;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff00709554c;
@@ -5545,7 +5314,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00708ddc0;
     		OFFSET_COPYIN                          = 0xfffffff00718d028;
     		OFFSET_COPYOUT                         = 0xfffffff00718d21c;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b40b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739aa04;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007374d90;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a60b4;
@@ -5568,7 +5336,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00708ddc0;
     		OFFSET_COPYIN                          = 0xfffffff00718d37c;
     		OFFSET_COPYOUT                         = 0xfffffff00718d570;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b40b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739aab4;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007374e6c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a60b4;
@@ -5591,7 +5358,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00708ddc0;
     		OFFSET_COPYIN                          = 0xfffffff00718d3a8;
     		OFFSET_COPYOUT                         = 0xfffffff00718d59c;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b40b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739a78c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007374b2c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a611c;
@@ -5614,7 +5380,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00708ddc0;
     		OFFSET_COPYIN                          = 0xfffffff00718d3a8;
     		OFFSET_COPYOUT                         = 0xfffffff00718d59c;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b40b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739a78c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007374b2c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a611c;
@@ -5637,7 +5402,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00708df80;
     		OFFSET_COPYIN                          = 0xfffffff00718f76c;
     		OFFSET_COPYOUT                         = 0xfffffff00718f974;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075c20b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073a4940;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737e6d4;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a6200;
@@ -5660,7 +5424,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00708df80;
     		OFFSET_COPYIN                          = 0xfffffff00718f748;
     		OFFSET_COPYOUT                         = 0xfffffff00718f950;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075c20b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073a491c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737e6b0;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a6200;
@@ -5683,7 +5446,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007089f80;
     		OFFSET_COPYIN                          = 0xfffffff00718baf8;
     		OFFSET_COPYOUT                         = 0xfffffff00718bd00;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075be0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073a0d48;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737ab58;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a1bf0;
@@ -5706,7 +5468,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007089f80;
     		OFFSET_COPYIN                          = 0xfffffff00718baf8;
     		OFFSET_COPYOUT                         = 0xfffffff00718bd00;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075be0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073a0d48;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737ab58;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a1bf0;
@@ -5729,7 +5490,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007089f80;
     		OFFSET_COPYIN                          = 0xfffffff00718baf8;
     		OFFSET_COPYOUT                         = 0xfffffff00718bd00;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075be0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073a0d48;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737ab58;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a1bf0;
@@ -5752,7 +5512,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007089f80;
     		OFFSET_COPYIN                          = 0xfffffff00718af28;
     		OFFSET_COPYOUT                         = 0xfffffff00718b130;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ba0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739f960;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007379b28;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a16ec;
@@ -5775,7 +5534,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007089f80;
     		OFFSET_COPYIN                          = 0xfffffff00718af28;
     		OFFSET_COPYOUT                         = 0xfffffff00718b130;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ba0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739f960;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007379b28;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a16ec;
@@ -5803,7 +5561,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081dc0;
     		OFFSET_COPYIN                          = 0xfffffff0071803a0;
     		OFFSET_COPYOUT                         = 0xfffffff007180594;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075a40b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00738d894;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007367c18;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099e94;
@@ -5826,7 +5583,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081dc0;
     		OFFSET_COPYIN                          = 0xfffffff0071806f4;
     		OFFSET_COPYOUT                         = 0xfffffff0071808e8;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075a40b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00738d944;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007367cf4;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099e94;
@@ -5849,7 +5605,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081dc0;
     		OFFSET_COPYIN                          = 0xfffffff007180720;
     		OFFSET_COPYOUT                         = 0xfffffff007180914;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075a40b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00738d61c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073679b4;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099efc;
@@ -5872,7 +5627,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081dc0;
     		OFFSET_COPYIN                          = 0xfffffff007180720;
     		OFFSET_COPYOUT                         = 0xfffffff007180914;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075a40b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00738d61c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073679b4;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099efc;
@@ -5895,7 +5649,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081f80;
     		OFFSET_COPYIN                          = 0xfffffff007182af0;
     		OFFSET_COPYOUT                         = 0xfffffff007182cf8;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b20b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073977c0;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737154c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099fe0;
@@ -5918,7 +5671,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081f80;
     		OFFSET_COPYIN                          = 0xfffffff007182af0;
     		OFFSET_COPYOUT                         = 0xfffffff007182cf8;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b20b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073977c0;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737154c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099fe0;
@@ -5941,7 +5693,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081f80;
     		OFFSET_COPYIN                          = 0xfffffff007182acc;
     		OFFSET_COPYOUT                         = 0xfffffff007182cd4;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b20b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739779c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007371528;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099fe0;
@@ -5964,7 +5715,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007081f80;
     		OFFSET_COPYIN                          = 0xfffffff007182acc;
     		OFFSET_COPYOUT                         = 0xfffffff007182cd4;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b20b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739779c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007371528;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff007099fe0;
@@ -5987,7 +5737,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ee48;
     		OFFSET_COPYOUT                         = 0xfffffff00717f050;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007393b94;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d99c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070959d0;
@@ -6010,7 +5759,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ee48;
     		OFFSET_COPYOUT                         = 0xfffffff00717f050;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007393b94;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d99c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070959d0;
@@ -6033,7 +5781,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ee48;
     		OFFSET_COPYOUT                         = 0xfffffff00717f050;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007393b94;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d99c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070959d0;
@@ -6056,7 +5803,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ee48;
     		OFFSET_COPYOUT                         = 0xfffffff00717f050;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007393b94;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d99c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070959d0;
@@ -6079,7 +5825,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ee48;
     		OFFSET_COPYOUT                         = 0xfffffff00717f050;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007393b94;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d99c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070959d0;
@@ -6102,7 +5847,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717ee48;
     		OFFSET_COPYOUT                         = 0xfffffff00717f050;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff007393b94;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736d99c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070959d0;
@@ -6125,7 +5869,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717e258;
     		OFFSET_COPYOUT                         = 0xfffffff00717e460;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739278c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736c94c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070954ac;
@@ -6148,7 +5891,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717e258;
     		OFFSET_COPYOUT                         = 0xfffffff00717e460;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739278c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736c94c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070954ac;
@@ -6171,7 +5913,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717e258;
     		OFFSET_COPYOUT                         = 0xfffffff00717e460;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739278c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736c94c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070954ac;
@@ -6194,7 +5935,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00707df80;
     		OFFSET_COPYIN                          = 0xfffffff00717e258;
     		OFFSET_COPYOUT                         = 0xfffffff00717e460;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ae0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739278c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00736c94c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070954ac;
@@ -6222,7 +5962,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff0070c1dc0;
     		OFFSET_COPYIN                          = 0xfffffff0071c5db4;
     		OFFSET_COPYOUT                         = 0xfffffff0071c6094;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ec0b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073d38e4;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073adc68;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070deff4;
@@ -6245,7 +5984,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff0070c1dc0;
     		OFFSET_COPYIN                          = 0xfffffff0071c6108;
     		OFFSET_COPYOUT                         = 0xfffffff0071c63e8;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ec0b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073d3994;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073add44;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070deff4;
@@ -6268,7 +6006,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff0070c1dc0;
     		OFFSET_COPYIN                          = 0xfffffff0071c6134;
     		OFFSET_COPYOUT                         = 0xfffffff0071c6414;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ec0b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073d366c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073ada04;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070df05c;
@@ -6291,7 +6028,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff0070c1dc0;
     		OFFSET_COPYIN                          = 0xfffffff0071c6134;
     		OFFSET_COPYOUT                         = 0xfffffff0071c6414;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ec0b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073d366c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073ada04;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070df05c;
@@ -6319,7 +6055,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff0070c1f80;
     		OFFSET_COPYIN                          = 0xfffffff0071c857c;
     		OFFSET_COPYOUT                         = 0xfffffff0071c885c;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075f60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073dbeb8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073b5cd0;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070df13c;
@@ -6342,7 +6077,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff0070c1f80;
     		OFFSET_COPYIN                          = 0xfffffff0071c8558;
     		OFFSET_COPYOUT                         = 0xfffffff0071c8838;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075f60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073dbe94;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073b5cac;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070df13c;
@@ -6365,7 +6099,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff0070c1f80;
     		OFFSET_COPYIN                          = 0xfffffff0071c890c;
     		OFFSET_COPYOUT                         = 0xfffffff0071c8bec;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075f60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073dc328;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073b61b8;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070deb2c;
@@ -6388,7 +6121,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff0070c1f80;
     		OFFSET_COPYIN                          = 0xfffffff0071c890c;
     		OFFSET_COPYOUT                         = 0xfffffff0071c8bec;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075f60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073dc328;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073b61b8;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070deb2c;
@@ -6411,7 +6143,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff0070c1f80;
     		OFFSET_COPYIN                          = 0xfffffff0071c890c;
     		OFFSET_COPYOUT                         = 0xfffffff0071c8bec;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075f60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073dc328;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073b61b8;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070deb2c;
@@ -6434,7 +6165,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff0070c1f80;
     		OFFSET_COPYIN                          = 0xfffffff0071c7d3c;
     		OFFSET_COPYOUT                         = 0xfffffff0071c801c;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075f60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073dafa8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073b51f0;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070de628;
@@ -6457,7 +6187,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff0070c1f80;
     		OFFSET_COPYIN                          = 0xfffffff0071c7d3c;
     		OFFSET_COPYOUT                         = 0xfffffff0071c801c;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075f60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073dafa8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073b51f0;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070de628;
@@ -6480,7 +6209,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff0070c1f80;
     		OFFSET_COPYIN                          = 0xfffffff0071c7d3c;
     		OFFSET_COPYOUT                         = 0xfffffff0071c801c;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075f60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073dafa8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073b51f0;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070de628;
@@ -6508,7 +6236,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff0070c1f80;
     		OFFSET_COPYIN                          = 0xfffffff0071c857c;
     		OFFSET_COPYOUT                         = 0xfffffff0071c885c;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075f60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073dbeb8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073b5cd0;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070df13c;
@@ -6531,7 +6258,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff0070c1f80;
     		OFFSET_COPYIN                          = 0xfffffff0071c8558;
     		OFFSET_COPYOUT                         = 0xfffffff0071c8838;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075f60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073dbe94;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073b5cac;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070df13c;
@@ -6554,7 +6280,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff0070c1f80;
     		OFFSET_COPYIN                          = 0xfffffff0071c890c;
     		OFFSET_COPYOUT                         = 0xfffffff0071c8bec;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075f60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073dc328;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073b61b8;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070deb2c;
@@ -6577,7 +6302,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff0070c1f80;
     		OFFSET_COPYIN                          = 0xfffffff0071c890c;
     		OFFSET_COPYOUT                         = 0xfffffff0071c8bec;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075f60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073dc328;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073b61b8;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070deb2c;
@@ -6600,7 +6324,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff0070c1f80;
     		OFFSET_COPYIN                          = 0xfffffff0071c890c;
     		OFFSET_COPYOUT                         = 0xfffffff0071c8bec;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075f60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073dc328;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073b61b8;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070deb2c;
@@ -6623,7 +6346,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff0070c1f80;
     		OFFSET_COPYIN                          = 0xfffffff0071c7d3c;
     		OFFSET_COPYOUT                         = 0xfffffff0071c801c;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075f60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073dafa8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073b51f0;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070de628;
@@ -6646,7 +6368,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff0070c1f80;
     		OFFSET_COPYIN                          = 0xfffffff0071c7d3c;
     		OFFSET_COPYOUT                         = 0xfffffff0071c801c;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075f60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073dafa8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073b51f0;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070de628;
@@ -6669,7 +6390,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff0070c1f80;
     		OFFSET_COPYIN                          = 0xfffffff0071c7d3c;
     		OFFSET_COPYOUT                         = 0xfffffff0071c801c;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075f60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073dafa8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073b51f0;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070de628;
@@ -6697,7 +6417,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff0070c1dc0;
     		OFFSET_COPYIN                          = 0xfffffff0071c5db4;
     		OFFSET_COPYOUT                         = 0xfffffff0071c6094;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ec0b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073d38e4;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073adc68;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070deff4;
@@ -6720,7 +6439,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff0070c1dc0;
     		OFFSET_COPYIN                          = 0xfffffff0071c6108;
     		OFFSET_COPYOUT                         = 0xfffffff0071c63e8;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ec0b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073d3994;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073add44;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070deff4;
@@ -6743,7 +6461,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff0070c1dc0;
     		OFFSET_COPYIN                          = 0xfffffff0071c6134;
     		OFFSET_COPYOUT                         = 0xfffffff0071c6414;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ec0b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073d366c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073ada04;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070df05c;
@@ -6766,7 +6483,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff0070c1dc0;
     		OFFSET_COPYIN                          = 0xfffffff0071c6134;
     		OFFSET_COPYOUT                         = 0xfffffff0071c6414;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ec0b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073d366c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073ada04;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070df05c;
@@ -6794,7 +6510,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff0070c1f80;
     		OFFSET_COPYIN                          = 0xfffffff0071c857c;
     		OFFSET_COPYOUT                         = 0xfffffff0071c885c;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075f60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073dbeb8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073b5cd0;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070df13c;
@@ -6817,7 +6532,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff0070c1f80;
     		OFFSET_COPYIN                          = 0xfffffff0071c8558;
     		OFFSET_COPYOUT                         = 0xfffffff0071c8838;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075f60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073dbe94;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073b5cac;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070df13c;
@@ -6840,7 +6554,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff0070c1f80;
     		OFFSET_COPYIN                          = 0xfffffff0071c890c;
     		OFFSET_COPYOUT                         = 0xfffffff0071c8bec;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075f60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073dc328;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073b61b8;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070deb2c;
@@ -6863,7 +6576,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff0070c1f80;
     		OFFSET_COPYIN                          = 0xfffffff0071c890c;
     		OFFSET_COPYOUT                         = 0xfffffff0071c8bec;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075f60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073dc328;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073b61b8;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070deb2c;
@@ -6886,7 +6598,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff0070c1f80;
     		OFFSET_COPYIN                          = 0xfffffff0071c890c;
     		OFFSET_COPYOUT                         = 0xfffffff0071c8bec;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075f60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073dc328;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073b61b8;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070deb2c;
@@ -6909,7 +6620,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff0070c1f80;
     		OFFSET_COPYIN                          = 0xfffffff0071c7d3c;
     		OFFSET_COPYOUT                         = 0xfffffff0071c801c;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075f60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073dafa8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073b51f0;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070de628;
@@ -6932,7 +6642,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff0070c1f80;
     		OFFSET_COPYIN                          = 0xfffffff0071c7d3c;
     		OFFSET_COPYOUT                         = 0xfffffff0071c801c;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075f60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073dafa8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073b51f0;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070de628;
@@ -6955,7 +6664,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff0070c1f80;
     		OFFSET_COPYIN                          = 0xfffffff0071c7d3c;
     		OFFSET_COPYOUT                         = 0xfffffff0071c801c;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075f60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073dafa8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073b51f0;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070de628;
@@ -6983,7 +6691,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff0070c1f80;
     		OFFSET_COPYIN                          = 0xfffffff0071c857c;
     		OFFSET_COPYOUT                         = 0xfffffff0071c885c;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075f60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073dbeb8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073b5cd0;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070df13c;
@@ -7006,7 +6713,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff0070c1f80;
     		OFFSET_COPYIN                          = 0xfffffff0071c8558;
     		OFFSET_COPYOUT                         = 0xfffffff0071c8838;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075f60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073dbe94;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073b5cac;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070df13c;
@@ -7029,7 +6735,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff0070c1f80;
     		OFFSET_COPYIN                          = 0xfffffff0071c890c;
     		OFFSET_COPYOUT                         = 0xfffffff0071c8bec;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075f60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073dc328;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073b61b8;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070deb2c;
@@ -7052,7 +6757,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff0070c1f80;
     		OFFSET_COPYIN                          = 0xfffffff0071c890c;
     		OFFSET_COPYOUT                         = 0xfffffff0071c8bec;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075f60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073dc328;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073b61b8;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070deb2c;
@@ -7075,7 +6779,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff0070c1f80;
     		OFFSET_COPYIN                          = 0xfffffff0071c890c;
     		OFFSET_COPYOUT                         = 0xfffffff0071c8bec;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075f60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073dc328;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073b61b8;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070deb2c;
@@ -7098,7 +6801,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff0070c1f80;
     		OFFSET_COPYIN                          = 0xfffffff0071c7d3c;
     		OFFSET_COPYOUT                         = 0xfffffff0071c801c;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075f60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073dafa8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073b51f0;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070de628;
@@ -7121,7 +6823,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff0070c1f80;
     		OFFSET_COPYIN                          = 0xfffffff0071c7d3c;
     		OFFSET_COPYOUT                         = 0xfffffff0071c801c;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075f60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073dafa8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073b51f0;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070de628;
@@ -7144,7 +6845,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff0070c1f80;
     		OFFSET_COPYIN                          = 0xfffffff0071c7d3c;
     		OFFSET_COPYOUT                         = 0xfffffff0071c801c;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075f60b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073dafa8;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff0073b51f0;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070de628;
@@ -7172,7 +6872,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00708ddc0;
     		OFFSET_COPYIN                          = 0xfffffff00718d028;
     		OFFSET_COPYOUT                         = 0xfffffff00718d21c;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b40b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739aa04;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007374d90;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a60b4;
@@ -7195,7 +6894,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00708ddc0;
     		OFFSET_COPYIN                          = 0xfffffff00718d37c;
     		OFFSET_COPYOUT                         = 0xfffffff00718d570;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b40b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739aab4;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007374e6c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a60b4;
@@ -7218,7 +6916,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00708ddc0;
     		OFFSET_COPYIN                          = 0xfffffff00718d3a8;
     		OFFSET_COPYOUT                         = 0xfffffff00718d59c;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b40b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739a78c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007374b2c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a611c;
@@ -7241,7 +6938,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00708ddc0;
     		OFFSET_COPYIN                          = 0xfffffff00718d3a8;
     		OFFSET_COPYOUT                         = 0xfffffff00718d59c;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075b40b0;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739a78c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007374b2c;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a611c;
@@ -7264,7 +6960,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00708df80;
     		OFFSET_COPYIN                          = 0xfffffff00718f76c;
     		OFFSET_COPYOUT                         = 0xfffffff00718f974;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075c20b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073a4940;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737e6d4;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a6200;
@@ -7287,7 +6982,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff00708df80;
     		OFFSET_COPYIN                          = 0xfffffff00718f748;
     		OFFSET_COPYOUT                         = 0xfffffff00718f950;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075c20b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073a491c;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737e6b0;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a6200;
@@ -7310,7 +7004,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007089f80;
     		OFFSET_COPYIN                          = 0xfffffff00718baf8;
     		OFFSET_COPYOUT                         = 0xfffffff00718bd00;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075be0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073a0d48;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737ab58;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a1bf0;
@@ -7333,7 +7026,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007089f80;
     		OFFSET_COPYIN                          = 0xfffffff00718baf8;
     		OFFSET_COPYOUT                         = 0xfffffff00718bd00;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075be0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073a0d48;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737ab58;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a1bf0;
@@ -7356,7 +7048,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007089f80;
     		OFFSET_COPYIN                          = 0xfffffff00718baf8;
     		OFFSET_COPYOUT                         = 0xfffffff00718bd00;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075be0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff0073a0d48;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff00737ab58;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a1bf0;
@@ -7379,7 +7070,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007089f80;
     		OFFSET_COPYIN                          = 0xfffffff00718af28;
     		OFFSET_COPYOUT                         = 0xfffffff00718b130;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ba0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739f960;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007379b28;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a16ec;
@@ -7402,7 +7092,6 @@ kern_return_t init_offsets()
     		OFFSET_BCOPY                           = 0xfffffff007089f80;
     		OFFSET_COPYIN                          = 0xfffffff00718af28;
     		OFFSET_COPYOUT                         = 0xfffffff00718b130;
-    		OFFSET_ROOTVNODE                       = 0xfffffff0075ba0b8;
     		OFFSET_CHGPROCCNT                      = 0xfffffff00739f960;
     		OFFSET_KAUTH_CRED_REF                  = 0xfffffff007379b28;
     		OFFSET_IPC_PORT_ALLOC_SPECIAL          = 0xfffffff0070a16ec;
