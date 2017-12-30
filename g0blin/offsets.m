@@ -65,6 +65,8 @@ kern_return_t init_offsets() {
         OFFSET_ROP_ADD_X0_X0_0x10                   = 0xfffffff006465174;
 //        OFFSET_ROP_LDR_X0_X0_0x10                   = 0xfffffff0063b4a84;
         OFFSET_ROOT_MOUNT_V_NODE                    = 0xfffffff0075a40b0;
+        LOG("loaded offsets for iPhone 7 on 10.3.1");
+    }
     
     // iPhone 6S (iPhone8,1) - iOS 10.3.2 (14F89)
     else if (strcmp(u.machine, "iPhone8,1") == 0 && [os_ver isEqual:@"Version 10.3.2 (Build 14F89)"]) {
