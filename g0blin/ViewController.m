@@ -166,18 +166,12 @@ static uint64_t kbase;
 
     [self.goButton setTitle:@"jailbroke yo!" forState:UIControlStateDisabled];
     
+    sleep(2);
     
-    // start launchdaemons ...
-    
+    // start launchdaemons ...    
     LOG("reloading...");
     pid_t pid;
     posix_spawn(&pid, "/bin/launchctl", 0, 0, (char**)&(const char*[]){"/bin/launchctl", "load", "/Library/LaunchDaemons/0.reload.plist", NULL}, NULL);
-    
-    //    LOG("starting dropbear...");
-    //    posix_spawn(&pid, "/bin/launchctl", 0, 0, (char**)&(const char*[]){"/bin/launchctl", "load", "/Library/LaunchDaemons/dropbear.plist", NULL}, NULL);
-    
-    sleep(2);
-    
 }
 
 @end
