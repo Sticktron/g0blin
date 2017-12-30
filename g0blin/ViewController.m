@@ -10,6 +10,7 @@
 #include "v0rtex.h"
 #include "common.h"
 #include "offsets.h"
+#include "nvpatch.h"
 #include "kernel.h"
 #include "kpp.h"
 #include "remount.h"
@@ -106,7 +107,8 @@ static uint64_t kbase;
         
         kbase = kslide + 0xFFFFFFF007004000;
         LOG("kern base -> 0x%llx", kbase);
-        
+        [self log:@"Patching com.apple.System.boot-nonce"];
+        nvpatch(tfp0, kbase, "com.apple.System.boot-nonce");
         [self bypassKPP];
     });
 }
