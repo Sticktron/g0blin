@@ -46,8 +46,30 @@ kern_return_t init_offsets() {
     NSString *os_ver = [[NSProcessInfo processInfo] operatingSystemVersionString];
     LOG("operatingSystemVersionString: %@", os_ver);
     
+    // iPhone 6S (iPhone8,1) - iOS 10.3.1 (14E304)
+    if (strcmp(u.machine, "iPhone8,1") == 0 && [os_ver isEqual:@"Version 10.3.1 (Build 14E304)"]) {
+        OFFSET_ZONE_MAP                             = 0xfffffff007548478; /* "zone_init: kmem_suballoc failed" */
+        OFFSET_KERNEL_MAP                           = 0xfffffff0075a4050;
+        OFFSET_KERNEL_TASK                          = 0xfffffff0075a4048;
+        OFFSET_REALHOST                             = 0xfffffff00752aba0; /* host_priv_self */
+        OFFSET_BZERO                                = 0xfffffff007081f80;
+        OFFSET_BCOPY                                = 0xfffffff007081dc0;
+        OFFSET_COPYIN                               = 0xfffffff007180720;
+        OFFSET_COPYOUT                              = 0xfffffff007180914;
+//        OFFSET_CHGPROCCNT                           = 0xfffffff00738d61c;
+//        OFFSET_KAUTH_CRED_REF                       = 0xfffffff0073679b4;
+        OFFSET_IPC_PORT_ALLOC_SPECIAL               = 0xfffffff007099efc; /* convert_task_suspension_token_to_port */
+        OFFSET_IPC_KOBJECT_SET                      = 0xfffffff0070ad154; /* convert_task_suspension_token_to_port */
+        OFFSET_IPC_PORT_MAKE_SEND                   = 0xfffffff007099a20; /* "ipc_host_init" */
+        OFFSET_IOSURFACEROOTUSERCLIENT_VTAB         = 0xfffffff006e7c9f8;
+        OFFSET_ROP_ADD_X0_X0_0x10                   = 0xfffffff006465174;
+//        OFFSET_ROP_LDR_X0_X0_0x10                   = 0xfffffff0063b4a84;
+        OFFSET_ROOT_MOUNT_V_NODE                    = 0xfffffff0075a40b0;
+        LOG("loaded offsets for iPhone 6s on 10.3.1");
+    }
+    
     // iPhone 6S (iPhone8,1) - iOS 10.3.2 (14F89)
-    if (strcmp(u.machine, "iPhone8,1") == 0 && [os_ver isEqual:@"Version 10.3.2 (Build 14F89)"]) {
+    else if (strcmp(u.machine, "iPhone8,1") == 0 && [os_ver isEqual:@"Version 10.3.2 (Build 14F89)"]) {
         OFFSET_ZONE_MAP                             = 0xfffffff007548478; /* "zone_init: kmem_suballoc failed" */
         OFFSET_KERNEL_MAP                           = 0xfffffff0075a4050;
         OFFSET_KERNEL_TASK                          = 0xfffffff0075a4048;
