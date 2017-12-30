@@ -22,4 +22,4 @@ v0rtex + yalu102
 
 thanks to everyone helping out, finding offsets, testing, etc!
 
-creds: Lucky Tobasco, Sizuga, Xenu
+creds: Lucky Tobasco, Sizuga, Xenu, Saurik
