@@ -57,7 +57,10 @@ kern_return_t do_bootstrap() {
         
         // do Cydia post installation ...
         
-        LOG("running Cydia extrainst_ scripts");
+        LOG("doing Cydia post install");
+        
+        chmod("/Library/LaunchDaemons/com.saurik.Cydia.Startup.plist", 0644);
+        chown("/Library/LaunchDaemons/com.saurik.Cydia.Startup.plist", 0, 0);
         
         char *name = "/var/lib/dpkg/info/base.extrainst_";
         posix_spawn(&pd, name, 0, 0, (char**)&(const char*[]){name, NULL}, NULL);
