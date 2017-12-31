@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EE0A1C281FF8891A001030DB /* SettingsController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE0A1C271FF8891A001030DB /* SettingsController.m */; };
 		EE59F3C31FF81C1E006BCFE1 /* bootstrap.tgz in Resources */ = {isa = PBXBuildFile; fileRef = EE59F3C21FF81C1E006BCFE1 /* bootstrap.tgz */; };
 		EE9402401FF33CAE00C9325F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EE94023F1FF33CAE00C9325F /* AppDelegate.m */; };
 		EE9402431FF33CAE00C9325F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9402421FF33CAE00C9325F /* ViewController.m */; };
@@ -30,6 +31,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		EE0A1C261FF8891A001030DB /* SettingsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsController.h; sourceTree = "<group>"; };
+		EE0A1C271FF8891A001030DB /* SettingsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingsController.m; sourceTree = "<group>"; };
 		EE59F3C21FF81C1E006BCFE1 /* bootstrap.tgz */ = {isa = PBXFileReference; lastKnownFileType = file; path = bootstrap.tgz; sourceTree = "<group>"; };
 		EE94023B1FF33CAE00C9325F /* g0blin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = g0blin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE94023E1FF33CAE00C9325F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -118,6 +121,8 @@
 				EE94023F1FF33CAE00C9325F /* AppDelegate.m */,
 				EE9402411FF33CAE00C9325F /* ViewController.h */,
 				EE9402421FF33CAE00C9325F /* ViewController.m */,
+				EE0A1C261FF8891A001030DB /* SettingsController.h */,
+				EE0A1C271FF8891A001030DB /* SettingsController.m */,
 				EE9402441FF33CAE00C9325F /* Main.storyboard */,
 				EE9402471FF33CAE00C9325F /* Assets.xcassets */,
 				EE9402491FF33CAE00C9325F /* LaunchScreen.storyboard */,
@@ -235,6 +240,7 @@
 				EE9402621FF375E700C9325F /* kpp.m in Sources */,
 				EE9828C01FF3E2C50085B633 /* remount.m in Sources */,
 				EE9828C31FF3E9AA0085B633 /* bootstrap.m in Sources */,
+				EE0A1C281FF8891A001030DB /* SettingsController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
