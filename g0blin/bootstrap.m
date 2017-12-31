@@ -14,7 +14,7 @@
 #include <mach-o/dyld.h>
 
 
-kern_return_t do_bootstrap() {
+kern_return_t do_bootstrap(bool force) {
     
     char path[256];
     uint32_t size = sizeof(path);
@@ -24,9 +24,8 @@ kern_return_t do_bootstrap() {
     NSString* execpath = [[NSString stringWithUTF8String:pt] stringByDeletingLastPathComponent];
     
     int f = open("/.installed_g0blin", O_RDONLY);
-//    if (f == -1) {
-    if (f == f) { // ALWAYS INSTALL THE BOOTSTRAP FOR NOW.....
-        LOG("bootstrap not yet installed");
+    if (f == -1 || force) {
+        LOG("installing bootstrap...");
         
         NSString* bootstrap = [execpath stringByAppendingPathComponent:@"bootstrap.tgz"];
         NSString* tar = [execpath stringByAppendingPathComponent:@"tar"];
@@ -37,14 +36,13 @@ kern_return_t do_bootstrap() {
         
         // copy over tar, launchctl
         copyfile([tar UTF8String], "/bin/tar", 0, COPYFILE_ALL);
-        chmod("/bin/tar", 0777);
+        chmod("/bin/tar", 0755);
         copyfile([launchctl UTF8String], "/bin/launchctl", 0, COPYFILE_ALL);
         chmod("/bin/launchctl", 0755);
         
         // unpack bootstrap tarball
         chdir("/");
         posix_spawn(&pd, "/bin/tar", 0, 0, (char**)&(const char*[]){"/bin/tar", "--preserve-permissions", "--no-overwrite-dir", "-xvf", [bootstrap UTF8String], NULL}, NULL);
-        NSLog(@"pid = %x", pd);
         waitpid(pd, 0, 0);
         LOG("bootstrap unpacked");
         
@@ -57,7 +55,10 @@ kern_return_t do_bootstrap() {
         
         // do Cydia post installation ...
         
-        LOG("running Cydia extrainst_ scripts");
+        LOG("doing Cydia post install");
+        
+        chmod("/Library/LaunchDaemons/com.saurik.Cydia.Startup.plist", 0644);
+        chown("/Library/LaunchDaemons/com.saurik.Cydia.Startup.plist", 0, 0);
         
         char *name = "/var/lib/dpkg/info/base.extrainst_";
         posix_spawn(&pd, name, 0, 0, (char**)&(const char*[]){name, NULL}, NULL);
@@ -94,8 +95,12 @@ kern_return_t do_bootstrap() {
         LOG("running uicache");
         posix_spawn(&pd, "/usr/bin/uicache", 0, 0, (char**)&(const char*[]){"/usr/bin/uicache", NULL}, NULL);
         waitpid(pd, 0, 0);
+        
+        LOG("bootstrap installed");
+        
+    } else {
+        LOG("bootstrap already installed");
     }
-    LOG("bootstrapped!");
     
     
     // copy reload
@@ -137,7 +142,8 @@ kern_return_t do_bootstrap() {
     chmod("/var/MobileAsset/Assets/com_apple_MobileAsset_SoftwareUpdate", 000);
     chown("/var/MobileAsset/Assets/com_apple_MobileAsset_SoftwareUpdate", 0, 0);
     LOG("killed OTA updater");
-    
-    
+
+    LOG("finished bootstrapping");
+        
     return KERN_SUCCESS;
 }

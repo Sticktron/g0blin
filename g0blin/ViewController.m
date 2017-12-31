@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "SettingsController.h"
 #include "v0rtex.h"
 #include "common.h"
 #include "offsets.h"
@@ -24,6 +25,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *goButton;
 @property (weak, nonatomic) IBOutlet UIProgressView *progressView;
 @property (weak, nonatomic) IBOutlet UITextView *consoleView;
+@property (weak, nonatomic) IBOutlet UIButton *settingsButton;
+@property (weak, nonatomic) IBOutlet UILabel *reinstallBootstrapLabel;
 @end
 
 
@@ -45,6 +48,9 @@ static uint64_t kbase;
     self.consoleView.text = nil;
     
     self.goButton.layer.cornerRadius = 16;
+    
+    self.reinstallBootstrapLabel.hidden = YES;
+    
     
     // print kernel version
     struct utsname u;
@@ -76,6 +82,13 @@ static uint64_t kbase;
 
 - (void)log:(NSString *)text {
     self.consoleView.text = [NSString stringWithFormat:@"%@%@ \n", self.consoleView.text, text];
+}
+
+- (IBAction)prepareForUnwind:(UIStoryboardSegue *)segue {
+    //segue exit marker
+    
+    SettingsController *settingsController = segue.sourceViewController;
+    self.reinstallBootstrapLabel.hidden = !settingsController.reinstallBootstrapSwitch.on;
 }
 
 - (IBAction)go:(UIButton *)sender {
@@ -147,12 +160,17 @@ static uint64_t kbase;
 - (void)bootstrap {
     
     [self.progressView setProgress:0.6 animated:YES];
-    [self log:@"installing bootstrap"];
+    [self log:@"bootstrapping"];
+    
+    BOOL force = NO;
+    if (self.reinstallBootstrapLabel.hidden == NO) {
+        force = YES;
+        [self log:@"(forcing reinstall)"];
+    }
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        
-        if (do_bootstrap() != KERN_SUCCESS) {
-            [self log:@"ERROR: failed to install bootstrap \n"];
+        if (do_bootstrap(force) != KERN_SUCCESS) {
+            [self log:@"ERROR: failed to bootstrap \n"];
             return;
         }
         
@@ -172,6 +190,12 @@ static uint64_t kbase;
     LOG("reloading...");
     pid_t pid;
     posix_spawn(&pid, "/bin/launchctl", 0, 0, (char**)&(const char*[]){"/bin/launchctl", "load", "/Library/LaunchDaemons/0.reload.plist", NULL}, NULL);
+    waitpid(pid, 0, 0);
+    
+    // respring
+    LOG("respringing...");
+    pid_t pid2;
+    posix_spawn(&pid2, "/usr/bin/killall", 0, 0, (char**)&(const char*[]){"/usr/bin/killall", "-9", "SpringBoard", NULL}, NULL);
 }
 
 @end
