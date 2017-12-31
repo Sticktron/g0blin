@@ -190,7 +190,12 @@ static uint64_t kbase;
     LOG("reloading...");
     pid_t pid;
     posix_spawn(&pid, "/bin/launchctl", 0, 0, (char**)&(const char*[]){"/bin/launchctl", "load", "/Library/LaunchDaemons/0.reload.plist", NULL}, NULL);
-//    waitpid(pid, 0, 0);
+    waitpid(pid, 0, 0);
+    
+    // respring
+    LOG("respringing...");
+    pid_t pid2;
+    posix_spawn(&pid2, "/usr/bin/killall", 0, 0, (char**)&(const char*[]){"/usr/bin/killall", "-9", "SpringBoard", NULL}, NULL);
 }
 
 @end
