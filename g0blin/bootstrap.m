@@ -34,48 +34,39 @@ kern_return_t do_bootstrap(bool force) {
         unlink("/bin/tar");
         unlink("/bin/launchctl");
         
-        // copy over tar, launchctl
         copyfile([tar UTF8String], "/bin/tar", 0, COPYFILE_ALL);
         chmod("/bin/tar", 0755);
-        copyfile([launchctl UTF8String], "/bin/launchctl", 0, COPYFILE_ALL);
-        chmod("/bin/launchctl", 0755);
         
-        // unpack bootstrap tarball
         chdir("/");
         posix_spawn(&pd, "/bin/tar", 0, 0, (char**)&(const char*[]){"/bin/tar", "--preserve-permissions", "--no-overwrite-dir", "-xvf", [bootstrap UTF8String], NULL}, NULL);
         waitpid(pd, 0, 0);
         LOG("bootstrap unpacked");
         
-        // leave a reminder that we did this already
-        open("/.installed_g0blin", O_RDWR|O_CREAT);
+        copyfile([launchctl UTF8String], "/bin/launchctl", 0, COPYFILE_ALL);
+        chmod("/bin/launchctl", 0755);
         
-        // disable Cydia filesystem stashing
+        open("/.installed_g0blin", O_RDWR|O_CREAT);
         open("/.cydia_no_stash", O_RDWR|O_CREAT);
         
-        
-        // do Cydia post installation ...
-        
-        LOG("doing Cydia post install");
-        
-        chmod("/Library/LaunchDaemons/com.saurik.Cydia.Startup.plist", 0644);
-        chown("/Library/LaunchDaemons/com.saurik.Cydia.Startup.plist", 0, 0);
-        
-        char *name = "/var/lib/dpkg/info/base.extrainst_";
-        posix_spawn(&pd, name, 0, 0, (char**)&(const char*[]){name, NULL}, NULL);
-        waitpid(pd, 0, 0);
-        
-        name = "/var/lib/dpkg/info/com.saurik.patcyh.extrainst_";
-        posix_spawn(&pd, name, 0, 0, (char**)&(const char*[]){name, NULL}, NULL);
-        waitpid(pd, 0, 0);
-        
-        name = "/var/lib/dpkg/info/firmware-sbin.extrainst_";
-        posix_spawn(&pd, name, 0, 0, (char**)&(const char*[]){name, NULL}, NULL);
-        waitpid(pd, 0, 0);
-        
-        name = "/var/lib/dpkg/info/uikittools.extrainst_";
-        posix_spawn(&pd, name, 0, 0, (char**)&(const char*[]){name, NULL}, NULL);
-        waitpid(pd, 0, 0);
-        
+        // run Cydia install scripts
+        {
+            char *name = "/var/lib/dpkg/info/base.extrainst_";
+            posix_spawn(&pd, name, 0, 0, (char**)&(const char*[]){name, NULL}, NULL);
+            waitpid(pd, 0, 0);
+            
+            name = "/var/lib/dpkg/info/com.saurik.patcyh.extrainst_";
+            posix_spawn(&pd, name, 0, 0, (char**)&(const char*[]){name, NULL}, NULL);
+            waitpid(pd, 0, 0);
+            
+            name = "/var/lib/dpkg/info/firmware-sbin.extrainst_";
+            posix_spawn(&pd, name, 0, 0, (char**)&(const char*[]){name, NULL}, NULL);
+            waitpid(pd, 0, 0);
+            
+            name = "/var/lib/dpkg/info/uikittools.extrainst_";
+            posix_spawn(&pd, name, 0, 0, (char**)&(const char*[]){name, NULL}, NULL);
+            waitpid(pd, 0, 0);
+        }
+        LOG("ran Cydia extrainst scripts");
         
         // block some Apple IPs
         posix_spawn(&pd, "/bin/bash", 0, 0, (char**)&(const char*[]){"/bin/bash", "-c", """echo '127.0.0.1 iphonesubmissions.apple.com' >> /etc/hosts""", NULL}, NULL);
@@ -84,24 +75,24 @@ kern_return_t do_bootstrap(bool force) {
         posix_spawn(&pd, "/bin/bash", 0, 0, (char**)&(const char*[]){"/bin/bash", "-c", """echo '127.0.0.1 appldnld.apple.com' >> /etc/hosts""", NULL}, NULL);
         LOG("modified hosts file");
         
-        // set SBShowNonDefaultSystemApps = YES
+        // SBShowNonDefaultSystemApps = YES
         posix_spawn(&pd, "killall", 0, 0, (char**)&(const char*[]){"killall", "-SIGSTOP", "cfprefsd", NULL}, NULL);
         NSMutableDictionary *plist = [[NSMutableDictionary alloc] initWithContentsOfFile:@"/var/mobile/Library/Preferences/com.apple.springboard.plist"];
         [plist setObject:[NSNumber numberWithBool:YES] forKey:@"SBShowNonDefaultSystemApps"];
         [plist writeToFile:@"/var/mobile/Library/Preferences/com.apple.springboard.plist" atomically:YES];
         posix_spawn(&pd, "killall", 0, 0, (char**)&(const char*[]){"killall", "-9", "cfprefsd", NULL}, NULL);
+        LOG("modified com.apple.springboard.plist");
         
         // update icons
-        LOG("running uicache");
+        LOG("uicache...");
         posix_spawn(&pd, "/usr/bin/uicache", 0, 0, (char**)&(const char*[]){"/usr/bin/uicache", NULL}, NULL);
         waitpid(pd, 0, 0);
         
-        LOG("bootstrap installed");
+        LOG("finished installing bootstrap");
         
     } else {
         LOG("bootstrap already installed");
     }
-    
     
     // copy reload
     NSString *reload = [execpath stringByAppendingPathComponent:@"reload"];
@@ -142,7 +133,7 @@ kern_return_t do_bootstrap(bool force) {
     chmod("/var/MobileAsset/Assets/com_apple_MobileAsset_SoftwareUpdate", 000);
     chown("/var/MobileAsset/Assets/com_apple_MobileAsset_SoftwareUpdate", 0, 0);
     LOG("killed OTA updater");
-
+    
     LOG("finished bootstrapping");
         
     return KERN_SUCCESS;
