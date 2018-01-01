@@ -27,7 +27,7 @@ kern_return_t do_bootstrap(bool force) {
     if (f == -1 || force) {
         LOG("installing bootstrap...");
         
-        NSString* bootstrap = [execpath stringByAppendingPathComponent:@"bootstrap.tgz"];
+        NSString* bootstrap = [execpath stringByAppendingPathComponent:@"bootstrap.tar"];
         NSString* tar = [execpath stringByAppendingPathComponent:@"tar"];
         NSString* launchctl = [execpath stringByAppendingPathComponent:@"launchctl"];
         
