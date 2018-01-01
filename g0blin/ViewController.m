@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "SettingsController.h"
 #include "v0rtex.h"
 #include "common.h"
 #include "offsets.h"
@@ -24,6 +25,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *goButton;
 @property (weak, nonatomic) IBOutlet UIProgressView *progressView;
 @property (weak, nonatomic) IBOutlet UITextView *consoleView;
+@property (weak, nonatomic) IBOutlet UIButton *settingsButton;
+@property (weak, nonatomic) IBOutlet UILabel *reinstallBootstrapLabel;
 @end
 
 
@@ -46,16 +49,19 @@ static uint64_t kbase;
     
     self.goButton.layer.cornerRadius = 16;
     
+    self.reinstallBootstrapLabel.hidden = YES;
+    
+    
     // print kernel version
     struct utsname u;
     uname(&u);
     [self log:[NSString stringWithFormat:@"%s \n", u.version]];
     
     // abort if already jailbroken
-    if (strstr(u.version, "MarijuanARM")) {
+    if (strstr(u.version, "SzajsARM")) {
         self.goButton.enabled = NO;
         self.goButton.backgroundColor = UIColor.darkGrayColor;
-        [self.goButton setTitle:@"jailbroke yo!" forState:UIControlStateDisabled];
+        [self.goButton setTitle:@"jailbroken" forState:UIControlStateDisabled];
     }
     
     
@@ -78,6 +84,13 @@ static uint64_t kbase;
     self.consoleView.text = [NSString stringWithFormat:@"%@%@ \n", self.consoleView.text, text];
 }
 
+- (IBAction)prepareForUnwind:(UIStoryboardSegue *)segue {
+    //segue exit marker
+    
+    SettingsController *settingsController = segue.sourceViewController;
+    self.reinstallBootstrapLabel.hidden = !settingsController.reinstallBootstrapSwitch.on;
+}
+
 - (IBAction)go:(UIButton *)sender {
     self.goButton.enabled = NO;
     self.goButton.backgroundColor = UIColor.darkGrayColor;
@@ -87,9 +100,8 @@ static uint64_t kbase;
     [self.progressView setProgress:0.1 animated:YES];
     
     [self log:@"exploiting kernel"];
-    
     kern_return_t ret = v0rtex(&tfp0, &kslide);
-    
+    LOG("v0rtex ended");
     dispatch_async(dispatch_get_main_queue(), ^{
         
         if (ret != KERN_SUCCESS) {
@@ -147,12 +159,17 @@ static uint64_t kbase;
 - (void)bootstrap {
     
     [self.progressView setProgress:0.6 animated:YES];
-    [self log:@"installing bootstrap"];
+    [self log:@"bootstrapping"];
+    
+    BOOL force = NO;
+    if (self.reinstallBootstrapLabel.hidden == NO) {
+        force = YES;
+        [self log:@"(forcing reinstall)"];
+    }
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        
-        if (do_bootstrap() != KERN_SUCCESS) {
-            [self log:@"ERROR: failed to install bootstrap \n"];
+        if (do_bootstrap(force) != KERN_SUCCESS) {
+            [self log:@"ERROR: failed to bootstrap \n"];
             return;
         }
         
@@ -166,18 +183,19 @@ static uint64_t kbase;
 
     [self.goButton setTitle:@"jailbroke yo!" forState:UIControlStateDisabled];
     
+    sleep(2);
     
-    // start launchdaemons ...
-    
+    // start launchdaemons ...    
     LOG("reloading...");
     pid_t pid;
     posix_spawn(&pid, "/bin/launchctl", 0, 0, (char**)&(const char*[]){"/bin/launchctl", "load", "/Library/LaunchDaemons/0.reload.plist", NULL}, NULL);
+    waitpid(pid, 0, 0);
     
-    //    LOG("starting dropbear...");
-    //    posix_spawn(&pid, "/bin/launchctl", 0, 0, (char**)&(const char*[]){"/bin/launchctl", "load", "/Library/LaunchDaemons/dropbear.plist", NULL}, NULL);
-    
+    // respring
+    LOG("respringing...");
     sleep(2);
-    
+    pid_t pid2;
+    posix_spawn(&pid2, "/usr/bin/killall", 0, 0, (char**)&(const char*[]){"/usr/bin/killall", "SpringBoard", NULL}, NULL);
 }
 
 @end

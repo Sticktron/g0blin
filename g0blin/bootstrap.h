@@ -13,6 +13,6 @@
 #include <stdio.h>
 #include <mach/mach.h>
 
-kern_return_t do_bootstrap(void);
+kern_return_t do_bootstrap(bool force);
 
 #endif /* bootstrap_h */

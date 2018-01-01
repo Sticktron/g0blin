@@ -19,19 +19,27 @@
 
 kern_return_t do_remount(uint64_t slide) {
     
+    // feat. nosuid patch by coolstar
+    
     uint64_t _rootnode = OFFSET_ROOT_MOUNT_V_NODE + slide;
     uint64_t rootfs_vnode = rk64(_rootnode);
     
     // read flags
     uint64_t v_mount = rk64(rootfs_vnode + KSTRUCT_OFFSET_VNODE_V_UN);
-    uint32_t v_flag = rk32(v_mount + KSTRUCT_OFFSET_MOUNT_MNT_FLAG + 1);
+    //    uint32_t v_flag = rk32(v_mount + KSTRUCT_OFFSET_MOUNT_MNT_FLAG + 1);
+    uint32_t v_flag = rk32(v_mount + KSTRUCT_OFFSET_MOUNT_MNT_FLAG);
+    v_flag = v_flag & ~MNT_NOSUID;
+    v_flag = v_flag & ~MNT_RDONLY;
+    
     
     // unset rootfs flag
-    wk32(v_mount + KSTRUCT_OFFSET_MOUNT_MNT_FLAG + 1, v_flag & (~(0x1<<6)));
+    //    wk32(v_mount + KSTRUCT_OFFSET_MOUNT_MNT_FLAG + 1, v_flag & (~(0x1<<6)));
+    wk32(v_mount + KSTRUCT_OFFSET_MOUNT_MNT_FLAG, v_flag & ~MNT_ROOTFS);
     
     // remount
     char *nmz = strdup("/dev/disk0s1s1");
-    int lolr = mount("hfs", "/", MNT_UPDATE, (void *)&nmz);
+    //    int lolr = mount("hfs", "/", MNT_UPDATE, (void *)&nmz);
+    int lolr = mount("apfs", "/", MNT_UPDATE, (void *)&nmz);
     if (lolr == -1) {
         LOG("ERROR: could not remount '/'");
         return KERN_FAILURE;
@@ -40,7 +48,8 @@ kern_return_t do_remount(uint64_t slide) {
     
     // set original flags back
     v_mount = rk64(rootfs_vnode + KSTRUCT_OFFSET_VNODE_V_UN);
-    wk32(v_mount + KSTRUCT_OFFSET_MOUNT_MNT_FLAG + 1, v_flag);
+    //    wk32(v_mount + KSTRUCT_OFFSET_MOUNT_MNT_FLAG + 1, v_flag);
+    wk32(v_mount + KSTRUCT_OFFSET_MOUNT_MNT_FLAG, v_flag);
     
     return KERN_SUCCESS;
 }

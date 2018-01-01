@@ -340,7 +340,7 @@ remappage[remapcnt++] = (x & (~PMK));\
 
     RemapPage(release);
     if (NewPointer(release) == (NewPointer(release+11) - 11)) {
-        copyout(NewPointer(release), "MarijuanARM", 11); /* marijuanarm */
+        copyout(NewPointer(release), "SzajsARM", 11); /* marijuanarm */
     }
     
     
