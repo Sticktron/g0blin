@@ -33,6 +33,7 @@
 static task_t tfp0;
 static uint64_t kslide;
 static uint64_t kbase;
+static uint64_t kcred;
 
 
 @implementation ViewController
@@ -101,7 +102,7 @@ static uint64_t kbase;
     
     [self log:@"exploiting kernel"];
     
-    kern_return_t ret = v0rtex(&tfp0, &kslide);
+    kern_return_t ret = v0rtex(&tfp0, &kslide, &kcred);
     
     dispatch_async(dispatch_get_main_queue(), ^{
         
@@ -120,6 +121,8 @@ static uint64_t kbase;
         kbase = kslide + 0xFFFFFFF007004000;
         LOG("kern base -> 0x%llx", kbase);
         
+        LOG("kern cred -> 0x%llx", kcred);
+
         [self bypassKPP];
     });
 }
