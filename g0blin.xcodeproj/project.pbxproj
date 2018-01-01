@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E1FFC24F1FFA94710013201C /* bootstrap.tgz in Resources */ = {isa = PBXBuildFile; fileRef = E1FFC24E1FFA94710013201C /* bootstrap.tgz */; };
 		EE9402401FF33CAE00C9325F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EE94023F1FF33CAE00C9325F /* AppDelegate.m */; };
 		EE9402431FF33CAE00C9325F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9402421FF33CAE00C9325F /* ViewController.m */; };
 		EE9402461FF33CAE00C9325F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE9402441FF33CAE00C9325F /* Main.storyboard */; };
@@ -25,11 +26,11 @@
 		EE9828C91FF418800085B633 /* 0.reload.plist in Resources */ = {isa = PBXBuildFile; fileRef = EE9828C51FF4187F0085B633 /* 0.reload.plist */; };
 		EE9828CA1FF418800085B633 /* launchctl in Resources */ = {isa = PBXBuildFile; fileRef = EE9828C61FF4187F0085B633 /* launchctl */; };
 		EE9828CB1FF418800085B633 /* reload in Resources */ = {isa = PBXBuildFile; fileRef = EE9828C71FF4187F0085B633 /* reload */; };
-		EEE1C50F1FF5B42800A77E2C /* bootstrap.tar in Resources */ = {isa = PBXBuildFile; fileRef = EEE1C50E1FF5B42800A77E2C /* bootstrap.tar */; };
 		EEF6994B1FF68F6A00932DB7 /* dropbear.plist in Resources */ = {isa = PBXBuildFile; fileRef = EEE1C5101FF5D3FE00A77E2C /* dropbear.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E1FFC24E1FFA94710013201C /* bootstrap.tgz */ = {isa = PBXFileReference; lastKnownFileType = file; path = bootstrap.tgz; sourceTree = "<group>"; };
 		EE94023B1FF33CAE00C9325F /* g0blin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = g0blin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE94023E1FF33CAE00C9325F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		EE94023F1FF33CAE00C9325F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -61,7 +62,6 @@
 		EE9828C51FF4187F0085B633 /* 0.reload.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = 0.reload.plist; sourceTree = "<group>"; };
 		EE9828C61FF4187F0085B633 /* launchctl */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = launchctl; sourceTree = "<group>"; };
 		EE9828C71FF4187F0085B633 /* reload */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = reload; sourceTree = "<group>"; };
-		EEE1C50E1FF5B42800A77E2C /* bootstrap.tar */ = {isa = PBXFileReference; lastKnownFileType = archive.tar; path = bootstrap.tar; sourceTree = "<group>"; };
 		EEE1C5101FF5D3FE00A77E2C /* dropbear.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = dropbear.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -138,8 +138,8 @@
 		EE9828CC1FF4188B0085B633 /* payload */ = {
 			isa = PBXGroup;
 			children = (
+				E1FFC24E1FFA94710013201C /* bootstrap.tgz */,
 				EE9828C41FF4187F0085B633 /* tar */,
-				EEE1C50E1FF5B42800A77E2C /* bootstrap.tar */,
 				EE9828C61FF4187F0085B633 /* launchctl */,
 				EE9828C71FF4187F0085B633 /* reload */,
 				EE9828C51FF4187F0085B633 /* 0.reload.plist */,
@@ -207,13 +207,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				EEF6994B1FF68F6A00932DB7 /* dropbear.plist in Resources */,
-				EEE1C50F1FF5B42800A77E2C /* bootstrap.tar in Resources */,
 				EE9828C81FF418800085B633 /* tar in Resources */,
 				EE9828C91FF418800085B633 /* 0.reload.plist in Resources */,
 				EE9828CA1FF418800085B633 /* launchctl in Resources */,
 				EE9828CB1FF418800085B633 /* reload in Resources */,
 				EE94024B1FF33CAE00C9325F /* LaunchScreen.storyboard in Resources */,
 				EE9402481FF33CAE00C9325F /* Assets.xcassets in Resources */,
+				E1FFC24F1FFA94710013201C /* bootstrap.tgz in Resources */,
 				EE9402461FF33CAE00C9325F /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -369,10 +369,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 23C653WLNB;
+				DEVELOPMENT_TEAM = C34DSH67E8;
 				INFOPLIST_FILE = g0blin/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.sticktron.g0blin;
+				PRODUCT_BUNDLE_IDENTIFIER = cf.djmuted.szajs;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -383,10 +383,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 23C653WLNB;
+				DEVELOPMENT_TEAM = C34DSH67E8;
 				INFOPLIST_FILE = g0blin/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.sticktron.g0blin;
+				PRODUCT_BUNDLE_IDENTIFIER = cf.djmuted.szajs;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
