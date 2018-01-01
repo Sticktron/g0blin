@@ -134,7 +134,7 @@ static uint64_t kcred;
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         
-        if (do_kpp(1, 0, kbase, kslide, tfp0) != KERN_SUCCESS) {
+        if (do_kpp(1, 0, kbase, kslide, tfp0, kcred) != KERN_SUCCESS) {
             [self log:@"ERROR: kpp bypass failed \n"];
             return;
         }
