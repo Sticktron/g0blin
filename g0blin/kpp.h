@@ -23,7 +23,7 @@
 #include <Foundation/Foundation.h>
 
 
-kern_return_t do_kpp(int nukesb, int uref, uint64_t kernbase, uint64_t slide, task_t tfp0, uint64_t credpatch);
+kern_return_t do_kpp(int nukesb, int uref, uint64_t kernbase, uint64_t slide, task_t tfp0);
 
 
 size_t kread(uint64_t where, void *p, size_t size);
