@@ -132,8 +132,9 @@ static uint64_t kcred;
     [self.progressView setProgress:0.3 animated:YES];
     [self log:@"bypassing KPP"];
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        
+    //dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+
         if (do_kpp(1, 0, kbase, kslide, tfp0, kcred) != KERN_SUCCESS) {
             [self log:@"ERROR: kpp bypass failed \n"];
             return;
@@ -149,7 +150,8 @@ static uint64_t kcred;
     [self.progressView setProgress:0.5 animated:YES];
     [self log:@"remounting / as r/w"];
 
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+    //dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
 
         if (do_remount(kslide) != KERN_SUCCESS) {
             [self log:@"ERROR: failed to remount system partition \n"];
@@ -171,7 +173,8 @@ static uint64_t kcred;
         [self log:@"(forcing reinstall)"];
     }
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+    //dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         if (do_bootstrap(force) != KERN_SUCCESS) {
             [self log:@"ERROR: failed to bootstrap \n"];
             return;
@@ -187,7 +190,7 @@ static uint64_t kcred;
 
     [self.goButton setTitle:@"jailbroke yo!" forState:UIControlStateDisabled];
     
-    sleep(2);
+    sleep(5);
     
     // start launchdaemons ...
     LOG("reloading...");
