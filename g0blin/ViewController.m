@@ -102,7 +102,7 @@ static uint64_t kcred;
     
     [self log:@"exploiting kernel"];
     
-    kern_return_t ret = v0rtex(&tfp0, &kslide, &kcred);
+    kern_return_t ret = v0rtex(&tfp0, &kslide);
     
     dispatch_async(dispatch_get_main_queue(), ^{
         
@@ -134,7 +134,7 @@ static uint64_t kcred;
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         
-        if (do_kpp(1, 0, kbase, kslide, tfp0, kcred) != KERN_SUCCESS) {
+        if (do_kpp(1, 0, kbase, kslide, tfp0) != KERN_SUCCESS) {
             [self log:@"ERROR: kpp bypass failed \n"];
             return;
         }
@@ -183,8 +183,8 @@ static uint64_t kcred;
 
 - (void)finish {
     [self.progressView setProgress:1 animated:YES];
-    [self log:@"All done, peace!"];
-
+    [self log:@"Finishing..."];
+    
     [self.goButton setTitle:@"jailbroke yo!" forState:UIControlStateDisabled];
     
     sleep(2);
@@ -193,7 +193,9 @@ static uint64_t kcred;
     LOG("reloading...");
     pid_t pid;
     posix_spawn(&pid, "/bin/launchctl", 0, 0, (char**)&(const char*[]){"/bin/launchctl", "load", "/Library/LaunchDaemons/0.reload.plist", NULL}, NULL);
-    //waitpid(pid, 0, 0);
+    waitpid(pid, 0, 0);
+    
+    [self log:@"All done, peace!"];
 }
 
 @end
