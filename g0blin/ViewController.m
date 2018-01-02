@@ -7,16 +7,16 @@
 //
 
 #import "ViewController.h"
+#import "SettingsController.h"
 #include "v0rtex.h"
 #include "common.h"
 #include "offsets.h"
-#include "nvpatch.h"
 #include "kernel.h"
 #include "kpp.h"
 #include "remount.h"
 #include "bootstrap.h"
-#include <sys/utsname.h>
 #include <sys/sysctl.h>
+#include "nvpatch.h"
 
 #define GRAPE [UIColor colorWithRed:0.5 green:0 blue:1 alpha:1]
 
@@ -25,12 +25,15 @@
 @property (weak, nonatomic) IBOutlet UIButton *goButton;
 @property (weak, nonatomic) IBOutlet UIProgressView *progressView;
 @property (weak, nonatomic) IBOutlet UITextView *consoleView;
+@property (weak, nonatomic) IBOutlet UIButton *settingsButton;
+@property (weak, nonatomic) IBOutlet UILabel *reinstallBootstrapLabel;
 @end
 
 
 static task_t tfp0;
 static uint64_t kslide;
 static uint64_t kbase;
+static uint64_t kcred;
 
 
 @implementation ViewController
@@ -46,6 +49,9 @@ static uint64_t kbase;
     self.consoleView.text = nil;
     
     self.goButton.layer.cornerRadius = 16;
+    
+    self.reinstallBootstrapLabel.hidden = YES;
+    
     
     // print kernel version
     struct utsname u;
@@ -67,17 +73,6 @@ static uint64_t kbase;
         return;
     }
     
-    int d_prop[2] = {CTL_HW, HW_MACHINE};
-    char device[20];
-    size_t d_prop_len = sizeof(device);
-    sysctl(d_prop, 2, device, &d_prop_len, NULL, 0);
-    
-    int version_prop[2] = {CTL_KERN, KERN_OSVERSION};
-    char osversion[20];
-    size_t version_prop_len = sizeof(osversion);
-    sysctl(version_prop, 2, osversion, &version_prop_len, NULL, 0);
-    
-    [self log:[NSString stringWithFormat:@"%s on %s\n", device, osversion]];
     [self log:@"Ready. \n"];
 }
 
@@ -90,6 +85,13 @@ static uint64_t kbase;
     self.consoleView.text = [NSString stringWithFormat:@"%@%@ \n", self.consoleView.text, text];
 }
 
+- (IBAction)prepareForUnwind:(UIStoryboardSegue *)segue {
+    //segue exit marker
+    
+    SettingsController *settingsController = segue.sourceViewController;
+    self.reinstallBootstrapLabel.hidden = !settingsController.reinstallBootstrapSwitch.on;
+}
+
 - (IBAction)go:(UIButton *)sender {
     self.goButton.enabled = NO;
     self.goButton.backgroundColor = UIColor.darkGrayColor;
@@ -100,7 +102,7 @@ static uint64_t kbase;
     
     [self log:@"exploiting kernel"];
     
-    kern_return_t ret = v0rtex(&tfp0, &kslide);
+    kern_return_t ret = v0rtex(&tfp0, &kslide, &kcred);
     
     dispatch_async(dispatch_get_main_queue(), ^{
         
@@ -118,17 +120,11 @@ static uint64_t kbase;
         
         kbase = kslide + 0xFFFFFFF007004000;
         LOG("kern base -> 0x%llx", kbase);
+        
+        LOG("kern cred -> 0x%llx", kcred);
         [self log:@"Patching com.apple.System.boot-nonce"];
         int nv_err = nvpatch(tfp0, kbase, "com.apple.System.boot-nonce");
-        if(nv_err)
-        {
-            [self log:@"Patching failed"];
-        }
-        else
-        {
-            [self log:@"Patching successful"];
-        }
-        
+        [self log:[NSString stringWithFormat:@"Patching %s", nv_err ? "failed" : "successful"]];
         [self bypassKPP];
     });
 }
@@ -169,12 +165,17 @@ static uint64_t kbase;
 - (void)bootstrap {
     
     [self.progressView setProgress:0.6 animated:YES];
-    [self log:@"installing bootstrap"];
+    [self log:@"bootstrapping"];
+    
+    BOOL force = NO;
+    if (self.reinstallBootstrapLabel.hidden == NO) {
+        force = YES;
+        [self log:@"(forcing reinstall)"];
+    }
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        
-        if (do_bootstrap() != KERN_SUCCESS) {
-            [self log:@"ERROR: failed to install bootstrap \n"];
+        if (do_bootstrap(force) != KERN_SUCCESS) {
+            [self log:@"ERROR: failed to bootstrap \n"];
             return;
         }
         
@@ -188,23 +189,20 @@ static uint64_t kbase;
 
     [self.goButton setTitle:@"jailbroke yo!" forState:UIControlStateDisabled];
     
+    sleep(2);
     
     // start launchdaemons ...
-    
     LOG("reloading...");
     pid_t pid;
     posix_spawn(&pid, "/bin/launchctl", 0, 0, (char**)&(const char*[]){"/bin/launchctl", "load", "/Library/LaunchDaemons/0.reload.plist", NULL}, NULL);
-    
-    //    LOG("starting dropbear...");
-    //    posix_spawn(&pid, "/bin/launchctl", 0, 0, (char**)&(const char*[]){"/bin/launchctl", "load", "/Library/LaunchDaemons/dropbear.plist", NULL}, NULL);
+    waitpid(pid, 0, 0);
     
     sleep(2);
     
-}
-
-- (UIStatusBarStyle) preferredStatusBarStyle
-{
-    return UIStatusBarStyleLightContent;
+    // respring
+//    LOG("respringing...");
+//    pid_t pid2;
+//    posix_spawn(&pid2, "/usr/bin/killall", 0, 0, (char**)&(const char*[]){"/usr/bin/killall", "-9", "SpringBoard", NULL}, NULL);
 }
 
 @end
