@@ -1,25 +1,25 @@
 # g0blin
 
-(WIP) jailbreak for iOS 10.3.x on A7-A9 devices
+An incomplete jailbreak for A7-A9 devices on iOS 10.3.x
 
-v0rtex + yalu102
+Spawns an SSH server listening on port 2222.
+Remember to change your passwords.
 
-## what works
-- tfp0
-- kernel r/w access
-- remount / as r/w
-- amfi patched
-- starts an ssh server listening on port 2222
-- command line tools to install packages (dpkg, apt-get if you install it)
-- Substrate
-
-## what doesn't work
-- Cydia (I have temporarily given Cydia a special entitlement so it will run, but it cannot install packages)
-- GUI apps that need root priveledges are experiencing a sandbox error
-- Filza can be fixed by applying the same extra entitlement given to Cydia
-- I am trying to figure out the problem
+Please reinstall the bootstrap when upgrading.
 
 
-thanks to everyone helping out, finding offsets, testing, etc!
+## what is still broken?
 
-creds: Lucky Tobasco, Sizuga, Xenu, Saurik
+Third-party applications that need root priveledges require an extra entitlement to function correctly.
+I have already added the entitlement to the copy of Cydia included in g0blin.
+For other apps (eg. Filza, MTerminal) to work correctly you will have to entitle them yourself.
+
+
+## credits
+
+Siguza - v0rtex kernel exploit
+Luca Todesco - yalu102 kpp bypass
+Xerub - patchfinder (extra_recipe)
+Saurik - Cydia
+
+thanks: PsychoTea, ARX8x, Abraham Masri, ninjaprawn, coolstar, ... ?
