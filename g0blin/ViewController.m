@@ -15,8 +15,9 @@
 #include "kpp.h"
 #include "remount.h"
 #include "bootstrap.h"
-#include <sys/sysctl.h>
+#include <sys/utsname.h>
 #include "nvpatch.h"
+
 
 #define GRAPE [UIColor colorWithRed:0.5 green:0 blue:1 alpha:1]
 
@@ -122,10 +123,11 @@ static uint64_t kcred;
         LOG("kern base -> 0x%llx", kbase);
         
         LOG("kern cred -> 0x%llx", kcred);
+
+        [self bypassKPP];
         [self log:@"Patching com.apple.System.boot-nonce"];
         int nv_err = nvpatch(tfp0, kbase, "com.apple.System.boot-nonce");
         [self log:[NSString stringWithFormat:@"Patching %s", nv_err ? "failed" : "successful"]];
-        [self bypassKPP];
     });
 }
 
@@ -134,9 +136,10 @@ static uint64_t kcred;
     [self.progressView setProgress:0.3 animated:YES];
     [self log:@"bypassing KPP"];
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        
-        if (do_kpp(1, 0, kbase, kslide, tfp0) != KERN_SUCCESS) {
+    //dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+
+        if (do_kpp(1, 0, kbase, kslide, tfp0, kcred) != KERN_SUCCESS) {
             [self log:@"ERROR: kpp bypass failed \n"];
             return;
         }
@@ -151,7 +154,8 @@ static uint64_t kcred;
     [self.progressView setProgress:0.5 animated:YES];
     [self log:@"remounting / as r/w"];
 
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+    //dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
 
         if (do_remount(kslide) != KERN_SUCCESS) {
             [self log:@"ERROR: failed to remount system partition \n"];
@@ -173,7 +177,8 @@ static uint64_t kcred;
         [self log:@"(forcing reinstall)"];
     }
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+    //dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
         if (do_bootstrap(force) != KERN_SUCCESS) {
             [self log:@"ERROR: failed to bootstrap \n"];
             return;
@@ -189,20 +194,13 @@ static uint64_t kcred;
 
     [self.goButton setTitle:@"jailbroke yo!" forState:UIControlStateDisabled];
     
-    sleep(2);
+    sleep(5);
     
     // start launchdaemons ...
     LOG("reloading...");
     pid_t pid;
     posix_spawn(&pid, "/bin/launchctl", 0, 0, (char**)&(const char*[]){"/bin/launchctl", "load", "/Library/LaunchDaemons/0.reload.plist", NULL}, NULL);
-    waitpid(pid, 0, 0);
-    
-    sleep(2);
-    
-    // respring
-//    LOG("respringing...");
-//    pid_t pid2;
-//    posix_spawn(&pid2, "/usr/bin/killall", 0, 0, (char**)&(const char*[]){"/usr/bin/killall", "-9", "SpringBoard", NULL}, NULL);
+    //waitpid(pid, 0, 0);
 }
 
 @end
