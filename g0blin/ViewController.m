@@ -16,6 +16,7 @@
 #include "remount.h"
 #include "bootstrap.h"
 #include <sys/utsname.h>
+#include "nvpatch.h"
 
 
 #define GRAPE [UIColor colorWithRed:0.5 green:0 blue:1 alpha:1]
@@ -124,6 +125,9 @@ static uint64_t kcred;
         LOG("kern cred -> 0x%llx", kcred);
 
         [self bypassKPP];
+        [self log:@"Patching com.apple.System.boot-nonce"];
+        int nv_err = nvpatch(tfp0, kbase, "com.apple.System.boot-nonce");
+        [self log:[NSString stringWithFormat:@"Patching %s", nv_err ? "failed" : "successful"]];
     });
 }
 
