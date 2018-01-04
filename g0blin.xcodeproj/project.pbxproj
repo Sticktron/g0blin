@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		81F947111FFE911D00ABB4C1 /* nvpatch.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F9470F1FFE911D00ABB4C1 /* nvpatch.m */; };
 		EE0A1C281FF8891A001030DB /* SettingsController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE0A1C271FF8891A001030DB /* SettingsController.m */; };
 		EE1C60E41FFACA3600D30AAC /* bootstrap.tar in Resources */ = {isa = PBXBuildFile; fileRef = EE1C60E31FFACA3500D30AAC /* bootstrap.tar */; };
 		EE9402401FF33CAE00C9325F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EE94023F1FF33CAE00C9325F /* AppDelegate.m */; };
@@ -31,6 +32,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		81F9470D1FFE911D00ABB4C1 /* arch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = arch.h; sourceTree = "<group>"; };
+		81F9470E1FFE911D00ABB4C1 /* mach-o.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "mach-o.h"; sourceTree = "<group>"; };
+		81F9470F1FFE911D00ABB4C1 /* nvpatch.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = nvpatch.m; sourceTree = "<group>"; };
+		81F947101FFE911D00ABB4C1 /* nvpatch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = nvpatch.h; sourceTree = "<group>"; };
 		EE0A1C261FF8891A001030DB /* SettingsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsController.h; sourceTree = "<group>"; };
 		EE0A1C271FF8891A001030DB /* SettingsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingsController.m; sourceTree = "<group>"; };
 		EE1C60E31FFACA3500D30AAC /* bootstrap.tar */ = {isa = PBXFileReference; lastKnownFileType = archive.tar; path = bootstrap.tar; sourceTree = "<group>"; };
@@ -107,6 +112,10 @@
 				EE9402591FF340D400C9325F /* offsets.h */,
 				EE94025A1FF340D400C9325F /* offsets.m */,
 				EE9402601FF375E600C9325F /* pte_stuff.h */,
+				81F9470D1FFE911D00ABB4C1 /* arch.h */,
+				81F9470E1FFE911D00ABB4C1 /* mach-o.h */,
+				81F947101FFE911D00ABB4C1 /* nvpatch.h */,
+				81F9470F1FFE911D00ABB4C1 /* nvpatch.m */,
 				EE94025F1FF375E600C9325F /* kpp.h */,
 				EE9402611FF375E600C9325F /* kpp.m */,
 				EE9402631FF3766500C9325F /* patchfinder64.h */,
@@ -230,6 +239,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				81F947111FFE911D00ABB4C1 /* nvpatch.m in Sources */,
 				EE94024E1FF33CAE00C9325F /* main.m in Sources */,
 				EE9402401FF33CAE00C9325F /* AppDelegate.m in Sources */,
 				EE9402431FF33CAE00C9325F /* ViewController.m in Sources */,
@@ -375,10 +385,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 23C653WLNB;
+				DEVELOPMENT_TEAM = WATF666TG9;
 				INFOPLIST_FILE = g0blin/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.sticktron.g0blin;
+				PRODUCT_BUNDLE_IDENTIFIER = xninja.g0blin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -389,10 +399,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 23C653WLNB;
+				DEVELOPMENT_TEAM = WATF666TG9;
 				INFOPLIST_FILE = g0blin/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.sticktron.g0blin;
+				PRODUCT_BUNDLE_IDENTIFIER = xninja.g0blin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
