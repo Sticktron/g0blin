@@ -4,6 +4,17 @@
 
 updated v0rtex exploit + yalu102 kpp bypass
 
+## Entitlement temp fix
+- download & install Filza from Cydia
+- download http://www.mediafire.com/file/bv129w6k80cds60/ent.xml on your mobile device and open it with Filza
+- ent.xml should now be in /var/mobile/Documents
+- now ssh into your device
+- to fix Filza type in "cd /Applications/Filza.app/ && ldid -S/var/mobile/Documents/ent.xml Filza" Without ""
+- respring and Filza should have root permissions
+
+To fix it for other Applications type in  "cd /Applications/YOURAPPNAME.app/ && ldid -S/var/mobile/Documents/ent.xml YOURAPPNAME" Without ""
+replace YOURAPPNAME with the app you want to fix
+
 ## what works
 - tfp0
 - kernel r/w access
