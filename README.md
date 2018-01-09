@@ -40,9 +40,8 @@ yalu102 KPP bypass by Luca Todesco (qwertyoruiop)
 
 Patchfinder from Xerub
 
-Cydia from Saurik
+Thanks to Powerful Saurik for Cydia and answering my questions and being a boss.
 
 Special thanks to {unknown} and {unknown} for reaching out, answering my questions, and providing critical insight.
-Thanks to Powerful Saurik for answering my questions and being a boss.
 
 Also thanks to the community and everyone who had a hand in helping to get this thing off the ground :)
