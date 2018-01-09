@@ -9,7 +9,7 @@ Spawns an SSH server listening on port 2222. Remember to change your passwords!
 Please reinstall the bootstrap when you try a new build.
 
 
-## DO NOT INSTALL UNOFFICIAL IPAs!
+## DO NOT INSTALL UNOFFICIAL IPAs*
 
 This is my first jailbreak and I have been making mistakes as I learn. Please wait until I make an official release unless you *really* know what you are doing and don't mind having to restore to iOS 11 if something goes wrong.
 
