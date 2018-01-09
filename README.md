@@ -6,7 +6,7 @@ For 64-bit devices prior to the iPhone 7 (A7 - A9).
 
 Spawns an SSH server listening on port 2222. Remember to change your passwords!
 
-Please reinstall the bootstrap when upgrading.
+Please reinstall the bootstrap when you try a new build.
 
 
 ## DO NOT INSTALL UNOFFICIAL IPAs!
