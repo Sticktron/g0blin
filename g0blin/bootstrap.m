@@ -75,7 +75,7 @@ kern_return_t do_bootstrap(bool force) {
         posix_spawn(&pd, "/bin/bash", 0, 0, (char**)&(const char*[]){"/bin/bash", "-c", """echo '127.0.0.1 appldnld.apple.com' >> /etc/hosts""", NULL}, NULL);
         LOG("modified hosts file");
         
-        // SBShowNonDefaultSystemApps = YES
+        // set SBShowNonDefaultSystemApps = YES so we can see Cydia (TODO: set via cfprefsd instead?)
         posix_spawn(&pd, "killall", 0, 0, (char**)&(const char*[]){"killall", "-SIGSTOP", "cfprefsd", NULL}, NULL);
         NSMutableDictionary *plist = [[NSMutableDictionary alloc] initWithContentsOfFile:@"/var/mobile/Library/Preferences/com.apple.springboard.plist"];
         [plist setObject:[NSNumber numberWithBool:YES] forKey:@"SBShowNonDefaultSystemApps"];
@@ -83,16 +83,14 @@ kern_return_t do_bootstrap(bool force) {
         posix_spawn(&pd, "killall", 0, 0, (char**)&(const char*[]){"killall", "-9", "cfprefsd", NULL}, NULL);
         LOG("modified com.apple.springboard.plist");
         
-        // update icons
+        // rebuild icon cache
         LOG("uicache...");
         posix_spawn(&pd, "/usr/bin/uicache", 0, 0, (char**)&(const char*[]){"/usr/bin/uicache", NULL}, NULL);
         waitpid(pd, 0, 0);
         
         LOG("finished installing bootstrap");
-        
-    } else {
-        LOG("bootstrap already installed");
     }
+    LOG("bootstrap ready");
     
     // copy reload
     NSString *reload = [execpath stringByAppendingPathComponent:@"reload"];
@@ -124,7 +122,6 @@ kern_return_t do_bootstrap(bool force) {
     chmod("/private/var/mobile", 0777);
     chmod("/private/var/mobile/Library", 0777);
     chmod("/private/var/mobile/Library/Preferences", 0777);
-    LOG("updated permissions");
 
     // kill OTA updater
     pid_t pid;
@@ -134,7 +131,8 @@ kern_return_t do_bootstrap(bool force) {
     chown("/var/MobileAsset/Assets/com_apple_MobileAsset_SoftwareUpdate", 0, 0);
     LOG("killed OTA updater");
     
-    LOG("finished bootstrapping");
+    
+    LOG("bootstrapped");
         
-    return KERN_SUCCESS;
+    return KERN_SUCCESS; // TODO: handle errors?
 }
