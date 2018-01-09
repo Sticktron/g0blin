@@ -2,7 +2,7 @@
 
 An incomplete jailbreak for A7-A9 devices on iOS 10.3.x
 
-Spawns an SSH server listening on port 2222.
+Spawns a SSH server listening on port 2222.
 
 Remember to change your SSH passwords! Change the passwords for both the **mobile** and **root** users! (see below)
 
