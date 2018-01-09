@@ -16,7 +16,7 @@ This is my first jailbreak and I have been making mistakes as I learn. Please wa
 
 ## known issues
 
-~~Location services fails after jailbreaking~~
+~~Location services fails after jailbreaking~~ fixed locally, haven't pushed the changes yet
 
 TouchID fails sometimes after jailbreaking?
 
