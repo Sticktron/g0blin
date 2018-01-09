@@ -1,13 +1,24 @@
 # g0blin
 
-An incomplete jailbreak for A7-A9 devices on iOS 10.3.x
+An almost-finished iOS 10.3.x jailbreak based on Siguza's [v0rtex](http://github.com/siguza/v0rtex) kernel exploit and Luca Todesco's KPP bypass.
+
+For 64-bit devices prior to the iPhone 7 (A7 - A9).
 
 Spawns an SSH server listening on port 2222. Remember to change your passwords!
 
 Please reinstall the bootstrap when upgrading.
 
 
-## what is still broken?
+## DO NOT INSTALL UNOFFICIAL IPAs!
+
+This is my first jailbreak and I have been making mistakes as I learn. Please wait until I make an official release unless you *really* know what you are doing and don't mind having to restore to iOS 11 if something goes wrong.
+
+
+## known issues
+
+~~Location services fails after jailbreaking~~
+
+TouchID fails sometimes after jailbreaking?
 
 Third-party applications that need root priveledges require an extra entitlement to function correctly.
 
@@ -23,12 +34,15 @@ For other apps (eg. Filza, MTerminal) to work correctly you will have to entitle
 
 ## credits
 
-Siguza - v0rtex kernel exploit
+v0rtex kernel exploit by Siguza, vuln by Ian beer, POC by windknown
 
-Luca Todesco - yalu102 kpp bypass
+yalu102 KPP bypass by Luca Todesco (qwertyoruiop)
 
-Xerub - patchfinder (extra_recipe)
+Patchfinder from Xerub
 
-Saurik - Cydia
+Cydia from Saurik
 
-thanks: PsychoTea, ARX8x, Abraham Masri, ninjaprawn, coolstar, ... ?
+Special thanks to {unknown} and {unknown} for reaching out, answering my questions, and providing critical insight.
+Thanks to Powerful Saurik for answering my questions and being a boss.
+
+Also thanks to the community and everyone who had a hand in helping to get this thing off the ground :)
