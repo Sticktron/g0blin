@@ -65,15 +65,14 @@ static uint64_t kcred;
         [self.goButton setTitle:@"jailbroke yo!" forState:UIControlStateDisabled];
     }
     
-    
-    if (init_offsets() != KERN_SUCCESS) {
+    // try to load offsets for device
+    if (init_offsets() == KERN_SUCCESS) {
+        [self log:@"Ready. \n"];
+    } else {
         self.goButton.enabled = NO;
         self.goButton.backgroundColor = UIColor.darkGrayColor;
         [self.goButton setTitle:@"device not supported" forState:UIControlStateDisabled];
-        return;
     }
-    
-    [self log:@"Ready. \n"];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -103,63 +102,48 @@ static uint64_t kcred;
     [self log:@"exploiting kernel"];
     
     kern_return_t ret = v0rtex(&tfp0, &kslide, &kcred);
+    if (ret != KERN_SUCCESS) {
+        self.goButton.enabled = YES;
+        self.goButton.backgroundColor = GRAPE;
+        [self.goButton setTitle:@"try again" forState:UIControlStateNormal];
+        
+        [self log:@"ERROR: exploit failed \n"];
+        return;
+    }
+    LOG("v0rtex was successful");
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        
-        if (ret != KERN_SUCCESS) {
-            self.goButton.enabled = YES;
-            self.goButton.backgroundColor = GRAPE;
-            [self.goButton setTitle:@"try again" forState:UIControlStateNormal];
-            
-            [self log:@"ERROR: exploit failed \n"];
-            return;
-        }
-        LOG("v0rtex was successful");
-        LOG("tfp0 -> %x", tfp0);
-        LOG("slide -> 0x%llx", kslide);
-        
-        kbase = kslide + 0xFFFFFFF007004000;
-        LOG("kern base -> 0x%llx", kbase);
-        
-        LOG("kern cred -> 0x%llx", kcred);
+    LOG("tfp0 -> %x", tfp0);
+    LOG("slide -> 0x%llx", kslide);
+    kbase = kslide + 0xFFFFFFF007004000;
+    LOG("kern base -> 0x%llx", kbase);
+    LOG("kern cred -> 0x%llx", kcred);
 
-        [self bypassKPP];
-    });
+    [self bypassKPP];
 }
 
 - (void)bypassKPP {
     
     [self.progressView setProgress:0.3 animated:YES];
-    [self log:@"bypassing KPP"];
+    [self log:@"bypassing kernel patch protection"];
     
-    //dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-
-        if (do_kpp(1, 0, kbase, kslide, tfp0, kcred) != KERN_SUCCESS) {
-            [self log:@"ERROR: kpp bypass failed \n"];
-            return;
-        }
-        LOG("fuck kpp, yolo kjc!");
-        
+    if (do_kpp(1, 0, kbase, kslide, tfp0, kcred) == KERN_SUCCESS) {
+        LOG("you down with kpp? yeah you know me");
         [self remount];
-    });
+    } else {
+        [self log:@"ERROR: kpp bypass failed \n"];
+    }
 }
 
 - (void)remount {
-
+    
     [self.progressView setProgress:0.5 animated:YES];
     [self log:@"remounting / as r/w"];
-
-    //dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-
-        if (do_remount(kslide) != KERN_SUCCESS) {
-            [self log:@"ERROR: failed to remount system partition \n"];
-            return;
-        }
-
+    
+    if (do_remount(kslide) == KERN_SUCCESS) {
         [self bootstrap];
-  });
+    } else {
+        [self log:@"ERROR: failed to remount system partition \n"];
+    }
 }
 
 - (void)bootstrap {
@@ -173,27 +157,25 @@ static uint64_t kcred;
         [self log:@"(forcing reinstall)"];
     }
     
-    //dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.1 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-        if (do_bootstrap(force) != KERN_SUCCESS) {
-            [self log:@"ERROR: failed to bootstrap \n"];
-            return;
-        }
-        
+    if (do_bootstrap(force) == KERN_SUCCESS) {
         [self finish];
-    });
+    } else {
+        [self log:@"ERROR: failed to bootstrap \n"];
+    }
 }
 
 - (void)finish {
     [self.progressView setProgress:1 animated:YES];
-    [self log:@"All done, peace!"];
-
     [self.goButton setTitle:@"jailbroke yo!" forState:UIControlStateDisabled];
     
-    sleep(5);
+    [self log:@"All done, peace!"];
+    [self log:@""];
+    [self log:@"ssh server listening on port 2222"];
+    [self log:@"change your root/mobile passwords!"];
     
-    // start launchdaemons ...
-    LOG("reloading...");
+    sleep(2);
+    
+    LOG("reloading daemons...");
     pid_t pid;
     posix_spawn(&pid, "/bin/launchctl", 0, 0, (char**)&(const char*[]){"/bin/launchctl", "load", "/Library/LaunchDaemons/0.reload.plist", NULL}, NULL);
     //waitpid(pid, 0, 0);
