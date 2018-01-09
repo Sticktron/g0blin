@@ -6,6 +6,7 @@
 	<string>0.reload</string>
 	<key>ProgramArguments</key>
 	<array>
+		<string>/bin/bash</string>
 		<string>/usr/libexec/reload</string>
 	</array>
 	<key>RunAtLoad</key>
