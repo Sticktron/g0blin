@@ -1,5 +1,9 @@
 # g0blin
 
+##Info update
+The ipa has been removed. Please use the official Project (Sticktron/g0blin).
+The Full Jailbreak by Sticktron is around the corner. Please be patient.
+
 (WIP) jailbreak for iOS 10.3.x on A7-A9 devices
 
 updated v0rtex exploit + yalu102 kpp bypass
