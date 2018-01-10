@@ -45,9 +45,6 @@ Siguza, Ian beer, windknown, Luca Todesco, Xerub; tihmstar the legend for reachi
 I am extremely grateful for everyone whose open-source/public contributions to iOS research and tools made it possible for somebody with my unqualified skillset to pull this off. Peace!
 
 
-😈
-
-
 &nbsp;
 
 
@@ -56,3 +53,5 @@ I am extremely grateful for everyone whose open-source/public contributions to i
 
 <img src="http://data.whicdn.com/images/35103248/original.jpg" width="100%"/>
 
+
+<p align="center">😈</p>
