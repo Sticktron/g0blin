@@ -17,18 +17,18 @@ Made from off the shelf parts and shared research, bless the jailbreak community
 
 ## status
 
-Public codebase is frozen while I prepare the release candidate.
+‼️ **Public codebase is frozen while I prepare the release candidate.** ‼️
 
-~~GPS stops functioning while jailbroken~~
+~~GPS stops functioning while jailbroken.~~
 
-~~Location services fails while jailbroken~~
+~~Location services fails while jailbroken.~~
 
-TouchID not working in apps after jailbreaking
+TouchID not working in apps after jailbreaking.
 
 
 ## notes
 
-Spawns an SSH server listening on port 2222. Remember to change your passwords!
+Spawns an SSH server listening on port 2222 (for now). Remember to change your passwords (passwd command, default is alpine).
 
 Please reinstall the bootstrap when you try a new build.
 
