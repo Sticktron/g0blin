@@ -6,6 +6,8 @@ A "work in progress" iOS 10.3.x jailbreak
 
 Made from off the shelf parts and shared research, long live the jailbreak community!
 
+‼️ **Public codebase is frozen while I prepare the release candidate.** ‼️
+
 
 ## ingredients
 
@@ -15,9 +17,7 @@ Made from off the shelf parts and shared research, long live the jailbreak commu
 + extra sandbox work from [h3lix](https://h3lix.tihmstar.net) by tihmstar
 
 
-## status
-
-‼️ **Public codebase is frozen while I prepare the release candidate.** ‼️
+## issues
 
 ~~GPS stops functioning while jailbroken.~~
 
