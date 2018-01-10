@@ -19,7 +19,9 @@ Made from off the shelf parts and shared research, bless the jailbreak community
 
 Public codebase is frozen while I prepare the release candidate.
 
-~~Location services fails after jailbreaking~~
+~~GPS stops functioning while jailbroken~~
+
+~~Location services fails while jailbroken~~
 
 TouchID not working in apps after jailbreaking
 
