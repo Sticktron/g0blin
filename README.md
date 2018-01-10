@@ -40,6 +40,19 @@ This is my first jailbreak and I have been making mistakes as I learn. Please wa
 
 ## much love
 
-Siguza, Ian beer, windknown, Luca Todesco, Xerub; tihmstar the legend for reaching out and coming in with the clutch sandbox save and being an awesome guy; Powerful Saurik for Cydia and answering my questions and being a boss; Abraham Masri for reaching out and answering my n00b questions; PsychoTea for his patchfinder mods and kernel helpers, ARX8x, ninjaprawn, ... 🤔
+Siguza, Ian beer, windknown, Luca Todesco, Xerub; tihmstar the legend for reaching out and coming in with the clutch sandbox save and being an awesome guy; Powerful Saurik for Cydia and answering my questions and being a boss; Abraham Masri for reaching out and answering my n00b questions; PsychoTea for his patchfinder mods and kernel helpers, ARX8x, ninjaprawn, DrTC, ... if I've left you out just let me know :)
 
-I am extremely grateful for everyone whose open-source/public contributions to iOS research and tools made it possible for somebody with my unqualified skillset to pull this off.
+I am extremely grateful for everyone whose open-source/public contributions to iOS research and tools made it possible for somebody with my unqualified skillset to pull this off. Peace!
+
+
+😈
+
+
+&nbsp;
+
+
+&nbsp;
+
+
+<img src="http://data.whicdn.com/images/35103248/original.jpg" width="100%"/>
+
