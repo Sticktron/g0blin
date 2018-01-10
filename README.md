@@ -4,7 +4,7 @@ A "work in progress" iOS 10.3.x jailbreak
 
 *For 64-bit devices prior to the iPhone 7 (A7 - A9)*
 
-Made from off the shelf parts and shared research, bless the jailbreak community!
+Made from off the shelf parts and shared research, long live the jailbreak community!
 
 
 ## ingredients
@@ -42,4 +42,4 @@ This is my first jailbreak and I have been making mistakes as I learn. Please wa
 
 Siguza, Ian beer, windknown, Luca Todesco, Xerub; tihmstar the legend for reaching out and coming in with the clutch sandbox save and being an awesome guy; Powerful Saurik for Cydia and answering my questions and being a boss; Abraham Masri for reaching out and answering my n00b questions; PsychoTea, ARX8x, ninjaprawn, ... 
 
-Thanks to the community and everyone who had a hand in helping to get this thing off the ground. I am extremely grateful for everyone whose open-source/public contributions to iOS research and tools made it possible for somebody with my unqualified skillset to be able to accomplish this dream come true :)
+I am extremely grateful for everyone whose open-source/public contributions to iOS research and tools made it possible for somebody with my unqualified skillset to be able to accomplish this dream come true :)
