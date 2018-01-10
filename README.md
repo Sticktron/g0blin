@@ -42,4 +42,4 @@ This is my first jailbreak and I have been making mistakes as I learn. Please wa
 
 Siguza, Ian beer, windknown, Luca Todesco, Xerub; tihmstar the legend for reaching out and coming in with the clutch sandbox save and being an awesome guy; Powerful Saurik for Cydia and answering my questions and being a boss; Abraham Masri for reaching out and answering my n00b questions; PsychoTea for his patchfinder mods and kernel helpers, ARX8x, ninjaprawn, ... 🤔
 
-I am extremely grateful for everyone whose open-source/public contributions to iOS research and tools made it possible for somebody with my unqualified skillset to be able to accomplish this dream come true :)
+I am extremely grateful for everyone whose open-source/public contributions to iOS research and tools made it possible for somebody with my unqualified skillset to pull this off.
