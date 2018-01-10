@@ -1,6 +1,6 @@
 # g0blin
 
-##Info update
+## Info update
 The ipa has been removed. Please use the official Project (Sticktron/g0blin).
 The Full Jailbreak by Sticktron is around the corner. Please be patient.
 
