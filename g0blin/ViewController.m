@@ -126,7 +126,7 @@ static uint64_t kcred;
     [self.progressView setProgress:0.3 animated:YES];
     [self log:@"bypassing kernel patch protection"];
     
-    if (do_kpp(1, 0, kbase, kslide, tfp0, kcred) == KERN_SUCCESS) {
+    if (do_kpp(1, 0, kbase, kslide, tfp0) == KERN_SUCCESS) {
         LOG("you down with kpp? yeah you know me");
         [self remount];
     } else {
@@ -178,7 +178,15 @@ static uint64_t kcred;
     LOG("reloading daemons...");
     pid_t pid;
     posix_spawn(&pid, "/bin/launchctl", 0, 0, (char**)&(const char*[]){"/bin/launchctl", "load", "/Library/LaunchDaemons/0.reload.plist", NULL}, NULL);
-    //waitpid(pid, 0, 0);
+    waitpid(pid, 0, 0);
+    
+    sleep(2);
+    
+    LOG("restarting SpringBoard...");
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        pid_t pid;
+        posix_spawn(&pid, "killall", 0, 0, (char**)&(const char*[]){"killall", "-9", "backboardd", NULL}, NULL);
+    });
 }
 
 @end
