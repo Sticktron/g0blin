@@ -13,15 +13,17 @@ Made from off the shelf parts and shared research, long live the jailbreak commu
 
 + [v0rtex](https://github.com/siguza/v0rtex) kernel exploit by Siguza, vuln by Ian beer, POC by windknown
 + kernel patch protection bypass from [yalu102](https://github.com/kpwn/yalu102) by Luca Todesco
-+ modified patchfinder from [extra_recipe](https://github.com/xerub/extra_recipe) by Xerub
-+ extra sandbox work from [h3lix](https://h3lix.tihmstar.net) by tihmstar
++ sandbox/codesign work from [yalu102](https://github.com/kpwn/yalu102) by Luca Todesco
++ additional sandbox work from [h3lix](https://h3lix.tihmstar.net) by tihmstar
++ patchfinder from [extra_recipe](https://github.com/xerub/extra_recipe) by Xerub
++ additional patchfind work from [async_wake_fun](https://github.com/ninjaprawn/async_wake-fun) by ninjaprawn
 
 
 ## issues
 
-~~GPS stops functioning while jailbroken.~~
+~~Certain apps require manually adding an entitlement.~~
 
-~~Location services fails while jailbroken.~~
+~~GPS stops functioning while jailbroken.~~
 
 TouchID not working in apps after jailbreaking.
 
@@ -40,7 +42,7 @@ This is my first jailbreak and I have been making mistakes as I learn. Please wa
 
 ## much love
 
-Siguza, Ian beer, windknown, Luca Todesco, Xerub; tihmstar the legend for reaching out and coming in with the clutch sandbox save and being an awesome guy; Powerful Saurik for Cydia and answering my questions and being a boss; Abraham Masri for reaching out and answering my n00b questions; PsychoTea for his patchfinder mods and kernel helpers, ARX8x, ninjaprawn, DrTC, ... if I've left you out just let me know :)
+Siguza, Ian beer, windknown, Luca Todesco, Xerub; tihmstar the legend for reaching out and coming in with the clutch sandbox save and being an awesome guy; Powerful Saurik for Cydia and answering my questions and being a boss; Abraham Masri for reaching out and answering my n00b questions; uroboro, Psycho Tea, ARX8x, DrTC, ... if I've left you out just let me know :)
 
 I am extremely grateful for everyone whose open-source/public contributions to iOS research and tools made it possible for somebody with my unqualified skillset to pull this off. Peace!
 
