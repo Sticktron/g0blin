@@ -445,14 +445,21 @@ remappage[remapcnt++] = (x & (~PMK));\
             //WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_cred_label_update_execve)), 0);
             
             
+            #define INSN_NOP  0xd503201f
+            uint64_t offset_sandbox_label_update_execve;
+            
             //----------- TEST PATCHFINDER --------------//
             uint64_t a = find_sandbox_label_update_execve();
             LOG("a = 0x%llx", a);
+            LOG("was looking for: 0xfffffff006c35fb8");
             //----------- TEST PATCHFINDER --------------//
-
             
-            #define INSN_NOP  0xd503201f
-            uint64_t offset_sandbox_label_update_execve = 0xfffffff006c35fb8 + slide;
+            //----------- TEMP FIX --------------//
+            offset_sandbox_label_update_execve = 0xfffffff006c35fb8;
+            //----------- TEMP FIX --------------//
+            
+            LOG("offset_sandbox_label_update_execve = 0x%llx", offset_sandbox_label_update_execve);
+            offset_sandbox_label_update_execve += slide;
             RemapPage(offset_sandbox_label_update_execve);
             WriteAnywhere32(NewPointer(offset_sandbox_label_update_execve), INSN_NOP);
         }
