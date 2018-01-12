@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		EE0A1C281FF8891A001030DB /* SettingsController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE0A1C271FF8891A001030DB /* SettingsController.m */; };
 		EE1C60E41FFACA3600D30AAC /* bootstrap.tar in Resources */ = {isa = PBXBuildFile; fileRef = EE1C60E31FFACA3500D30AAC /* bootstrap.tar */; };
+		EE7DA0F42008751B002A63FC /* y0nkers.m4v in Resources */ = {isa = PBXBuildFile; fileRef = EE7DA0F32008751B002A63FC /* y0nkers.m4v */; };
 		EE9402401FF33CAE00C9325F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EE94023F1FF33CAE00C9325F /* AppDelegate.m */; };
 		EE9402431FF33CAE00C9325F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9402421FF33CAE00C9325F /* ViewController.m */; };
 		EE9402461FF33CAE00C9325F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE9402441FF33CAE00C9325F /* Main.storyboard */; };
@@ -34,6 +35,7 @@
 		EE0A1C261FF8891A001030DB /* SettingsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsController.h; sourceTree = "<group>"; };
 		EE0A1C271FF8891A001030DB /* SettingsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingsController.m; sourceTree = "<group>"; };
 		EE1C60E31FFACA3500D30AAC /* bootstrap.tar */ = {isa = PBXFileReference; lastKnownFileType = archive.tar; path = bootstrap.tar; sourceTree = "<group>"; };
+		EE7DA0F32008751B002A63FC /* y0nkers.m4v */ = {isa = PBXFileReference; lastKnownFileType = file; path = y0nkers.m4v; sourceTree = "<group>"; };
 		EE94023B1FF33CAE00C9325F /* g0blin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = g0blin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE94023E1FF33CAE00C9325F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		EE94023F1FF33CAE00C9325F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 				EE9402491FF33CAE00C9325F /* LaunchScreen.storyboard */,
 				EE94024C1FF33CAE00C9325F /* Info.plist */,
 				EE94024D1FF33CAE00C9325F /* main.m */,
+				EE7DA0F32008751B002A63FC /* y0nkers.m4v */,
 			);
 			path = g0blin;
 			sourceTree = "<group>";
@@ -218,6 +221,7 @@
 				EE9828CA1FF418800085B633 /* launchctl in Resources */,
 				EE9828CB1FF418800085B633 /* reload in Resources */,
 				EE94024B1FF33CAE00C9325F /* LaunchScreen.storyboard in Resources */,
+				EE7DA0F42008751B002A63FC /* y0nkers.m4v in Resources */,
 				EE9402481FF33CAE00C9325F /* Assets.xcassets in Resources */,
 				EE9402461FF33CAE00C9325F /* Main.storyboard in Resources */,
 			);

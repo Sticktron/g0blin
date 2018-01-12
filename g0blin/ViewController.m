@@ -16,12 +16,15 @@
 #include "remount.h"
 #include "bootstrap.h"
 #include <sys/utsname.h>
+#import <AVFoundation/AVFoundation.h>
+#import <AVKit/AVKit.h>
 
 
 #define GRAPE [UIColor colorWithRed:0.5 green:0 blue:1 alpha:1]
 
 
 @interface ViewController ()
+@property (weak, nonatomic) IBOutlet UIImageView *logoView;
 @property (weak, nonatomic) IBOutlet UIButton *goButton;
 @property (weak, nonatomic) IBOutlet UIProgressView *progressView;
 @property (weak, nonatomic) IBOutlet UITextView *consoleView;
@@ -34,6 +37,10 @@ static task_t tfp0;
 static uint64_t kslide;
 static uint64_t kbase;
 static uint64_t kcred;
+
+BOOL fun;
+AVPlayer *player;
+AVPlayerViewController *cont;
 
 
 @implementation ViewController
@@ -73,6 +80,13 @@ static uint64_t kcred;
         self.goButton.backgroundColor = UIColor.darkGrayColor;
         [self.goButton setTitle:@"device not supported" forState:UIControlStateDisabled];
     }
+    
+    // fun
+    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(fun:)];
+    doubleTap.delaysTouchesBegan = YES;
+    doubleTap.numberOfTapsRequired = 3;
+    [self.logoView addGestureRecognizer:doubleTap];
+    self.logoView.userInteractionEnabled = YES;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -182,11 +196,50 @@ static uint64_t kcred;
     
     sleep(2);
     
+    // TODO: not working
     LOG("restarting SpringBoard...");
+    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         pid_t pid;
-        posix_spawn(&pid, "killall", 0, 0, (char**)&(const char*[]){"killall", "-9", "backboardd", NULL}, NULL);
+        //posix_spawn(&pid, "killall", 0, 0, (char**)&(const char*[]){"killall", "-9", "backboardd", NULL}, NULL);
+        posix_spawn(&pid, "killall", 0, 0, (char**)&(const char*[]){"killall", "SpringBoard", NULL}, NULL);
     });
+}
+
+- (IBAction)fun:(UITapGestureRecognizer *)recognizer {
+    LOG("got secret tap");
+    
+    if (!fun) {
+        fun = YES;
+        
+        BOOL hasAudio = [AVAudioSession.sharedInstance setCategory:AVAudioSessionCategoryPlayback error:nil];
+        if (!hasAudio) {
+            LOG("no audio :/");
+        }
+        
+        NSURL *url = [NSBundle.mainBundle URLForResource:@"y0nkers" withExtension:@"m4v"];
+        LOG("url = %@", url);
+        if (!url) {
+            LOG("filenotfound");
+            return;
+        }
+        
+        player = [AVPlayer playerWithURL:url];
+        cont = [[AVPlayerViewController alloc] init];
+        cont.player = player;
+        cont.showsPlaybackControls = NO;
+        cont.updatesNowPlayingInfoCenter = NO;
+        
+        cont.view.frame = self.consoleView.bounds;
+        [self.consoleView addSubview:cont.view];
+        [player play];
+    } else {
+        [player pause];
+        [cont.view removeFromSuperview];
+        player = nil;
+        cont = nil;
+        fun = NO;
+    }
 }
 
 @end
