@@ -17,7 +17,8 @@
     <meta name="description" content="g0blin jailbreak">
     <meta name="author" content="Sticktron">
     
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- <meta name="viewport" content="shrink-to-fit=yes"> -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <!-- <meta name="apple-mobile-web-app-status-bar-style" content="black"> -->
     
@@ -25,28 +26,35 @@
 	
 	<style type="text/css">
 		html {
+			height: 100%;
 		}
 		body {
-			background-color: #1a1a1a;
+			height: 100%;
+			background-color: #212121;
 			color: #eee;
 			font-family: Helvetica, arial, sans-serif;
 			font-family: monospace;
 		}
 		link, link.visited {
 			color: #8000ff;
+			/* color: #9443fb; */
 		}
 		link.active, link.hover {
 			color: #ff0080;
+			/* color: #fc3692; */
 		}
-		#box {
-			margin: 15% auto 0;
-			padding: 20px 0;
-			width: 640px;
-			/* height: 320px; */
-			/* background-color: #212121; */
+		#wrapper {
+			width: 100%;
+			height: 80%;
+			margin: 0;
+			padding 0;
+			border: 0;
 			text-align: center;
+			vertical-align: middle;
+			/* background-color: #333333; */
 		}
 		#logo {
+			width: 270px;
 			margin-bottom: 20px;
 		}
 	</style>
@@ -55,16 +63,20 @@
 <body>
     testing 85,15,5
 	
-	<div id="box">
-		<image id="logo" src="images/g0blin.png" width="50%"/>
-		<p>jailbreak for iOS 10.3.x | 64-bit | A7-A9</p>
-		<p>install with Cydia Impactor</p>
-		<p>{ download g0blin RC0 }</p>
-		
-		<br/><br/>
-		
-		<p>😈</p>
-	</div>
+	<table id="wrapper">
+		<tr>
+			<td>
+				<image id="logo" src="images/g0blin.png" alt="g0blin jailbreak"/>
+				<p>jailbreak for iOS 10.3.x | 64-bit | A7-A9</p>
+				<p>install with Cydia Impactor</p>
+				<p>{ download g0blin RC0 }</p>
+				
+				<br/><br/>
+				
+				<p>😈</p>
+			</td>
+		</tr>
+	</table>
 </body>
 
 </html>
