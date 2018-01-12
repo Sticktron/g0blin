@@ -1200,25 +1200,34 @@ find_symbol(const char *symbol)
 /* g0blin test ****************************************************************/
 addr_t find_sandbox_label_update_execve(void) {
     
+    // Option 1
     
     addr_t ref;
     for (int i = 1; (ref  = find_strref("process-exec denied", i, 1)); i++) {
-        printf("<string>0x%llx</string>\n", ref);
+        if (ref) {
+            printf("found process-exec denied at: 0x%llx\n", ref);
+            break;
+        }
     }
     
+    
+    // Option 2
+    
+    ref = 0;
     
     addr_t off, what;
     uint8_t *str = boyermoore_horspool_memmem(kernel + pstring_base, pstring_size, (uint8_t *)"process-exec denied", sizeof("process-exec denied") - 1);
-    if (!str) {
-        return 0;
-    }
-    what = str - kernel + kerndumpbase;
-    for (off = 0; off < kernel_size - prelink_base; off += 8) {
-        if (*(uint64_t *)(kernel + prelink_base + off) == what) {
-            return *(uint64_t *)(kernel + prelink_base + off + 24);
+    if (str) {
+        what = str - kernel + kerndumpbase;
+        for (off = 0; off < kernel_size - prelink_base; off += 8) {
+            if (*(uint64_t *)(kernel + prelink_base + off) == what) {
+                ref = *(uint64_t *)(kernel + prelink_base + off + 24);
+                printf("also found process-exec denied at: 0x%llx\n", ref);
+            }
         }
     }
-    return 0;
+        
+    return ref;
 }
 
 
