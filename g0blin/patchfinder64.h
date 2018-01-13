@@ -3,6 +3,7 @@
 //  extra_recipe
 //
 //  Copyright © 2017 xerub. All rights reserved.
+//  Modified by Sticktron.
 //
 
 #ifndef PATCHFINDER64_H_
@@ -39,5 +40,8 @@ uint64_t find_trustcache(void);
 uint64_t find_amficache(void);
 
 uint64_t find_allproc(void);
+
+uint64_t find_sandbox_label_update_execve(void);
+
 
 #endif
