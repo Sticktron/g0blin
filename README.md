@@ -25,8 +25,6 @@ Touch ID not working in apps after jailbreaking.
 
 Spawns an SSH server listening on port 2222. Remember to change your passwords (passwd command, default is alpine).
 
-‼️ **Public codebase is frozen while I prepare the release candidate.** ‼️
-
 
 ## instructions
 
