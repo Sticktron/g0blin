@@ -16,14 +16,14 @@ Made from off the shelf parts and shared research, long live the jailbreak commu
 + additional patchfind work from [async_wake_fun](http://github.com/ninjaprawn/async_wake-fun) by ninjaprawn
 
 
-## known issues
-
-- Touch ID does not work in App Store apps while in jailbroken mode
-
-
 ## notes
 
 Spawns an SSH server listening on port 2222. Remember to change your passwords (passwd command, default is alpine).
+
+
+## known issues
+
+- Touch ID does not work in App Store apps while in jailbroken mode
 
 
 ## instructions
