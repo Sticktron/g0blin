@@ -23,7 +23,7 @@ kern_return_t do_bootstrap(bool force) {
     pid_t pd = 0;
     NSString* execpath = [[NSString stringWithUTF8String:pt] stringByDeletingLastPathComponent];
     
-    int f = open("/.installed_g0blin", O_RDONLY);
+    int f = open("/.installed_g0blin_rc0", O_RDONLY);
     if (f == -1 || force) {
         LOG("installing bootstrap...");
         
@@ -34,6 +34,7 @@ kern_return_t do_bootstrap(bool force) {
         unlink("/bin/tar");
         unlink("/bin/launchctl");
         
+        
         copyfile([tar UTF8String], "/bin/tar", 0, COPYFILE_ALL);
         chmod("/bin/tar", 0755);
         
@@ -42,11 +43,15 @@ kern_return_t do_bootstrap(bool force) {
         waitpid(pd, 0, 0);
         LOG("bootstrap unpacked");
         
+        
         copyfile([launchctl UTF8String], "/bin/launchctl", 0, COPYFILE_ALL);
         chmod("/bin/launchctl", 0755);
         
-        open("/.installed_g0blin", O_RDWR|O_CREAT);
+        unlink(".installed_g0blin");
+        open("/.installed_g0blin_rc0", O_RDWR|O_CREAT);
+        
         open("/.cydia_no_stash", O_RDWR|O_CREAT);
+        
         
         // run Cydia install scripts
         {

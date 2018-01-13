@@ -26,7 +26,6 @@
 @interface ViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *logoView;
 @property (weak, nonatomic) IBOutlet UIButton *goButton;
-@property (weak, nonatomic) IBOutlet UIProgressView *progressView;
 @property (weak, nonatomic) IBOutlet UITextView *consoleView;
 @property (weak, nonatomic) IBOutlet UIButton *settingsButton;
 @property (weak, nonatomic) IBOutlet UILabel *reinstallBootstrapLabel;
@@ -38,6 +37,7 @@ static uint64_t kslide;
 static uint64_t kbase;
 static uint64_t kcred;
 
+BOOL respringNeeded;
 BOOL fun;
 AVPlayer *player;
 AVPlayerViewController *cont;
@@ -49,9 +49,6 @@ AVPlayerViewController *cont;
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    self.progressView.progress = 0;
-    self.progressView.hidden = YES;
-
     self.consoleView.layer.cornerRadius = 6;
     self.consoleView.text = nil;
     
@@ -106,12 +103,14 @@ AVPlayerViewController *cont;
 }
 
 - (IBAction)go:(UIButton *)sender {
+    if (respringNeeded == YES) {
+        [self restart];
+        return;
+    }
+    
     self.goButton.enabled = NO;
     self.goButton.backgroundColor = UIColor.darkGrayColor;
     [self.goButton setTitle:@"jailbreaking" forState:UIControlStateDisabled];
-    
-    self.progressView.hidden = NO;
-    [self.progressView setProgress:0.1 animated:YES];
     
     [self log:@"exploiting kernel"];
     
@@ -136,9 +135,7 @@ AVPlayerViewController *cont;
 }
 
 - (void)bypassKPP {
-    
-    [self.progressView setProgress:0.3 animated:YES];
-    [self log:@"bypassing kernel patch protection"];
+    [self log:@"pwning kernel"];
     
     if (do_kpp(1, 0, kbase, kslide, tfp0) == KERN_SUCCESS) {
         LOG("you down with kpp? yeah you know me");
@@ -149,9 +146,7 @@ AVPlayerViewController *cont;
 }
 
 - (void)remount {
-    
-    [self.progressView setProgress:0.5 animated:YES];
-    [self log:@"remounting / as r/w"];
+    [self log:@"remounting"];
     
     if (do_remount(kslide) == KERN_SUCCESS) {
         [self bootstrap];
@@ -161,8 +156,6 @@ AVPlayerViewController *cont;
 }
 
 - (void)bootstrap {
-    
-    [self.progressView setProgress:0.6 animated:YES];
     [self log:@"bootstrapping"];
     
     BOOL force = NO;
@@ -179,14 +172,13 @@ AVPlayerViewController *cont;
 }
 
 - (void)finish {
-    [self.progressView setProgress:1 animated:YES];
-    [self.goButton setTitle:@"jailbroke yo!" forState:UIControlStateDisabled];
-    
-    [self log:@"All done, peace!"];
+    [self log:@"device is now jailbroken!"];
     [self log:@""];
-    [self log:@"ssh server listening on port 2222"];
-    [self log:@"change your root/mobile passwords!"];
-    
+    [self log:@"SSH server is ready on port 2222"];
+    [self log:@"change your root/mobile passwords"];
+    [self log:@""];
+    [self log:@"respring to load tweaks"];
+
     sleep(2);
     
     LOG("reloading daemons...");
@@ -196,14 +188,17 @@ AVPlayerViewController *cont;
     
     sleep(2);
     
-    // TODO: not working
+    respringNeeded = YES;
+    [self.goButton setTitle:@"respring" forState:UIControlStateNormal];
+    self.goButton.enabled = YES;
+}
+
+- (void)restart {
     LOG("restarting SpringBoard...");
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        pid_t pid;
-        //posix_spawn(&pid, "killall", 0, 0, (char**)&(const char*[]){"killall", "-9", "backboardd", NULL}, NULL);
-        posix_spawn(&pid, "killall", 0, 0, (char**)&(const char*[]){"killall", "SpringBoard", NULL}, NULL);
-    });
+    pid_t pid;
+    const char* args[] = { "killall", "backboardd", NULL };
+    posix_spawn(&pid, "/usr/bin/killall", NULL, NULL, (char* const*)args, NULL);
 }
 
 - (IBAction)fun:(UITapGestureRecognizer *)recognizer {
@@ -233,6 +228,7 @@ AVPlayerViewController *cont;
         cont.view.frame = self.consoleView.bounds;
         [self.consoleView addSubview:cont.view];
         [player play];
+        
     } else {
         [player pause];
         [cont.view removeFromSuperview];
