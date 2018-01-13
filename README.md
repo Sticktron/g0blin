@@ -12,8 +12,7 @@ Made from off the shelf parts and shared research, long live the jailbreak commu
 ## ingredients
 
 + [v0rtex](https://github.com/siguza/v0rtex) kernel exploit by Siguza, vuln by Ian beer, POC by windknown
-+ kernel patch protection bypass from [yalu102](https://github.com/kpwn/yalu102) by Luca Todesco
-+ sandbox/codesign work from [yalu102](https://github.com/kpwn/yalu102) by Luca Todesco
++ kpp bypass, sandbox, codesigning from [yalu102](https://github.com/kpwn/yalu102) by Luca Todesco
 + additional sandbox work from [h3lix](https://h3lix.tihmstar.net) by tihmstar
 + patchfinder from [extra_recipe](https://github.com/xerub/extra_recipe) by Xerub
 + additional patchfind work from [async_wake_fun](https://github.com/ninjaprawn/async_wake-fun) by ninjaprawn
