@@ -1200,33 +1200,31 @@ find_symbol(const char *symbol)
 /* g0blin ****z****************************************************************/
 addr_t find_sandbox_label_update_execve(void) {
     
-    addr_t ref = 0;
-    
-    for (int i = 1; (ref  = find_strref("process-exec denied", i, 1)); i++) {
+    addr_t ref;
+    for (int i = 1; (ref  = find_strref("process-exec denied while updating label", i, 1)); i++) {
         if (ref) {
-            printf("found process-exec denied at: 0x%llx\n", ref);
-            break;
+            printf("process-exec string at 0x%llx\n", ref);
+            ref = ref - 0x368;
+            printf("patch location -> 0x%llx\n", ref);
+            
+            return ref;
         }
     }
     
-    addr_t off, what;
-    uint8_t *str = boyermoore_horspool_memmem(kernel + pstring_base, pstring_size, (uint8_t *)"process-exec denied", sizeof("process-exec denied") - 1);
-    if (str) {
-        what = str - kernel + kerndumpbase;
-        for (off = 0; off < kernel_size - prelink_base; off += 8) {
-            if (*(uint64_t *)(kernel + prelink_base + off) == what) {
-                ref = *(uint64_t *)(kernel + prelink_base + off + 24);
-                printf("found process-exec denied at: 0x%llx\n", ref);
-                break;
-            }
-        }
-    }
+//    addr_t off, what;
+//    uint8_t *str = boyermoore_horspool_memmem(kernel + pstring_base, pstring_size, (uint8_t *)"process-exec denied", sizeof("process-exec denied") - 1);
+//    if (str) {
+//        what = str - kernel + kerndumpbase;
+//        for (off = 0; off < kernel_size - prelink_base; off += 8) {
+//            if (*(uint64_t *)(kernel + prelink_base + off) == what) {
+//                ref = *(uint64_t *)(kernel + prelink_base + off + 24);
+//                printf("found process-exec denied at: 0x%llx\n", ref);
+//            }
+//        }
+//        ref = ref - 0x368;
+//    }
     
-    printf("ref = 0x%llx\n", ref);
-    
-    ref =  ref - 0x368;
-    
-    return ref;
+    return 0;
 }
 
 

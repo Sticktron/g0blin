@@ -449,19 +449,17 @@ remappage[remapcnt++] = (x & (~PMK));\
         // mpo_cred_check_label_update_execve - tihmstar
         // WARNING - has to patched like this or Widgets (and javascript?) fail.
         {
-            uint64_t offset_sandbox_label_update_execve = find_sandbox_label_update_execve();
-            LOG("find_sandbox_label_update_execve = 0x%llx", offset_sandbox_label_update_execve);
+            uint64_t off = find_sandbox_label_update_execve();
+            
+            LOG("find_sandbox_label_update_execve = 0x%llx", off);
+            LOG("----------");
+            LOG("unslid = 0x%llx", off - slide);
             LOG("was looking for: 0xfffffff006c35fb8");
-            
-            //----------- TEMP FIX --------------//
-            //offset_sandbox_label_update_execve = 0xfffffff006c35fb8;
-            //----------- TEMP FIX --------------//
-            
-            offset_sandbox_label_update_execve += slide;
+            LOG("----------");
             
             #define INSN_NOP  0xd503201f
-            RemapPage(offset_sandbox_label_update_execve);
-            WriteAnywhere32(NewPointer(offset_sandbox_label_update_execve), INSN_NOP);
+            RemapPage(off);
+            WriteAnywhere32(NewPointer(off), INSN_NOP);
         }
     }
     
