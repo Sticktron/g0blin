@@ -9,11 +9,11 @@ Made from off the shelf parts and shared research, long live the jailbreak commu
 
 ## ingredients
 
-+ [v0rtex](https://github.com/siguza/v0rtex) kernel exploit by Siguza, vuln by Ian beer, POC by windknown
-+ kpp bypass, sandbox, codesigning from [yalu102](https://github.com/kpwn/yalu102) by Luca Todesco
-+ additional sandbox work from [h3lix](https://h3lix.tihmstar.net) by tihmstar
-+ patchfinder from [extra_recipe](https://github.com/xerub/extra_recipe) by Xerub
-+ additional patchfind work from [async_wake_fun](https://github.com/ninjaprawn/async_wake-fun) by ninjaprawn
++ [v0rtex](http://github.com/siguza/v0rtex) kernel exploit by Siguza, vuln by Ian beer, POC by windknown
++ kpp bypass, sandbox, codesigning from [yalu102](http://github.com/kpwn/yalu102) by Luca Todesco
++ additional sandbox work from [h3lix](http://h3lix.tihmstar.net) by tihmstar
++ patchfinder from [extra_recipe](http://github.com/xerub/extra_recipe) by Xerub
++ additional patchfind work from [async_wake_fun](http://github.com/ninjaprawn/async_wake-fun) by ninjaprawn
 
 
 ## known issues
@@ -26,6 +26,13 @@ Touch ID not working in apps after jailbreaking.
 Spawns an SSH server listening on port 2222. Remember to change your passwords (passwd command, default is alpine).
 
 ‼️ **Public codebase is frozen while I prepare the release candidate.** ‼️
+
+
+## instructions
+
+1) Download an offical .ipa file from [g0blin.sticktron.net](http://g0blin.sticktron.net)
+
+2) Install using [Cydia Impactor](http://www.cydiaimpactor.com)
 
 
 ## much love
