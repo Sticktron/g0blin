@@ -30,7 +30,7 @@ Spawns an SSH server listening on port 2222. Remember to change your passwords (
 
 ## much love
 
-Siguza, Ian Beer, windknown, Luca Todesco, xerub, tihmstar, saurik, uroboro, Abraham Masri, arx8x, psycho tea; tyler, the creator, my muse, Dr. TC, madflav0r coco diaz, bert k, the joe rogan podcast, mom.
+Siguza, Ian Beer, windknown, Luca Todesco, xerub, tihmstar, saurik, uroboro, Abraham Masri, arx8x, psycho tea; tyler, the creator, my muse, Dr. TC, for keeping my alive in 2001; madflav0r coco diaz, bert k, the joe rogan podcast, mom.
 
 I am extremely grateful for everyone whose open-source/public contributions to iOS research and developement made this softare possible.
 
