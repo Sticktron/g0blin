@@ -1,34 +1,56 @@
 # g0blin
 
-An incomplete jailbreak for A7-A9 devices on iOS 10.3.x
+a (work-in-progress) iOS 10.3.x jailbreak
+
+*For 64-bit devices prior to the iPhone 7 (A7 - A9)*
+
+Made from off the shelf parts and shared research, long live the jailbreak community!
+
+
+## ingredients
+
++ [v0rtex](http://github.com/siguza/v0rtex) kernel exploit by Siguza, vuln by Ian beer, POC by windknown
++ kpp bypass, sandbox, codesigning from [yalu102](http://github.com/kpwn/yalu102) by Luca Todesco
++ additional sandbox work from [h3lix](http://h3lix.tihmstar.net) by tihmstar
++ patchfinder from [extra_recipe](http://github.com/xerub/extra_recipe) by Xerub
++ additional patchfind work from [async_wake_fun](http://github.com/ninjaprawn/async_wake-fun) by ninjaprawn
+
+
+## notes
 
 Spawns an SSH server listening on port 2222. Remember to change your passwords!
-
-Please reinstall the bootstrap when upgrading.
-
-
-## what is still broken?
-
-Third-party applications that need root priveledges require an extra entitlement to function correctly.
-
-````
-<key>com.apple.private.security.no-container</key>
-<true/>
-````
-
-I have already added the entitlement to the copy of Cydia included in g0blin.
-
-For other apps (eg. Filza, MTerminal) to work correctly you will have to entitle them yourself.
+- user: root    password: alpine
+- user: mobile  password: alpine
 
 
-## credits
+## known issues
 
-Siguza - v0rtex kernel exploit
+- Touch ID does not work in App Store apps while in jailbroken mode
 
-Luca Todesco - yalu102 kpp bypass
 
-Xerub - patchfinder (extra_recipe)
+## instructions
 
-Saurik - Cydia
+1) Download an offical .ipa file from [g0blin.sticktron.net](http://g0blin.sticktron.net)
 
-thanks: PsychoTea, ARX8x, Abraham Masri, ninjaprawn, coolstar, ... ?
+2) Install using [Cydia Impactor](http://www.cydiaimpactor.com)
+
+
+## much love
+
+Siguza, Ian Beer, windknown, Luca Todesco, xerub, tihmstar, saurik, uroboro, Abraham Masri, arx8x, psycho tea, cryptic; tyler, the creator, my muse, Dr. TC, for keeping me alive in 2011; madflav0r coco diaz, bert k, the joe rogan podcast, J.P., for helping me find my way in 2016; mom.
+
+I am extremely grateful for everyone whose open-source/public contributions to iOS research and developement made this software possible :)
+
+peace.love.beauty.
+
+
+&nbsp;
+
+
+&nbsp;
+
+
+<img src="http://data.whicdn.com/images/35103248/original.jpg" width="100%"/>
+
+
+<p align="center">😈</p>
