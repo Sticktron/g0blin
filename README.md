@@ -6,8 +6,6 @@ iOS 10.3.x jailbreak
 
 Made from off the shelf parts and shared research, long live the jailbreak community!
 
-‼️ **Public codebase is frozen while I prepare the release candidate.** ‼️
-
 
 ## ingredients
 
@@ -26,6 +24,8 @@ TouchID not working in apps after jailbreaking.
 ## notes
 
 Spawns an SSH server listening on port 2222. Remember to change your passwords (passwd command, default is alpine).
+
+‼️ **Public codebase is frozen while I prepare the release candidate.** ‼️
 
 
 ## much love
