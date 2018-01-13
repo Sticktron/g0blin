@@ -18,7 +18,7 @@ Made from off the shelf parts and shared research, long live the jailbreak commu
 
 ## known issues
 
-Touch ID not working in apps after jailbreaking.
+- Touch ID does not work in App Store apps while in jailbroken mode
 
 
 ## notes
