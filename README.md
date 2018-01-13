@@ -39,7 +39,7 @@ Spawns an SSH server listening on port 2222. Remember to change your passwords!
 
 Siguza, Ian Beer, windknown, Luca Todesco, xerub, tihmstar, saurik, uroboro, Abraham Masri, arx8x, psycho tea, cryptic; tyler, the creator, my muse, Dr. TC, for keeping me alive in 2011; madflav0r coco diaz, bert k, the joe rogan podcast, J.P., for helping me find my way in 2016; mom.
 
-I am extremely grateful for everyone whose open-source/public contributions to iOS research and developement made this softare possible.
+I am extremely grateful for everyone whose open-source/public contributions to iOS research and developement made this software possible :)
 
 peace.love.beauty.
 
