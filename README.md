@@ -37,12 +37,12 @@ Spawns an SSH server listening on port 2222. Remember to change your passwords!
 
 ## support
 
-|         | iPod 6G | iPhone 5S | 6   | 6+  | SE  | 6S  | 6S+ | iPad Air | Air 2 | 5G (2017) | Pro 9.7" | Pro 12.9" | Mini 2 | Mini 3 | Mini 4 | TV 4 | AudioAccessory1,1 |
-| ---     | ---     | ---       | --- | --- | --- | --- | --- | ---      | ---   | ---       | ---      | ---       | ---    | ---    | ---    | ---  | ---               |
-| 10.3    |         |           |     |     |     |     |     |          |       |           |          |           |        |        |        |      |                   |
-| 10.3.1  |         |           |     |     |     |     |     |          |       |           |          |           |        |        |        |      |                   |
-| 10.3.2  |         |           |     |     |     |     |     |          |       |           |          |           |        |        |        |      |                   |
-| 10.3.3  |         |           |     |     |     |     |     |          |       |           |          |           |        |        |        |      |                   |
+| iOS     | iPod 6G | iPhone 5S | 6   | 6+  | SE  | 6S  | 6S+ | iPad Air | Air 2 | 5G (2017) | Pro 9.7" | Pro 12.9" | Mini 2 | Mini 3 | Mini 4 |
+| ---     | ---     | ---       | --- | --- | --- | --- | --- | ---      | ---   | ---       | ---      | ---       | ---    | ---    | ---    |
+| 10.3    |         |           | y   |     |     |     |     |          |       | y         |          |           |        |        |        |
+| 10.3.1  | y       | y         | y   |     | y   | y   | y   |          |       |           |          |           | y      | y      |        |
+| 10.3.2  |         |           | y   | y   |     | y   | y   |          |       |           |          |           |        |        |        |
+| 10.3.3  |         |           | y   | y   | y   | y   |     |          |       |           |          |           |        |        |        |
 
 
 ## much love
