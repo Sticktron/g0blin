@@ -23,9 +23,17 @@ Spawns an SSH server listening on port 2222. Remember to change your passwords!
 - user: mobile  password: alpine
 
 
-## known issues
+## important issues that are being worked on
 
 - Touch ID does not work in App Store apps while in jailbroken mode
+- Respring button panics sometimes
+- support for 60/62 device/OS combos exploitable by v0rtex
+- internal mechanics
+
+
+## developer notes
+
+- system daemons are not being reloaded en masse after jailbreaking
 
 
 ## instructions
