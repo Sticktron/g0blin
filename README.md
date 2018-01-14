@@ -27,11 +27,12 @@ Spawns an SSH server listening on port 2222. Remember to change your passwords!
 | mobile | alpine   |
 
 
-## important issues that are being worked on
+## issues that are being worked on
 
-- Touch ID does not work in App Store apps while in jailbroken mode
-- Respring button is panicky
 - support for all compatible device/OS comboinations
+- Touch ID does not work in App Store apps while in jailbroken mode
+- Cydia icon is hidden
+- Respring button is panicky
 - internal mechanics
 
 
