@@ -31,7 +31,7 @@ Spawns an SSH server listening on port 2222. Remember to change your passwords!
 
 - Touch ID does not work in App Store apps while in jailbroken mode
 - Respring button is panicky
-- support for 60/62 device/OS combos exploitable by v0rtex
+- support for all compatible device/OS comboinations
 - internal mechanics
 
 
