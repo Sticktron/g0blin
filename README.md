@@ -20,8 +20,11 @@ Made from off the shelf parts and shared research, long live the jailbreak commu
 ## notes
 
 Spawns an SSH server listening on port 2222. Remember to change your passwords!
-- user: root    password: alpine
-- user: mobile  password: alpine
+
+| user   | password |
+| ---    | ---      |
+| root   | alpine   |
+| mobile | alpine   |
 
 
 ## important issues that are being worked on
