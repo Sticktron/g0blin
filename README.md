@@ -35,6 +35,16 @@ Spawns an SSH server listening on port 2222. Remember to change your passwords!
 2) Install using [Cydia Impactor](http://www.cydiaimpactor.com)
 
 
+## support
+
+|         | iPod 6G | iPhone 5S | 6   | 6+  | SE  | 6S  | 6S+ | iPad Air | Air 2 | 5G (2017) | Pro 9.7" | Pro 12.9" | Mini 2 | Mini 3 | Mini 4 | TV 4 | AudioAccessory1,1 |
+| ---     | ---     | ---       | --- | --- | --- | --- | --- | ---      | ---   | ---       | ---      | ---       | ---    | ---    | ---    | ---  | ---               |
+| 10.3    |         |           |     |     |     |     |     |          |       |           |          |           |        |        |        |      |                   |
+| 10.3.1  |         |           |     |     |     |     |     |          |       |           |          |           |        |        |        |      |                   |
+| 10.3.2  |         |           |     |     |     |     |     |          |       |           |          |           |        |        |        |      |                   |
+| 10.3.3  |         |           |     |     |     |     |     |          |       |           |          |           |        |        |        |      |                   |
+
+
 ## much love
 
 Siguza, Ian Beer, windknown, Luca Todesco, xerub, tihmstar, saurik, uroboro, Abraham Masri, arx8x, psycho tea, cryptic; tyler, the creator, my muse, Dr. TC, for keeping me alive in 2011; madflav0r coco diaz, bert k, the joe rogan podcast, J.P., for helping me find my way in 2016; mom.
