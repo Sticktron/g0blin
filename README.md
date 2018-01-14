@@ -1,6 +1,6 @@
 # g0blin
 
-a (work-in-progress) iOS 10.3.x jailbreak
+a work-in-progress jailbreak for iOS 10.3.x
 
 *For 64-bit devices prior to the iPhone 7 (A7 - A9)*
 
