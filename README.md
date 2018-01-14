@@ -14,6 +14,7 @@ Made from off the shelf parts and shared research, long live the jailbreak commu
 + additional sandbox work from [h3lix](http://h3lix.tihmstar.net) by tihmstar
 + patchfinder from [extra_recipe](http://github.com/xerub/extra_recipe) by Xerub
 + additional patchfind work from [async_wake_fun](http://github.com/ninjaprawn/async_wake-fun) by ninjaprawn
++ Cydia by Jay Freeman
 
 
 ## notes
