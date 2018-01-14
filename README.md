@@ -58,7 +58,7 @@ Spawns an SSH server listening on port 2222. Remember to change your passwords!
 
 
 | iOS     | iPad Air | Air 2 | 5G (2017) | Pro 9.7" | Pro 12.9" | Mini 2 | Mini 3 | Mini 4 |
-|         | ---      | ---   | ---       | ---      | ---       | ---    | ---    | ---    |
+| ---     | ---      | ---   | ---       | ---      | ---       | ---    | ---    | ---    |
 | 10.3    |          |       | y         |          |           |        |        |        |
 | 10.3.1  |          |       |           |          |           | y      | y      |        |
 | 10.3.2  |          |       |           |          |           |        |        |        |
