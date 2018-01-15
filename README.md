@@ -54,9 +54,9 @@ Spawns a dropbear SSH server listening on port 2222. Remember to change your pas
 | iOS     | iPod 6G | iPhone 5S | 6   | 6+  | SE  | 6S  | 6S+ |
 | ---     | ---     | ---       | --- | --- | --- | --- | --- |
 | 10.3    |         |           | y   |     |     |     |     |
-| 10.3.1  | y       | y         | y   |     | y   | y   | y   |
-| 10.3.2  |         |           | y   | y   |     | y   | y   |
-| 10.3.3  |         |           | y   | y   | y   | y   |     |
+| 10.3.1  | y       | y         | y   | y   | y   | y   | y   |
+| 10.3.2  |         | y         | y   | y   |     | y   | y   |
+| 10.3.3  |         |           | y   | y   | y   | y   | y   |
 
 
 | iOS     | iPad Air | Air 2 | 5G (2017) | Pro 9.7" | Pro 12.9" | Mini 2 | Mini 3 | Mini 4 |
