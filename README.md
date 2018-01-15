@@ -13,13 +13,13 @@ Made from off the shelf parts and shared research, long live the jailbreak commu
 + kpp bypass, sandbox, codesigning from [yalu102](http://github.com/kpwn/yalu102) by Luca Todesco
 + additional sandbox work from [h3lix](http://h3lix.tihmstar.net) by tihmstar
 + patchfinder from [extra_recipe](http://github.com/xerub/extra_recipe) by Xerub
-+ additional patchfind work from [async_wake_fun](http://github.com/ninjaprawn/async_wake-fun) by ninjaprawn
-+ Cydia by Jay Freeman
++ additional patchfinder work from [async_wake_fun](http://github.com/ninjaprawn/async_wake-fun) by ninjaprawn
++ Cydia by Jay Freeman (saurik)
 
 
 ## notes
 
-Spawns an SSH server listening on port 2222. Remember to change your passwords!
+Spawns a dropbear SSH server listening on port 2222. Remember to change your passwords!
 
 | user   | password |
 | ---    | ---      |
@@ -29,11 +29,12 @@ Spawns an SSH server listening on port 2222. Remember to change your passwords!
 
 ## issues that are being worked on
 
-- support for all compatible device/OS comboinations
 - Touch ID does not work in App Store apps while in jailbroken mode
-- Cydia icon is hidden
-- Respring button is panicky
+- support for all compatible device/OS combinations
+- Cydia icon is hidden (show hidden apps plist fail)
+- Respring button is panicky (you don't have to click it)
 - internal mechanics
+- refactoring
 
 
 ## developer notes
