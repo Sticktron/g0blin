@@ -9,7 +9,7 @@ Made from off the shelf parts and shared research, long live the jailbreak commu
 
 ## ingredients
 
-+ [v0rtex](http://github.com/siguza/v0rtex) kernel exploit by Siguza, vuln by Ian beer, POC by windknown
++ [v0rtex](http://github.com/siguza/v0rtex) kernel exploit by Siguza, vuln by Ian Beer, POC by windknown
 + kpp bypass, sandbox, codesigning from [yalu102](http://github.com/kpwn/yalu102) by Luca Todesco
 + additional sandbox work from [h3lix](http://h3lix.tihmstar.net) by tihmstar
 + patchfinder from [extra_recipe](http://github.com/xerub/extra_recipe) by Xerub
