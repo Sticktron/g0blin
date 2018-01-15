@@ -49,7 +49,7 @@ Spawns a dropbear SSH server listening on port 2222. Remember to change your pas
 2) Install using [Cydia Impactor](http://www.cydiaimpactor.com)
 
 
-## support
+## supported devices (working?)
 
 | iOS     | iPod 6G | iPhone 5S | 6   | 6+  | SE  | 6S  | 6S+ |
 | ---     | ---     | ---       | --- | --- | --- | --- | --- |
