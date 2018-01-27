@@ -174,7 +174,7 @@ AVPlayerViewController *cont;
 - (void)finish {
     [self log:@"device is now jailbroken!"];
     [self log:@""];
-    [self log:@"respring to load tweaks"];
+    [self log:@"restarting backboardd..."];
     
 //    respringNeeded = YES;
 //    [self.goButton setTitle:@"respring" forState:UIControlStateNormal];
@@ -183,7 +183,6 @@ AVPlayerViewController *cont;
 
 - (void)restart {
 //    LOG("restarting SpringBoard...");
-//    
 //    pid_t pid;
 //    const char* args[] = { "killall", "backboardd", NULL };
 //    posix_spawn(&pid, "/usr/bin/killall", NULL, NULL, (char* const*)args, NULL);
