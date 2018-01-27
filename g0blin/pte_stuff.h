@@ -6,10 +6,6 @@
 //  Copyright © 2017 qwertyoruiop. All rights reserved.
 //
 
-#ifndef pte_stuff_h
-#define pte_stuff_h
-
-
 #define TTE_INDEX_SHIFT 3
 #define TTE_SIZE (1 << TTE_INDEX_SHIFT)
 #define TTE_INDEX(vma, level) ((vma.vm_info.level ## _index) << TTE_INDEX_SHIFT)
@@ -191,4 +187,3 @@ uint64_t physalloc(uint64_t size) {
     return ret;
 }
 
-#endif

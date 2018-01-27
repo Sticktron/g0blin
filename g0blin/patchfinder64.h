@@ -10,7 +10,7 @@
 #define PATCHFINDER64_H_
 
 #import "common.h"
-#import <mach/mach.h>
+#include <mach/mach.h>
 
 int init_patchfinder(task_t tfp0, uint64_t base, const char *filename);
 void term_kernel(void);

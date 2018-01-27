@@ -8,7 +8,7 @@
 #include <assert.h>
 #include <stdint.h>
 #include <string.h>
-#include "kernel.h"
+#import "kernel.h"
 
 typedef unsigned long long addr_t;
 

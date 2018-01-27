@@ -1,9 +1,6 @@
-#ifndef COMMON_H
-#define COMMON_H
-
 #include <stdint.h>             // uint*_t
-
 #import <Foundation/Foundation.h>
+
 
 #ifdef __LP64__
 #   define ADDR "0x%016llx"
@@ -31,5 +28,3 @@
 //        NSLog(@str "\n", ##args); \
 //    } \
 //} while(0)
-
-#endif

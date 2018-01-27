@@ -5,8 +5,8 @@
 //  Created by Ben on 16/12/2017.
 //
 
-#include "kernel.h"
-#include "common.h"
+#import "kernel.h"
+#import "common.h"
 #include <mach/mach.h>
 
 static task_t tfp0;
