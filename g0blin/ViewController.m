@@ -8,16 +8,16 @@
 
 #import "ViewController.h"
 #import "SettingsController.h"
-#include "v0rtex.h"
-#include "common.h"
-#include "offsets.h"
-#include "kernel.h"
-#include "kpp.h"
-#include "remount.h"
-#include "bootstrap.h"
-#include <sys/utsname.h>
+#import "v0rtex.h"
+#import "common.h"
+#import "offsets.h"
+#import "kernel.h"
+#import "kpp.h"
+#import "remount.h"
+#import "bootstrap.h"
 #import <AVFoundation/AVFoundation.h>
 #import <AVKit/AVKit.h>
+#include <sys/utsname.h>
 
 
 #define GRAPE [UIColor colorWithRed:0.5 green:0 blue:1 alpha:1]
@@ -178,15 +178,6 @@ AVPlayerViewController *cont;
     [self log:@"change your root/mobile passwords"];
     [self log:@""];
     [self log:@"respring to load tweaks"];
-
-    sleep(2);
-    
-    LOG("reloading daemons...");
-    pid_t pid;
-    posix_spawn(&pid, "/bin/launchctl", 0, 0, (char**)&(const char*[]){"/bin/launchctl", "load", "/Library/LaunchDaemons/0.reload.plist", NULL}, NULL);
-    waitpid(pid, 0, 0);
-    
-    sleep(2);
     
     respringNeeded = YES;
     [self.goButton setTitle:@"respring" forState:UIControlStateNormal];
