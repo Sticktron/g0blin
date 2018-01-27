@@ -7,16 +7,16 @@
 //  Copyright © 2017 qwertyoruiop. All rights reserved.
 //
 
-#include "offsets.h"
-#include "common.h"
-#include "kernel.h"
+#import "offsets.h"
+#import "common.h"
+#import "kernel.h"
 #include <sys/mount.h>
 
 #define KSTRUCT_OFFSET_MOUNT_MNT_FLAG   0x70
 #define KSTRUCT_OFFSET_VNODE_V_UN       0xd8
 
 kern_return_t do_remount(uint64_t slide) {
-    uint64_t _rootnode = OFFSET_ROOT_MOUNT_V_NODE + slide;
+    uint64_t _rootnode = OFFSET_ROOTVNODE + slide;
     uint64_t rootfs_vnode = rk64(_rootnode);
     
     // read flags
