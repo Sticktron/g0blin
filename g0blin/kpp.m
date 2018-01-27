@@ -324,14 +324,15 @@ remappage[remapcnt++] = (x & (~PMK));\
         copyout(NewPointer(release), "MarijuanARM", 11); /* marijuanarm */
     }
     
+    
     /* nonceenabler ? */
     {
         uint64_t sysbootnonce = find_sysbootnonce();
         printf("[INFO]: nonce: %x\n", ReadAnywhere32(sysbootnonce));
-
         WriteAnywhere32(sysbootnonce, 1);
     }
-
+    
+    
     /* AMFI */
     
     uint64_t memcmp_got = find_amfi_memcmpstub();
@@ -346,17 +347,16 @@ remappage[remapcnt++] = (x & (~PMK));\
     uint64_t amfiops = find_amfiops();
     printf("[INFO]: amfistr at %llx\n", amfiops);
     
-    {
-        uint64_t sbops = amfiops;
-        uint64_t sbops_end = sbops + sizeof(struct mac_policy_ops);
-        
-        uint64_t nopag = sbops_end - sbops;
-        
-        for (int i = 0; i < nopag; i+= PSZ)
-            RemapPage(((sbops + i) & (~PMK)));
-        
-        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_file_check_mmap)), 0);
-    }
+    uint64_t sbops = amfiops;
+    uint64_t sbops_end = sbops + sizeof(struct mac_policy_ops);
+    
+    uint64_t nopag = sbops_end - sbops;
+    
+    for (int i = 0; i < nopag; i+= PSZ)
+        RemapPage(((sbops + i) & (~PMK)));
+    
+    WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_file_check_mmap)), 0);
+    
     
     /*
      first str
@@ -492,7 +492,8 @@ remappage[remapcnt++] = (x & (~PMK));\
     printf("[INFO]: enabled patches\n");
     
     ret = KERN_SUCCESS;
-
+    
+    
 cleanup:
     return ret;
 }
