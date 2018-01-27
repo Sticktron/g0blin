@@ -24,8 +24,8 @@ kern_return_t do_bootstrap(bool force) {
     
     unlink("/Library/LaunchDaemons/dropbear.plist");
     
-    //unlink("/usr/libexec/reload");
-    //unlink("/Library/LaunchDaemons/0.reload.plist");
+//    unlink("/usr/libexec/reload");
+//    unlink("/Library/LaunchDaemons/0.reload.plist");
     
     
     // cfprefsd test
@@ -34,6 +34,7 @@ kern_return_t do_bootstrap(bool force) {
     CFPreferencesSetAppValue(testKey, testValue, CFSTR("com.apple.springboard"));
     CFPreferencesAppSynchronize(CFSTR("com.apple.springboard"));
     
+    
     // set SBShowNonDefaultSystemApps = YES
     gsystem("killall -SIGSTOP cfprefsd");
     NSMutableDictionary *plist = [[NSMutableDictionary alloc] initWithContentsOfFile:@"/var/mobile/Library/Preferences/com.apple.springboard.plist"];
@@ -41,6 +42,22 @@ kern_return_t do_bootstrap(bool force) {
 //    [plist writeToFile:@"/var/mobile/Library/Preferences/com.apple.springboard.plist" atomically:YES];
     [plist writeToFile:@"/var/mobile/Library/Preferences/com.apple.springboard.plist" atomically:NO];
     gsystem("killall -9 cfprefsd");
+    
+    
+    // TEST
+    gsystem("killall -SIGSTOP cfprefsd");
+    plist = [[NSMutableDictionary alloc] initWithContentsOfFile:@"/var/mobile/Library/Preferences/com.apple.springboard.plist"];
+    [plist setObject:@YES forKey:@"ATestKey"];
+    //    [plist writeToFile:@"/var/mobile/Library/Preferences/com.apple.springboard.plist" atomically:YES];
+    [plist writeToFile:@"/var/mobile/Library/Preferences/com.apple.springboard.plist" atomically:NO];
+    gsystem("killall -9 cfprefsd");
+    
+    gsystem("killall -SIGSTOP cfprefsd");
+    plist = [[NSMutableDictionary alloc] initWithContentsOfFile:@"/var/mobile/Library/Preferences/com.apple.springboard.plist"];
+    [plist setObject:@YES forKey:@"BTestKey"];
+    [plist writeToFile:@"/var/mobile/Library/Preferences/com.apple.springboard.plist" atomically:YES];
+    gsystem("killall -9 cfprefsd");
+    
     
     /***/
     
@@ -109,8 +126,6 @@ kern_return_t do_bootstrap(bool force) {
     chmod("/Library/LaunchDaemons/0.reload.plist", 0644);
     chown("/Library/LaunchDaemons/0.reload.plist", 0, 0);
     
-    // stop SU daemon
-    unlink("/System/Library/LaunchDaemons/com.apple.mobile.softwareupdated.plist");
     
     // update permissions
     chmod("/private", 0777);
@@ -119,24 +134,24 @@ kern_return_t do_bootstrap(bool force) {
     chmod("/private/var/mobile/Library", 0777);
     chmod("/private/var/mobile/Library/Preferences", 0777);
 
+    // stop SU daemon
+    unlink("/System/Library/LaunchDaemons/com.apple.mobile.softwareupdated.plist");
+    
     // kill OTA updater
     gsystem("rm -rf /var/MobileAsset/Assets/com_apple_MobileAsset_SoftwareUpdate; touch /var/MobileAsset/Assets/com_apple_MobileAsset_SoftwareUpdate; chmod 000 /var/MobileAsset/Assets/com_apple_MobileAsset_SoftwareUpdate; chown 0:0 /var/MobileAsset/Assets/com_apple_MobileAsset_SoftwareUpdate");
     LOG("killed OTA updater");
     
     
     // load user launchdaemons; do run commands
-    //LOG("reloading daemons...");
     //gsystem("echo 'really jailbroken';ls /Library/LaunchDaemons | while read a; do launchctl load /Library/LaunchDaemons/$a; done; ls /etc/rc.d | while read a; do /etc/rc.d/$a; done;");
-    
-    // reload
-    LOG("reloading daemons...");
     gsystem("(echo 'really jailbroken'; /bin/launchctl load /Library/LaunchDaemons/0.reload.plist)&");
+    
     
     // OpenSSH workaround (won't load via launchdaemon)
     gsystem("launchctl unload /Library/LaunchDaemons/com.openssh.sshd.plist;/usr/libexec/sshd-keygen-wrapper");
     
     
-    LOG("bootstrapped");
+    LOG("finished bootstrapping.");
         
     return KERN_SUCCESS; // TODO: handle errors?
 }
