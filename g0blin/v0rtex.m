@@ -17,10 +17,11 @@
 #include <string.h>             // strerror, memset
 #include <unistd.h>             // usleep, setuid, getuid
 #include <mach/mach.h>
-#include <CoreFoundation/CoreFoundation.h>
+#import <CoreFoundation/CoreFoundation.h>
 
-#include "common.h"
-#include "offsets.h"
+#import "v0rtex.h"
+#import "common.h"
+#import "offsets.h"
 
 
 #define SIZEOF_TASK                                 0x550
