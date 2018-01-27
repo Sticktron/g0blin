@@ -174,22 +174,19 @@ AVPlayerViewController *cont;
 - (void)finish {
     [self log:@"device is now jailbroken!"];
     [self log:@""];
-    [self log:@"SSH server is ready on port 2222"];
-    [self log:@"change your root/mobile passwords"];
-    [self log:@""];
     [self log:@"respring to load tweaks"];
     
-    respringNeeded = YES;
-    [self.goButton setTitle:@"respring" forState:UIControlStateNormal];
-    self.goButton.enabled = YES;
+//    respringNeeded = YES;
+//    [self.goButton setTitle:@"respring" forState:UIControlStateNormal];
+//    self.goButton.enabled = YES;
 }
 
 - (void)restart {
-    LOG("restarting SpringBoard...");
-    
-    pid_t pid;
-    const char* args[] = { "killall", "backboardd", NULL };
-    posix_spawn(&pid, "/usr/bin/killall", NULL, NULL, (char* const*)args, NULL);
+//    LOG("restarting SpringBoard...");
+//    
+//    pid_t pid;
+//    const char* args[] = { "killall", "backboardd", NULL };
+//    posix_spawn(&pid, "/usr/bin/killall", NULL, NULL, (char* const*)args, NULL);
 }
 
 - (IBAction)fun:(UITapGestureRecognizer *)recognizer {
