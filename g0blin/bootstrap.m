@@ -38,7 +38,8 @@ kern_return_t do_bootstrap(bool force) {
     gsystem("killall -SIGSTOP cfprefsd");
     NSMutableDictionary *plist = [[NSMutableDictionary alloc] initWithContentsOfFile:@"/var/mobile/Library/Preferences/com.apple.springboard.plist"];
     [plist setObject:@YES forKey:@"SBShowNonDefaultSystemApps"];
-    [plist writeToFile:@"/var/mobile/Library/Preferences/com.apple.springboard.plist" atomically:YES];
+//    [plist writeToFile:@"/var/mobile/Library/Preferences/com.apple.springboard.plist" atomically:YES];
+    [plist writeToFile:@"/var/mobile/Library/Preferences/com.apple.springboard.plist" atomically:NO];
     gsystem("killall -9 cfprefsd");
     
     /***/
