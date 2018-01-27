@@ -235,10 +235,6 @@ iPad6,12 - iPad 5/2017 (Cellular)
             OFFSET_ROP_LDR_X0_X0_0x10              = 0xfffffff0063b0a84;
         }
         
-        
-        
-        
-        
         // 10.3.2
         if(!strcmp(osversion, "14F89"))
         {
@@ -259,7 +255,7 @@ iPad6,12 - iPad 5/2017 (Cellular)
             OFFSET_IOSURFACEROOTUSERCLIENT_VTAB    = 0xfffffff006e7c9f8;
             OFFSET_ROP_ADD_X0_X0_0x10              = 0xfffffff0064b1398;
             OFFSET_OSSERIALIZER_SERIALIZE          = 0xfffffff007440ad0;
-            OFFSET_ROP_LDR_X0_X0_0x10              = 0xfffffff0063b4a84;
+            OFFSET_ROP_LDR_X0_X0_0x10              = 0xfffffff0063b4a84; // or 0xfffffff0074c31d4?
         }
         
         // 10.3.1
