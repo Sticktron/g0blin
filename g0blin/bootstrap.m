@@ -22,24 +22,19 @@ kern_return_t do_bootstrap(bool force) {
     unlink("/.installed_g0blin");
     unlink("/.installed_g0blin_rc0");
     
-    unlink("/usr/libexec/reload");
-    unlink("/Library/LaunchDaemons/0.reload.plist");
     unlink("/Library/LaunchDaemons/dropbear.plist");
     
-    // copy dropbear.plist
-    NSString *dropbearPlist = [[NSBundle mainBundle] URLForResource:@"dropbear" withExtension:@"plist"].path;
-    unlink("/Library/LaunchDaemons/dropbear.plist");
-    copyfile([dropbearPlist UTF8String], "/Library/LaunchDaemons/dropbear.plist", 0, COPYFILE_ALL);
-    chmod("/Library/LaunchDaemons/dropbear.plist", 0644);
-    chown("/Library/LaunchDaemons/dropbear.plist", 0, 0);
+    //unlink("/usr/libexec/reload");
+    //unlink("/Library/LaunchDaemons/0.reload.plist");
     
-    // set SBShowNonDefaultSystemApps = YES so we can see Cydia
-    CFStringRef testKey = CFSTR("_Mike_G_TEST_KEY_");
-    CFStringRef testValue = CFSTR("_Mike_G_TEST_VALUE_");
+    
+    // cfprefsd test
+    CFStringRef testKey = CFSTR("Mike_G_TEST_KEY");
+    CFStringRef testValue = CFSTR("Mike_G_TEST_VALUE");
     CFPreferencesSetAppValue(testKey, testValue, CFSTR("com.apple.springboard"));
     CFPreferencesAppSynchronize(CFSTR("com.apple.springboard"));
     
-    // set SBShowNonDefaultSystemApps = YES so we can see Cydia (TODO: set via cfprefsd instead?)
+    // set SBShowNonDefaultSystemApps = YES
     gsystem("killall -SIGSTOP cfprefsd");
     NSMutableDictionary *plist = [[NSMutableDictionary alloc] initWithContentsOfFile:@"/var/mobile/Library/Preferences/com.apple.springboard.plist"];
     [plist setObject:@YES forKey:@"SBShowNonDefaultSystemApps"];
@@ -128,8 +123,16 @@ kern_return_t do_bootstrap(bool force) {
     LOG("killed OTA updater");
     
     
+    // load user launchdaemons; do run commands
+    //LOG("reloading daemons...");
+    //gsystem("echo 'really jailbroken';ls /Library/LaunchDaemons | while read a; do launchctl load /Library/LaunchDaemons/$a; done; ls /etc/rc.d | while read a; do /etc/rc.d/$a; done;");
+    
+    // reload
     LOG("reloading daemons...");
     gsystem("(echo 'really jailbroken'; /bin/launchctl load /Library/LaunchDaemons/0.reload.plist)&");
+    
+    // OpenSSH workaround (won't load via launchdaemon)
+    gsystem("launchctl unload /Library/LaunchDaemons/com.openssh.sshd.plist;/usr/libexec/sshd-keygen-wrapper");
     
     
     LOG("bootstrapped");
