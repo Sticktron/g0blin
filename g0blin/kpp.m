@@ -6,14 +6,14 @@
 //  Copyright © 2017 qwertyoruiop. All rights reserved.
 //
 
-#include "kpp.h"
-#include "kernel.h"
+#import "kpp.h"
+#import "kernel.h"
 
 
 // This is @qwertyoruiop's KPP bypass from Yalu102 -----------------------------
 
 #import "pte_stuff.h"
-#include "patchfinder64.h"
+#import "patchfinder64.h"
 
 
 kern_return_t do_kpp(int nukesb, int uref, uint64_t kernbase, uint64_t slide, task_t tfp0) {
@@ -406,14 +406,11 @@ remappage[remapcnt++] = (x & (~PMK));\
             RemapPage(((sbops + i*(PSZ)) & (~PMK)));
         }
 
+        
+        
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_file_check_mmap)), 0);
         
-        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_iokit_check_get_property)), 0); //ts
-        
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_mount_check_stat)), 0);
-        
-        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_proc_check_fork)), 0); //ts
-        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_proc_check_run_cs_invalid)), 0); //test
         
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_access)), 0);
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_chroot)), 0);
@@ -430,9 +427,7 @@ remappage[remapcnt++] = (x & (~PMK));\
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_listextattr)), 0);
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_open)), 0);
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_readlink)), 0);
-        
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_rename)), 0);
-        
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_setattrlist)), 0);
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_setextattr)), 0);
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_setflags)), 0);
@@ -446,9 +441,16 @@ remappage[remapcnt++] = (x & (~PMK));\
 
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_notify_create)), 0);
         
+        
+        // test
+//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_iokit_check_get_property)), 0); //ts
+//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_proc_check_fork)), 0); //ts
+//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_proc_check_run_cs_invalid)), 0); //test
+        
+
         // mpo_cred_check_label_update_execve - tihmstar
-        // WARNING - has to patched like this or Widgets (and javascript?) fail.
         {
+            // WARNING - has to patched like this or Widgets (and javascript?) fail.
             uint64_t off = find_sandbox_label_update_execve();
             
             LOG("find_sandbox_label_update_execve = 0x%llx", off);
@@ -461,6 +463,8 @@ remappage[remapcnt++] = (x & (~PMK));\
             RemapPage(off);
             WriteAnywhere32(NewPointer(off), INSN_NOP);
         }
+        
+        
     }
     
     {
