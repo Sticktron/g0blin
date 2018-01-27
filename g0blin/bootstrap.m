@@ -17,49 +17,48 @@ extern int (*gsystem)(const char *);
 
 kern_return_t do_bootstrap(bool force) {
     
+    // cfprefsd test
+    CFStringRef testKey = CFSTR("MikeG");
+    CFStringRef testValue = CFSTR("was_here");
+    CFPreferencesAppSynchronize(CFSTR("com.apple.springboard"));
+    CFPreferencesSetAppValue(testKey, testValue, CFSTR("com.apple.springboard"));
+    CFPreferencesAppSynchronize(CFSTR("com.apple.springboard"));
+    
+    
     /* Cleanup from RC0/RC1 */
     
     unlink("/.installed_g0blin");
     unlink("/.installed_g0blin_rc0");
     
+    // uninstall dropbear
     unlink("/Library/LaunchDaemons/dropbear.plist");
+    unlink("/etc/dropbear/dropbear_ecdsa_host_key");
+    unlink("/etc/dropbear/dropbear_rsa_host_key");
+    rmdir("/etc/dropbear");
+    unlink("/usr/local/bin/dropbear");
+    unlink("/usr/local/bin/dropbearconvert");
+    unlink("/usr/local/bin/dropbearkey");
     
-//    unlink("/usr/libexec/reload");
-//    unlink("/Library/LaunchDaemons/0.reload.plist");
-    
-    
-    // cfprefsd test
-    CFStringRef testKey = CFSTR("Mike_G_TEST_KEY");
-    CFStringRef testValue = CFSTR("Mike_G_TEST_VALUE");
-    CFPreferencesSetAppValue(testKey, testValue, CFSTR("com.apple.springboard"));
-    CFPreferencesAppSynchronize(CFSTR("com.apple.springboard"));
-    
+    // delete reload daemon and script
+    unlink("/usr/libexec/reload");
+    unlink("/Library/LaunchDaemons/0.reload.plist");
     
     // set SBShowNonDefaultSystemApps = YES
     gsystem("killall -SIGSTOP cfprefsd");
     NSMutableDictionary *plist = [[NSMutableDictionary alloc] initWithContentsOfFile:@"/var/mobile/Library/Preferences/com.apple.springboard.plist"];
     [plist setObject:@YES forKey:@"SBShowNonDefaultSystemApps"];
-//    [plist writeToFile:@"/var/mobile/Library/Preferences/com.apple.springboard.plist" atomically:YES];
     [plist writeToFile:@"/var/mobile/Library/Preferences/com.apple.springboard.plist" atomically:NO];
     gsystem("killall -9 cfprefsd");
     
-    
-    // TEST
+    // 2x just to be sure
     gsystem("killall -SIGSTOP cfprefsd");
     plist = [[NSMutableDictionary alloc] initWithContentsOfFile:@"/var/mobile/Library/Preferences/com.apple.springboard.plist"];
-    [plist setObject:@YES forKey:@"ATestKey"];
-    //    [plist writeToFile:@"/var/mobile/Library/Preferences/com.apple.springboard.plist" atomically:YES];
-    [plist writeToFile:@"/var/mobile/Library/Preferences/com.apple.springboard.plist" atomically:NO];
-    gsystem("killall -9 cfprefsd");
-    
-    gsystem("killall -SIGSTOP cfprefsd");
-    plist = [[NSMutableDictionary alloc] initWithContentsOfFile:@"/var/mobile/Library/Preferences/com.apple.springboard.plist"];
-    [plist setObject:@YES forKey:@"BTestKey"];
+    [plist setObject:@YES forKey:@"SBShowNonDefaultSystemApps"];
     [plist writeToFile:@"/var/mobile/Library/Preferences/com.apple.springboard.plist" atomically:YES];
     gsystem("killall -9 cfprefsd");
     
+    /*****/
     
-    /***/
     
     
     // Install Cydia if necessary or requested
@@ -112,21 +111,6 @@ kern_return_t do_bootstrap(bool force) {
     LOG("Cydia is installed");
     
     
-    // copy reload
-    NSString *reload = [[NSBundle mainBundle] URLForResource:@"reload" withExtension:@""].path;
-    unlink("/usr/libexec/reload");
-    copyfile([reload UTF8String], "/usr/libexec/reload", 0, COPYFILE_ALL);
-    chmod("/usr/libexec/reload", 0755);
-    chown("/usr/libexec/reload", 0, 0);
-    
-    // copy 0.reload.plist
-    NSString *reloadPlist = [[NSBundle mainBundle] URLForResource:@"0.reload" withExtension:@"plist"].path;
-    unlink("/Library/LaunchDaemons/0.reload.plist");
-    copyfile([reloadPlist UTF8String], "/Library/LaunchDaemons/0.reload.plist", 0, COPYFILE_ALL);
-    chmod("/Library/LaunchDaemons/0.reload.plist", 0644);
-    chown("/Library/LaunchDaemons/0.reload.plist", 0, 0);
-    
-    
     // update permissions
     chmod("/private", 0777);
     chmod("/private/var", 0777);
@@ -141,11 +125,8 @@ kern_return_t do_bootstrap(bool force) {
     gsystem("rm -rf /var/MobileAsset/Assets/com_apple_MobileAsset_SoftwareUpdate; touch /var/MobileAsset/Assets/com_apple_MobileAsset_SoftwareUpdate; chmod 000 /var/MobileAsset/Assets/com_apple_MobileAsset_SoftwareUpdate; chown 0:0 /var/MobileAsset/Assets/com_apple_MobileAsset_SoftwareUpdate");
     LOG("killed OTA updater");
     
-    
     // load user launchdaemons; do run commands
-    //gsystem("echo 'really jailbroken';ls /Library/LaunchDaemons | while read a; do launchctl load /Library/LaunchDaemons/$a; done; ls /etc/rc.d | while read a; do /etc/rc.d/$a; done;");
-    gsystem("(echo 'really jailbroken'; /bin/launchctl load /Library/LaunchDaemons/0.reload.plist)&");
-    
+    gsystem("echo 'really jailbroken';ls /Library/LaunchDaemons | while read a; do launchctl load /Library/LaunchDaemons/$a; done; ls /etc/rc.d | while read a; do /etc/rc.d/$a; done;");
     
     // OpenSSH workaround (won't load via launchdaemon)
     gsystem("launchctl unload /Library/LaunchDaemons/com.openssh.sshd.plist;/usr/libexec/sshd-keygen-wrapper");

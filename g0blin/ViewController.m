@@ -20,7 +20,10 @@
 #include <sys/utsname.h>
 
 
-#define GRAPE [UIColor colorWithRed:0.5 green:0 blue:1 alpha:1]
+#define GRAPE       [UIColor colorWithRed:0.5 green:0 blue:1 alpha:1]
+#define STRAWBERRY  [UIColor colorWithRed:1 green:0 blue:0.5 alpha:1]
+
+extern int (*gsystem)(const char *);
 
 
 @interface ViewController ()
@@ -174,18 +177,26 @@ AVPlayerViewController *cont;
 - (void)finish {
     [self log:@"device is now jailbroken!"];
     [self log:@""];
-    [self log:@"restarting backboardd..."];
     
-//    respringNeeded = YES;
-//    [self.goButton setTitle:@"respring" forState:UIControlStateNormal];
-//    self.goButton.enabled = YES;
+    [self.goButton setTitle:@"finishing" forState:UIControlStateDisabled];
+    sleep(5);
+    [self restart];
 }
 
 - (void)restart {
-//    LOG("restarting SpringBoard...");
-//    pid_t pid;
-//    const char* args[] = { "killall", "backboardd", NULL };
-//    posix_spawn(&pid, "/usr/bin/killall", NULL, NULL, (char* const*)args, NULL);
+    [self log:@"restarting backboardd..."];
+    
+    // 1. kill
+    //gsystem("(killall backboardd)&");
+    
+    // 2. kill from another process
+    //pid_t pid;
+    //const char* args[] = { "killall", "backboardd", NULL };
+    //posix_spawn(&pid, "/usr/bin/killall", NULL, NULL, (char* const*)args, NULL);
+    
+    // 3. stop then kill
+    //gsystem("(launchctl stop com.apple.backboardd; killall backboardd SpringBoard)&");
+    gsystem("launchctl stop com.apple.backboardd; killall backboardd SpringBoard");
 }
 
 - (IBAction)fun:(UITapGestureRecognizer *)recognizer {

@@ -25,10 +25,7 @@
 		EE9828C01FF3E2C50085B633 /* remount.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9828BE1FF3E2C40085B633 /* remount.m */; };
 		EE9828C31FF3E9AA0085B633 /* bootstrap.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9828C21FF3E9AA0085B633 /* bootstrap.m */; };
 		EE9828C81FF418800085B633 /* tar in Resources */ = {isa = PBXBuildFile; fileRef = EE9828C41FF4187F0085B633 /* tar */; };
-		EE9828C91FF418800085B633 /* 0.reload.plist in Resources */ = {isa = PBXBuildFile; fileRef = EE9828C51FF4187F0085B633 /* 0.reload.plist */; };
 		EE9828CA1FF418800085B633 /* launchctl in Resources */ = {isa = PBXBuildFile; fileRef = EE9828C61FF4187F0085B633 /* launchctl */; };
-		EE9828CB1FF418800085B633 /* reload in Resources */ = {isa = PBXBuildFile; fileRef = EE9828C71FF4187F0085B633 /* reload */; };
-		EEF6994B1FF68F6A00932DB7 /* dropbear.plist in Resources */ = {isa = PBXBuildFile; fileRef = EEE1C5101FF5D3FE00A77E2C /* dropbear.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -64,10 +61,7 @@
 		EE9828C11FF3E9AA0085B633 /* bootstrap.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bootstrap.h; sourceTree = "<group>"; };
 		EE9828C21FF3E9AA0085B633 /* bootstrap.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = bootstrap.m; sourceTree = "<group>"; };
 		EE9828C41FF4187F0085B633 /* tar */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = tar; sourceTree = "<group>"; };
-		EE9828C51FF4187F0085B633 /* 0.reload.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = 0.reload.plist; sourceTree = "<group>"; };
 		EE9828C61FF4187F0085B633 /* launchctl */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = launchctl; sourceTree = "<group>"; };
-		EE9828C71FF4187F0085B633 /* reload */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = reload; sourceTree = "<group>"; };
-		EEE1C5101FF5D3FE00A77E2C /* dropbear.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = dropbear.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,9 +151,6 @@
 				EE1C60E31FFACA3500D30AAC /* bootstrap.tar */,
 				EE9828C41FF4187F0085B633 /* tar */,
 				EE9828C61FF4187F0085B633 /* launchctl */,
-				EE9828C71FF4187F0085B633 /* reload */,
-				EE9828C51FF4187F0085B633 /* 0.reload.plist */,
-				EEE1C5101FF5D3FE00A77E2C /* dropbear.plist */,
 			);
 			name = payload;
 			sourceTree = "<group>";
@@ -222,12 +213,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EEF6994B1FF68F6A00932DB7 /* dropbear.plist in Resources */,
 				EE1C60E41FFACA3600D30AAC /* bootstrap.tar in Resources */,
 				EE9828C81FF418800085B633 /* tar in Resources */,
-				EE9828C91FF418800085B633 /* 0.reload.plist in Resources */,
 				EE9828CA1FF418800085B633 /* launchctl in Resources */,
-				EE9828CB1FF418800085B633 /* reload in Resources */,
 				EE94024B1FF33CAE00C9325F /* LaunchScreen.storyboard in Resources */,
 				EE7DA0F42008751B002A63FC /* y0nkers.m4v in Resources */,
 				EE9402481FF33CAE00C9325F /* Assets.xcassets in Resources */,
