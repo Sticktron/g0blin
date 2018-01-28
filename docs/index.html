@@ -29,11 +29,15 @@
 			height: 100%;
 		}
 		body {
-			height: 100%;
+			margin: 0;
+			/* height: 100%; */
 			background-color: #212121;
-			color: #eee;
+			color: #e0e0e0;
 			font-family: Helvetica, arial, sans-serif;
 			font-family: monospace;
+			font-size: 0.9em;
+			line-height: 1.5em;
+			text-align: center;
 		}
 		a, a:visited {
 			color: #8000ff;
@@ -41,48 +45,121 @@
 		a:active, a:hover {
 			color: #ff0080;
 		}
-		#wrapper {
-			width: 100%;
-			height: 80%;
-			margin: 0;
-			padding 0;
+		
+		p {
+			margin-top: 0;
+		}
+		
+		hr {
 			border: 0;
-			text-align: center;
-			vertical-align: middle;
-			/* background-color: #333333; */
+			margin: 0;
+			height: 1px;
+			background-color: #000;
 		}
-		#logo {
-			width: 270px;
-			margin-bottom: 20px;
+		
+		header {
+			padding-top: 40px;
+			padding-bottom: 20px;
+			background-color: #212121;
 		}
+		
+		section {
+			padding: 30px 5%;
+		}
+		
+		footer {
+			padding: 30px 5% 20px;
+		}
+		
+/*
+#212121 13%
+#242424 14%
+#262626 15%
+#292929 16%
+#2b2b2b 17%
+#2e2e2e 18%
+#303030 19%
+#333333 20%
+*/
+		
+		section#supported-devices {
+			background-color: #242424;
+		}
+		section#download {
+			background-color: #262626;
+		}
+		section#notes {
+			background-color: #292929;
+		}
+		section#issues {
+			background-color: #2b2b2b;
+		}
+		section#credits {
+			background-color: #2e2e2e;
+		}
+		
 	</style>
+	
+	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+	<script>
+	  (adsbygoogle = window.adsbygoogle || []).push({
+	    google_ad_client: "ca-pub-7807704611118026",
+	    enable_page_level_ads: true
+	  });
+	</script>
 </head>
 
 <body>
-	<table id="wrapper">
-		<tr>
-			<td>
-				<image id="logo" src="images/g0blin.png" alt="g0blin jailbreak"/>
-				<p>jailbreak for iOS 10.3.x | 64-bit | A7-A9</p>
-				<p>install with Cydia Impactor</p>
-				
-				<br/>
-				
-				<p>{ download }</p>
-				<p><a href="files/g0blin_rc1.ipa">download g0blin RC1</a></p>
-				<p><del>g0blin RC0 *nuked*</del></p>
-				
-				<br/>
-		
-				<p>issues:</p>
-				<p>• Touch ID stops working in App Store apps while jailbroken</p>
-				
-				<br/><br/>
-				
-				<p>😈</p>
-			</td>
-		</tr>
-	</table>
+	<header>
+		<img src="images/g0blin.png" alt="g0blin jailbreak" width="270"/>
+		<p>wip jailbreak for iOS 10.3 - 10.3.3</p>
+	</header>
+	
+	<section id="supported-devices">
+		<p><b>supported devices:</b></p>
+		<img src="images/splash.png" alt="supported devices" width="600"/><!--1600-->
+	</section>
+	
+	<section id="download">
+		<p><b>download:</b></p>
+		<p><h2><a href="files/g0blin_rc1.ipa">g0blin RC1 official</a></h2></p>
+		<p>SHA1: b370789e866f0125a66dbc48ef24f4ca00ed9b0b</p>
+		<p>install with Cydia Impactor</p>
+	</section>
+
+	<section id="notes">
+		<p><b>notes:</b></p>
+		<p>spawns dropbear SSH server, listening on port 2222</p>
+	</section>
+	
+	<section id="issues">
+		<p><b>issues:</b></p>
+		<p>• Touch ID stops working in App Store apps while jailbroken</p>
+		<p>
+			• Cydia icon does not appear after jailbroken<br/>
+			(set SBShowNonDefaultApps=YES in /User/Library/Preferences/com.apple.springboard.plist)
+		</p>
+		<p>
+			• Respring button causes device to reboot<br/>
+			(try respringing another way until I fix the issue)
+		</p>
+	</section>
+	
+	<section id="credits">
+		<p><b>credits:</b></p>
+		<p>v0rtex kernel exploit by Siguza, vuln by Ian Beer, POC by windknown</p>
+		<p>kpp bypass, sandbox, codesigning from yalu102 by Luca Todesco</p>
+		<p>additional sandbox work from h3lix by tihmstar</p>
+		<p>patchfinder from extra_recipe by Xerub</p>
+		<p>additional patchfinder work from async_wake_fun by ninjaprawn</p>
+		<p>Cydia by Jay Freeman (saurik)</p>
+	</section>
+
+	<footer>
+		<p>by Sticktron</p>
+		<p>😈</p>
+	</footer>
+	
 </body>
 
 </html>
