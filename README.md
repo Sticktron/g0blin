@@ -33,8 +33,6 @@ Spawns a dropbear SSH server listening on port 2222. Remember to change your pas
 - support for all compatible device/OS combinations
 - Cydia icon is hidden (show hidden apps plist fail)
 - Respring button is panicky (you don't have to click it)
-- internal mechanics
-- refactoring
 
 
 ## developer notes
@@ -69,16 +67,12 @@ Spawns a dropbear SSH server listening on port 2222. Remember to change your pas
 
 ## much love
 
-Siguza, Ian Beer, windknown, Luca Todesco, xerub, tihmstar, saurik, uroboro, Abraham Masri, arx8x, psycho tea, cryptic; tyler, the creator, my muse, Dr. TC, for keeping me alive in 2011; madflav0r coco diaz, bert k, the joe rogan podcast, J.P., for helping me find my way in 2016; mom.
+Siguza, Ian Beer, windknown, Luca Todesco, xerub, tihmstar, saurik, uroboro, cheesecakeufo, arx8x, psycho tea, cryptic; Tyler, the Creator, randomblackdude, Mom.
 
 I am extremely grateful for everyone whose open-source/public contributions to iOS research and developement made this software possible :)
 
-peace.love.beauty.
-
 
 &nbsp;
-
-
 &nbsp;
 
 
