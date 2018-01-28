@@ -7,6 +7,17 @@ a work-in-progress jailbreak for iOS 10.3.x
 Made from off the shelf parts and shared research, long live the jailbreak community!
 
 
+## supported devices
+
+iPod 6G
+iPhone 5S, 6, 6+, 6S, 6S+, SE
+iPad Air, Air 2, 5G (2017), Pro 1G 9.7", Pro 1G 12.9", Mini 2, Mini 3, Mini 4
+
+## supported iOS versions
+
+10.3 - 10.3.3
+
+
 ## ingredients
 
 + [v0rtex](http://github.com/siguza/v0rtex) kernel exploit by Siguza, vuln by Ian Beer, POC by windknown
@@ -41,14 +52,7 @@ Spawns a dropbear SSH server listening on port 2222. Remember to change your pas
 2) Install using [Cydia Impactor](http://www.cydiaimpactor.com)
 
 
-## supported devices
-
-iPod 6G
-iPhone 5S, 6, 6+, 6S, 6S+, SE
-iPad Air, Air 2, 5G (2017), Pro 1G 9.7", Pro 1G 12.9", Mini 2, Mini 3, Mini 4
-
-
-## much love
+## shoutouts
 
 Siguza, Ian Beer, windknown, Luca Todesco, xerub, tihmstar, saurik, uroboro, cheesecakeufo, arx8x, psycho tea, cryptic; Tyler, the Creator, randomblackdude, Mom.
 
