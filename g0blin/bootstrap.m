@@ -17,18 +17,40 @@ extern int (*gsystem)(const char *);
 
 kern_return_t do_bootstrap(bool force) {
     
-    // cfprefsd test
-    CFStringRef testKey = CFSTR("MikeG");
+    // cfprefsd tests...
+    
+    CFStringRef appName = CFSTR("/private/var/mobile/Library/Preferences/com.apple.springboard.plist");
+    CFStringRef testKey = CFSTR("MikeG_test1");
     CFStringRef testValue = CFSTR("was_here");
-    CFPreferencesAppSynchronize(CFSTR("com.apple.springboard"));
+    CFPreferencesAppSynchronize(appName);
     CFPreferencesSetAppValue(testKey, testValue, CFSTR("com.apple.springboard"));
-    CFPreferencesAppSynchronize(CFSTR("com.apple.springboard"));
+    CFPreferencesAppSynchronize(appName);
+    
+    appName = CFSTR("/private/var/mobile/Library/Preferences/com.apple.springboard");
+    testKey = CFSTR("MikeG_test2");
+    testValue = CFSTR("was_here");
+    CFPreferencesAppSynchronize(appName);
+    CFPreferencesSetAppValue(testKey, testValue, appName);
+    CFPreferencesAppSynchronize(appName);
+
+    appName = CFSTR("com.apple.springboard");
+    testKey = CFSTR("MikeG_test3");
+    testValue = CFSTR("was_here");
+    CFPreferencesAppSynchronize(appName);
+    CFPreferencesSetAppValue(testKey, testValue, appName);
+    CFPreferencesAppSynchronize(appName);
+
     
     
+    
+    //--------------------------------------------------------------------------
     /* Cleanup from RC0/RC1 */
     
     unlink("/.installed_g0blin");
     unlink("/.installed_g0blin_rc0");
+    unlink("/.installed_g0blin_rc1");
+
+    gsystem("touch /.installed_g0blin_rc2");
     
     // uninstall dropbear
     unlink("/Library/LaunchDaemons/dropbear.plist");
@@ -40,25 +62,25 @@ kern_return_t do_bootstrap(bool force) {
     unlink("/usr/local/bin/dropbearkey");
     
     // delete reload daemon and script
-    unlink("/usr/libexec/reload");
-    unlink("/Library/LaunchDaemons/0.reload.plist");
+    //unlink("/usr/libexec/reload");
+    //unlink("/Library/LaunchDaemons/0.reload.plist");
     
     // set SBShowNonDefaultSystemApps = YES
     gsystem("killall -SIGSTOP cfprefsd");
-    NSMutableDictionary *plist = [[NSMutableDictionary alloc] initWithContentsOfFile:@"/var/mobile/Library/Preferences/com.apple.springboard.plist"];
+    NSMutableDictionary *plist = [[NSMutableDictionary alloc] initWithContentsOfFile:@"/private/var/mobile/Library/Preferences/com.apple.springboard.plist"];
     [plist setObject:@YES forKey:@"SBShowNonDefaultSystemApps"];
     [plist writeToFile:@"/var/mobile/Library/Preferences/com.apple.springboard.plist" atomically:NO];
     gsystem("killall -9 cfprefsd");
     
     // 2x just to be sure
     gsystem("killall -SIGSTOP cfprefsd");
-    plist = [[NSMutableDictionary alloc] initWithContentsOfFile:@"/var/mobile/Library/Preferences/com.apple.springboard.plist"];
+    plist = [[NSMutableDictionary alloc] initWithContentsOfFile:@"/private/var/mobile/Library/Preferences/com.apple.springboard.plist"];
     [plist setObject:@YES forKey:@"SBShowNonDefaultSystemApps"];
     [plist writeToFile:@"/var/mobile/Library/Preferences/com.apple.springboard.plist" atomically:YES];
     gsystem("killall -9 cfprefsd");
     
-    /*****/
-    
+    //--------------------------------------------------------------------------
+
     
     
     // Install Cydia if necessary or requested
@@ -66,8 +88,8 @@ kern_return_t do_bootstrap(bool force) {
         LOG("installing Cydia...");
         
         // copy launchctl
-        NSString *launchctl = [[NSBundle mainBundle] URLForResource:@"launchctl" withExtension:@""].path;
         unlink("/bin/launchctl");
+        NSString *launchctl = [[NSBundle mainBundle] URLForResource:@"launchctl" withExtension:@""].path;
         copyfile([launchctl UTF8String], "/bin/launchctl", 0, COPYFILE_ALL);
         chmod("/bin/launchctl", 0755);
         
@@ -85,7 +107,7 @@ kern_return_t do_bootstrap(bool force) {
         LOG("unpacked bootstrap ");
         
         // !!! DO NOT USE TRADITIONAL STASHING !!!
-        open("/.cydia_no_stash", O_RDWR|O_CREAT);
+        gsystem("touch /.cydia_no_stash");
         
         // run Cydia install scripts
         LOG("running Cydia extrainst scripts...");
@@ -110,6 +132,19 @@ kern_return_t do_bootstrap(bool force) {
     }
     LOG("Cydia is installed");
     
+    // copy reload script
+    unlink("/usr/libexec/reload");
+    NSString *reload = [[NSBundle mainBundle] URLForResource:@"reload" withExtension:@""].path;
+    copyfile([reload UTF8String], "/usr/libexec/reload", 0, COPYFILE_ALL);
+    chmod("/usr/libexec/reload", 0755);
+    chown("/usr/libexec/reload", 0, 0);
+    
+    // copy reload daemon
+    unlink("/Library/LaunchDaemons/0.reload.plist");
+    NSString *reloadPlist = [[NSBundle mainBundle] URLForResource:@"0.reload" withExtension:@"plist"].path;
+    copyfile([reloadPlist UTF8String], "/Library/LaunchDaemons/0.reload.plist", 0, COPYFILE_ALL);
+    chmod("/Library/LaunchDaemons/0.reload.plist", 0644);
+    chown("/Library/LaunchDaemons/0.reload.plist", 0, 0);
     
     // update permissions
     chmod("/private", 0777);
@@ -117,19 +152,14 @@ kern_return_t do_bootstrap(bool force) {
     chmod("/private/var/mobile", 0777);
     chmod("/private/var/mobile/Library", 0777);
     chmod("/private/var/mobile/Library/Preferences", 0777);
-
-    // stop SU daemon
+    
+    // stop softwareupdate daemon
     unlink("/System/Library/LaunchDaemons/com.apple.mobile.softwareupdated.plist");
+    gsystem("rm -f /System/Library/LaunchDaemons/com.apple.mobile.softwareupdated.plist");
     
     // kill OTA updater
     gsystem("rm -rf /var/MobileAsset/Assets/com_apple_MobileAsset_SoftwareUpdate; touch /var/MobileAsset/Assets/com_apple_MobileAsset_SoftwareUpdate; chmod 000 /var/MobileAsset/Assets/com_apple_MobileAsset_SoftwareUpdate; chown 0:0 /var/MobileAsset/Assets/com_apple_MobileAsset_SoftwareUpdate");
     LOG("killed OTA updater");
-    
-    // load user launchdaemons; do run commands
-    gsystem("echo 'really jailbroken';ls /Library/LaunchDaemons | while read a; do launchctl load /Library/LaunchDaemons/$a; done; ls /etc/rc.d | while read a; do /etc/rc.d/$a; done;");
-    
-    // OpenSSH workaround (won't load via launchdaemon)
-    gsystem("launchctl unload /Library/LaunchDaemons/com.openssh.sshd.plist;/usr/libexec/sshd-keygen-wrapper");
     
     
     LOG("finished bootstrapping.");

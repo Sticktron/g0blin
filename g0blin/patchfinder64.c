@@ -16,7 +16,11 @@ typedef unsigned long long addr_t;
 
 #define MACHO(p) ((*(unsigned int *)(p) & ~1) == 0xfeedface)
 
-/* generic stuff *************************************************************/
+
+
+//------------------------------------------------------------------------------
+#pragma mark - general
+//------------------------------------------------------------------------------
 
 #define UCHAR_MAX 255
 
@@ -75,7 +79,11 @@ boyermoore_horspool_memmem(const unsigned char* haystack, size_t hlen,
     return NULL;
 }
 
-/* disassembler **************************************************************/
+
+
+//------------------------------------------------------------------------------
+#pragma mark - disassembler
+//------------------------------------------------------------------------------
 
 static int HighestSetBit(int N, uint32_t imm)
 {
@@ -194,7 +202,11 @@ static int DecodeMov(uint32_t opcode, uint64_t total, int first, uint64_t *newva
 	return -1;
 }
 
-/* patchfinder ***************************************************************/
+
+ 
+//------------------------------------------------------------------------------
+#pragma mark - Patchfinder
+//------------------------------------------------------------------------------
 
 static addr_t
 step64(const uint8_t *buf, addr_t start, size_t length, uint32_t what, uint32_t mask)
@@ -410,7 +422,11 @@ follow_cbz(const uint8_t *buf, addr_t cbz)
     return cbz + ((*(int *)(buf + cbz) & 0x3FFFFE0) << 10 >> 13);
 }
 
-/* kernel iOS10 **************************************************************/
+
+
+//------------------------------------------------------------------------------
+#pragma mark - iOS 10 kernel
+//------------------------------------------------------------------------------
 
 #include <fcntl.h>
 #include <stdio.h>
@@ -1060,9 +1076,11 @@ addr_t find_amficache(void) {
     return val + kerndumpbase;
 }
 
-// #ifdef HAVE_MAIN
 
-/* extra_recipe **************************************************************/
+
+//------------------------------------------------------------------------------
+#pragma mark - extra_recipe
+//------------------------------------------------------------------------------
 
 #define INSN_STR8 0xF9000000 | 8, 0xFFC00000 | 0x1F
 
@@ -1088,30 +1106,6 @@ find_AGXCommandQueue_vtable(void)
         return 0;
     }
     val = calc64(kernel, ref, str8, 8);
-    if (!val) {
-        return 0;
-    }
-    return val + kerndumpbase;
-}
-
-addr_t
-find_allproc(void)
-{
-    addr_t val, bof, str8;
-    addr_t ref = find_strref("\"pgrp_add : pgrp is dead adding process\"", 1, 0); // modified
-    if (!ref) {
-        return 0;
-    }
-    ref -= kerndumpbase;
-    bof = bof64(kernel, xnucore_base, ref);
-    if (!bof) {
-        return 0;
-    }
-    str8 = step64_back(kernel, ref, ref - bof, INSN_STR8);
-    if (!str8) {
-        return 0;
-    }
-    val = calc64(kernel, bof, str8, 8);
     if (!val) {
         return 0;
     }
@@ -1197,7 +1191,35 @@ find_symbol(const char *symbol)
 }
 
 
-/* g0blin ****z****************************************************************/
+
+//------------------------------------------------------------------------------
+#pragma mark - g0blin
+//------------------------------------------------------------------------------
+
+addr_t
+find_allproc(void)
+{
+    addr_t val, bof, str8;
+    addr_t ref = find_strref("\"pgrp_add : pgrp is dead adding process\"", 1, 0); // modified
+    if (!ref) {
+        return 0;
+    }
+    ref -= kerndumpbase;
+    bof = bof64(kernel, xnucore_base, ref);
+    if (!bof) {
+        return 0;
+    }
+    str8 = step64_back(kernel, ref, ref - bof, INSN_STR8);
+    if (!str8) {
+        return 0;
+    }
+    val = calc64(kernel, bof, str8, 8);
+    if (!val) {
+        return 0;
+    }
+    return val + kerndumpbase;
+}
+
 addr_t find_sandbox_label_update_execve(void) {
     
     addr_t ref;
@@ -1229,12 +1251,13 @@ addr_t find_sandbox_label_update_execve(void) {
 
 
 
-/* test **********************************************************************/
+//------------------------------------------------------------------------------
+#pragma mark - test
+//------------------------------------------------------------------------------
 
-/*
-int
-main(int argc, char **argv)
-{
+#if HAVE_MAIN
+
+int main(int argc, char **argv) {
     int rv;
     addr_t base = 0;
     const addr_t vm_kernel_slide = 0;
@@ -1260,6 +1283,6 @@ main(int argc, char **argv)
 
     term_kernel();
     return 0;
-}*/
+}
 
-// #endif	/* HAVE_MAIN */
+#endif    /* HAVE_MAIN */

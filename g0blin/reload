@@ -1,0 +1,20 @@
+#!/bin/bash
+
+#ls /etc/rc.d | while read a; do /etc/rc.d/$a; done
+for file in /etc/rc.d/*; do
+  echo "$file"
+  $file
+done
+
+sleep 1
+
+launchctl unload $(ls /System/Library/LaunchDaemons/ | grep -v logd | grep -v fud | grep -v ReportCrash | while read a; do printf /System/Library/LaunchDaemons/$a\ ; done)
+launchctl unload /System/Library/NanoLaunchDaemons
+
+sleep 1
+
+launchctl load /System/Library/LaunchDaemons
+launchctl load /System/Library/NanoLaunchDaemons
+launchctl load /Library/LaunchDaemons
+
+exit 0

@@ -325,17 +325,22 @@ remappage[remapcnt++] = (x & (~PMK));\
     }
     
     
-    /* nonceenabler ? */
+    /* nonceenabler */
     {
         uint64_t sysbootnonce = find_sysbootnonce();
-        printf("[INFO]: nonce: %x\n", ReadAnywhere32(sysbootnonce));
-        WriteAnywhere32(sysbootnonce, 1);
+        printf("[INFO]: found com.apple.System.boot-nonce at: 0%llx\n", sysbootnonce);
+        if (sysbootnonce) {
+            printf("[INFO]: nonce: 0%x\n", ReadAnywhere32(sysbootnonce));
+            WriteAnywhere32(sysbootnonce, 1);
+        }
     }
     
     
     /* AMFI */
     
     uint64_t memcmp_got = find_amfi_memcmpstub();
+    printf("[INFO]: amfi_memcmpstub at %llx\n", memcmp_got);
+    
     uint64_t ret1 = find_ret_0();
 
     RemapPage(memcmp_got);
@@ -347,15 +352,17 @@ remappage[remapcnt++] = (x & (~PMK));\
     uint64_t amfiops = find_amfiops();
     printf("[INFO]: amfistr at %llx\n", amfiops);
     
-    uint64_t sbops = amfiops;
-    uint64_t sbops_end = sbops + sizeof(struct mac_policy_ops);
-    
-    uint64_t nopag = sbops_end - sbops;
-    
-    for (int i = 0; i < nopag; i+= PSZ)
-        RemapPage(((sbops + i) & (~PMK)));
-    
-    WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_file_check_mmap)), 0);
+    {
+        uint64_t sbops = amfiops;
+        uint64_t sbops_end = sbops + sizeof(struct mac_policy_ops);
+        
+        uint64_t nopag = sbops_end - sbops;
+        
+        for (int i = 0; i < nopag; i+= PSZ)
+            RemapPage(((sbops + i) & (~PMK)));
+        
+        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_file_check_mmap)), 0);
+    }
     
     
     /*
@@ -367,6 +374,7 @@ remappage[remapcnt++] = (x & (~PMK));\
             int32_t outhere = ((opcode & 0x3FFC00) >> 10) * 8;
             int32_t myreg = (opcode >> 5) & 0x1f;
             uint64_t rgz = find_register_value(fref, myreg)+outhere;
+            printf("[INFO]: 1st str at %llx\n", rgz);
 
             WriteAnywhere64(rgz, physcode+0x200);
             break;
@@ -385,6 +393,7 @@ remappage[remapcnt++] = (x & (~PMK));\
             int32_t outhere = ((opcode & 0x3FFC00) >> 10) * 8;
             int32_t myreg = (opcode >> 5) & 0x1f;
             uint64_t rgz = find_register_value(fref, myreg)+outhere;
+            printf("[INFO]: 2nd str at %llx\n", rgz);
 
             WriteAnywhere64(rgz, physcode+0x100);
             break;
@@ -392,22 +401,24 @@ remappage[remapcnt++] = (x & (~PMK));\
         fref += 4;
     }
     
+    
+    /*
+     sandbox
+     */
     {
-        /*
-         sandbox
-         */
-
         uint64_t sbops = find_sbops();
         uint64_t sbops_end = sbops + sizeof(struct mac_policy_ops) + PMK;
-
+        printf("[INFO]: sbops at %llx\n", sbops);
+        
         uint64_t nopag = (sbops_end - sbops)/(PSZ);
 
         for (int i = 0; i < nopag; i++) {
             RemapPage(((sbops + i*(PSZ)) & (~PMK)));
         }
-
         
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_file_check_mmap)), 0);
+/* from yalu102
+ 
+        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_file_check_mmap)), 0);
         
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_mount_check_stat)), 0);
         
@@ -439,14 +450,44 @@ remappage[remapcnt++] = (x & (~PMK));\
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_write)), 0);
 
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_notify_create)), 0);
+*/
+        
+/* from h3lix */
+        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_file_check_mmap)), 0);
+        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_rename)), 0);
+        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_rename)), 0);
+        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_access)), 0);
+        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_chroot)), 0);
+        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_create)), 0);
+        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_deleteextattr)), 0);
+        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_exchangedata)), 0);
+        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_exec)), 0);
+        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_getattrlist)), 0);
+        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_getextattr)), 0);
+        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_ioctl)), 0);
+        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_link)), 0);
+        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_listextattr)), 0);
+        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_open)), 0);
+        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_readlink)), 0);
+        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_setattrlist)), 0);
+        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_setextattr)), 0);
+        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_setflags)), 0);
+        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_setmode)), 0);
+        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_setowner)), 0);
+        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_setutimes)), 0);
+        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_setutimes)), 0);
+        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_stat)), 0);
+        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_truncate)), 0);
+        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_unlink)), 0);
+        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_notify_create)), 0);
+        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_fsgetpath)), 0);
+        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_getattr)), 0);
+        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_mount_check_stat)), 0);
+        
+        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_proc_check_fork)), 0);
+        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_iokit_check_get_property)), 0);
         
         
-        // test
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_iokit_check_get_property)), 0); //ts
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_proc_check_fork)), 0); //ts
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_proc_check_run_cs_invalid)), 0); //test
-        
-
         // mpo_cred_check_label_update_execve - tihmstar
         {
             // WARNING - has to patched like this or Widgets (and javascript?) fail.
@@ -462,8 +503,6 @@ remappage[remapcnt++] = (x & (~PMK));\
             RemapPage(off);
             WriteAnywhere32(NewPointer(off), INSN_NOP);
         }
-        
-        
     }
     
     {
@@ -477,7 +516,6 @@ remappage[remapcnt++] = (x & (~PMK));\
         WriteAnywhere32(remap, 0x58000041);
         WriteAnywhere32(remap + 4, 0xd61f0020);
         WriteAnywhere64(remap + 8, shc+0x200); /* amfi shellcode */
-
     }
 
     for (int i = 0; i < z; i++) {
@@ -489,6 +527,7 @@ remappage[remapcnt++] = (x & (~PMK));\
     }
 
     printf("[INFO]: enabled patches\n");
+    
     
     ret = KERN_SUCCESS;
     

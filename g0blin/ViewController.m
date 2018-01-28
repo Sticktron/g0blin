@@ -26,6 +26,12 @@
 extern int (*gsystem)(const char *);
 
 
+@interface UIApplication (g0blin)
+- (void)suspend;
+- (void)suspendReturningToLastApp:(bool)arg1;
+@end
+
+
 @interface ViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *logoView;
 @property (weak, nonatomic) IBOutlet UIButton *goButton;
@@ -39,6 +45,8 @@ static task_t tfp0;
 static uint64_t kslide;
 static uint64_t kbase;
 static uint64_t kcred;
+static uint64_t selfproc;
+static uint64_t origcred;
 
 BOOL respringNeeded;
 BOOL fun;
@@ -106,35 +114,39 @@ AVPlayerViewController *cont;
 }
 
 - (IBAction)go:(UIButton *)sender {
-    if (respringNeeded == YES) {
-        [self restart];
-        return;
-    }
-    
     self.goButton.enabled = NO;
     self.goButton.backgroundColor = UIColor.darkGrayColor;
     [self.goButton setTitle:@"jailbreaking" forState:UIControlStateDisabled];
     
     [self log:@"exploiting kernel"];
     
-    kern_return_t ret = v0rtex(&tfp0, &kslide, &kcred);
-    if (ret != KERN_SUCCESS) {
-        self.goButton.enabled = YES;
-        self.goButton.backgroundColor = GRAPE;
-        [self.goButton setTitle:@"try again" forState:UIControlStateNormal];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         
-        [self log:@"ERROR: exploit failed \n"];
-        return;
-    }
-    LOG("v0rtex was successful");
-    
-    LOG("tfp0 -> %x", tfp0);
-    LOG("slide -> 0x%llx", kslide);
-    kbase = kslide + 0xFFFFFFF007004000;
-    LOG("kern base -> 0x%llx", kbase);
-    LOG("kern cred -> 0x%llx", kcred);
+        kern_return_t ret = v0rtex(&tfp0, &kslide, &kcred, &selfproc, &origcred);
+        if (ret != KERN_SUCCESS) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.goButton.enabled = YES;
+                self.goButton.backgroundColor = GRAPE;
+                [self.goButton setTitle:@"try again" forState:UIControlStateNormal];
+                
+                [self log:@"ERROR: exploit failed \n"];
+            });
+            return;
+        }
+        LOG("v0rtex was successful");
+        
+        LOG("tfp0 -> %x", tfp0);
+        LOG("slide -> 0x%llx", kslide);
+        kbase = kslide + 0xFFFFFFF007004000;
+        LOG("kern base -> 0x%llx", kbase);
+        LOG("kern cred -> 0x%llx", kcred);
+        LOG("self proc -> 0x%llx", selfproc);
+        LOG("orig cred -> 0x%llx", origcred);
 
-    [self bypassKPP];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self bypassKPP];
+        });
+    });
 }
 
 - (void)bypassKPP {
@@ -179,24 +191,18 @@ AVPlayerViewController *cont;
     [self log:@""];
     
     [self.goButton setTitle:@"finishing" forState:UIControlStateDisabled];
-    sleep(5);
-    [self restart];
-}
+    
+    // restore original credentials
+    WriteAnywhere64(selfproc+0x100, origcred);
+    //WriteAnywhere64(selfproc, origcred);
+    
+    // load user launchdaemons; do run commands
+    gsystem("(echo 'really jailbroken'; launchctl load /Library/LaunchDaemons/0.reload.plist)&");
+    
+    // OpenSSH workaround (won't load via launchdaemon)
+    gsystem("launchctl unload /Library/LaunchDaemons/com.openssh.sshd.plist;/usr/libexec/sshd-keygen-wrapper");
 
-- (void)restart {
-    [self log:@"restarting backboardd..."];
-    
-    // 1. kill
-    //gsystem("(killall backboardd)&");
-    
-    // 2. kill from another process
-    //pid_t pid;
-    //const char* args[] = { "killall", "backboardd", NULL };
-    //posix_spawn(&pid, "/usr/bin/killall", NULL, NULL, (char* const*)args, NULL);
-    
-    // 3. stop then kill
-    //gsystem("(launchctl stop com.apple.backboardd; killall backboardd SpringBoard)&");
-    gsystem("launchctl stop com.apple.backboardd; killall backboardd SpringBoard");
+    LOG("finish() finished.");
 }
 
 - (IBAction)fun:(UITapGestureRecognizer *)recognizer {
