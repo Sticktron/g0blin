@@ -1,6 +1,6 @@
 # g0blin
 
-a work-in-progress jailbreak for iOS 10.3.x
+a work-in-progress jailbreak for iOS 10.3 - 10.3.3
 
 *For 64-bit devices prior to the iPhone 7 (A7 - A9)*
 
@@ -12,10 +12,6 @@ Made from off the shelf parts and shared research, long live the jailbreak commu
 iPod 6G
 iPhone 5S, 6, 6+, 6S, 6S+, SE
 iPad Air, Air 2, 5G (2017), Pro 1G 9.7", Pro 1G 12.9", Mini 2, Mini 3, Mini 4
-
-## supported iOS versions
-
-10.3 - 10.3.3
 
 
 ## ingredients
@@ -30,7 +26,8 @@ iPad Air, Air 2, 5G (2017), Pro 1G 9.7", Pro 1G 12.9", Mini 2, Mini 3, Mini 4
 
 ## notes
 
-Spawns a dropbear SSH server listening on port 2222. Remember to change your passwords!
+Spawns a dropbear SSH server listening on port 2222.
+Remember to change your passwords!
 
 | user   | password |
 | ---    | ---      |
