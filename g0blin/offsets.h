@@ -30,6 +30,5 @@ extern uint64_t OFFSET_BCOPY;
 extern uint64_t OFFSET_IOSURFACEROOTUSERCLIENT_VTAB;
 extern uint64_t OFFSET_ROP_ADD_X0_X0_0x10;
 
-extern uint64_t OFFSET_KERNEL_BASE;
 
 kern_return_t init_offsets(void);

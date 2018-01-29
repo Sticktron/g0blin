@@ -45,8 +45,8 @@ static task_t tfp0;
 static uint64_t kslide;
 static uint64_t kbase;
 static uint64_t kcred;
-static uint64_t selfproc;
-static uint64_t origcred;
+//static uint64_t selfproc;
+//static uint64_t origcred;
 
 BOOL respringNeeded;
 BOOL fun;
@@ -122,7 +122,7 @@ AVPlayerViewController *cont;
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         
-        kern_return_t ret = v0rtex(&tfp0, &kslide, &kcred, &selfproc, &origcred);
+        kern_return_t ret = v0rtex(&tfp0, &kslide, &kcred);
         if (ret != KERN_SUCCESS) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 self.goButton.enabled = YES;
@@ -140,9 +140,7 @@ AVPlayerViewController *cont;
         kbase = kslide + 0xFFFFFFF007004000;
         LOG("kern base -> 0x%llx", kbase);
         LOG("kern cred -> 0x%llx", kcred);
-        LOG("self proc -> 0x%llx", selfproc);
-        LOG("orig cred -> 0x%llx", origcred);
-
+        
         dispatch_async(dispatch_get_main_queue(), ^{
             [self bypassKPP];
         });
@@ -191,11 +189,7 @@ AVPlayerViewController *cont;
     [self log:@""];
     
     [self.goButton setTitle:@"finishing" forState:UIControlStateDisabled];
-    
-    // restore original credentials
-    WriteAnywhere64(selfproc+0x100, origcred);
-    //WriteAnywhere64(selfproc, origcred);
-    
+        
     // load user launchdaemons; do run commands
     gsystem("(echo 'really jailbroken'; launchctl load /Library/LaunchDaemons/0.reload.plist)&");
     
@@ -216,7 +210,8 @@ AVPlayerViewController *cont;
             LOG("no audio :/");
         }
         
-        NSURL *url = [NSBundle.mainBundle URLForResource:@"y0nkers" withExtension:@"m4v"];
+        //NSURL *url = [NSBundle.mainBundle URLForResource:@"y0nkers" withExtension:@"m4v"];
+        NSURL *url = [NSBundle.mainBundle URLForResource:@"grief" withExtension:@"m4v"];
         LOG("url = %@", url);
         if (!url) {
             LOG("filenotfound");
