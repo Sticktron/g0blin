@@ -15,6 +15,12 @@
 
 extern int (*gsystem)(const char *);
 
+
+// void touch_file(char *path) {
+//     fclose(fopen(path, "w+"));
+// }
+
+
 kern_return_t do_bootstrap(bool force) {
     
     
