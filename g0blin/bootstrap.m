@@ -41,18 +41,18 @@ kern_return_t do_bootstrap(bool force) {
     //unlink("/Library/LaunchDaemons/0.reload.plist");
     
     // set SBShowNonDefaultSystemApps = YES in com.apple.springboard.plist
-    //gsystem("killall -SIGSTOP cfprefsd");
-    //NSMutableDictionary *plist = [[NSMutableDictionary alloc] initWithContentsOfFile:@"/private/var/mobile/Library/Preferences/com.apple.springboard.plist"];
-    //[plist setObject:@YES forKey:@"SBShowNonDefaultSystemApps"];
-    //[plist writeToFile:@"/var/mobile/Library/Preferences/com.apple.springboard.plist" atomically:YES];
-    //gsystem("killall -9 cfprefsd");
+    gsystem("killall -SIGSTOP cfprefsd");
+    NSMutableDictionary *plist = [[NSMutableDictionary alloc] initWithContentsOfFile:@"/private/var/mobile/Library/Preferences/com.apple.springboard.plist"];
+    [plist setObject:@YES forKey:@"SBShowNonDefaultSystemApps"];
+    [plist writeToFile:@"/var/mobile/Library/Preferences/com.apple.springboard.plist" atomically:YES];
+    gsystem("killall -9 cfprefsd");
     
     // set SBShowNonDefaultSystemApps = YES in com.apple.springboard.plist
-    CFStringRef appName = CFSTR("com.apple.springboard");
-    CFPreferencesAppSynchronize(appName);
-    CFPreferencesSetAppValue(CFSTR("SBShowNonDefaultSystemApps"), kCFBooleanTrue, appName);
-    CFPreferencesAppSynchronize(appName);
-
+    //CFStringRef appName = CFSTR("com.apple.springboard");
+    //CFPreferencesAppSynchronize(appName);
+    //CFPreferencesSetAppValue(CFSTR("SBShowNonDefaultSystemApps"), kCFBooleanTrue, appName);
+    //CFPreferencesAppSynchronize(appName);
+    
     //--------------------------------------------------------------------------
     
     
