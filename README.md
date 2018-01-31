@@ -24,7 +24,7 @@ iPad Air, Air 2, 5G (2017), Pro 1G 9.7", Pro 1G 12.9", Mini 2, Mini 3, Mini 4
 
 ## dropbear vs OpenSSH
 
-RC1 installed the dropbear SSH server by default. I would rather make SSH optional because some people may not need it or may forget to their passwords.
+RC1 installed the dropbear SSH server by default. I would rather make SSH optional because some people may not need it or may forget to change their passwords.
 
 RC2 uninstalls Dropbear for everyone. If you want to use ssh you can install OpenSSH from Cydia.
 
