@@ -31,18 +31,15 @@
 #include <net/if_var.h>
 #include <net/if_dl.h>
 
-#define    RTM_IFINFO2  0x12 //from route.h
+#define RTM_IFINFO2         0x12 //from route.h
 
 #define GRAPE               [UIColor colorWithRed:0.5 green:0 blue:1 alpha:1]
 #define STRAWBERRY          [UIColor colorWithRed:1 green:0 blue:0.5 alpha:1]
 
-#define METER_ICON_COLOR        [UIColor colorWithWhite:0.3 alpha:1]
-#define METER_TEXT_COLOR        [UIColor colorWithWhite:0.5 alpha:1]
+#define METER_ICON_COLOR    [UIColor colorWithWhite:0.4 alpha:1]
+#define METER_TEXT_COLOR    [UIColor colorWithWhite:0.4 alpha:1]
 
-#define UPDATE_INTERVAL         1.0f
-#define WIDGET_HEIGHT           52.0f
-#define ICON_HEIGHT             16.0f
-#define LABEL_HEIGHT            16.0f
+#define UPDATE_INTERVAL     1.5f
 
 typedef struct {
     uint64_t totalSystemTime;
@@ -72,10 +69,11 @@ extern int (*gsystem)(const char *);
 
 @interface ViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *logoView;
-@property (weak, nonatomic) IBOutlet UIButton *goButton;
-@property (weak, nonatomic) IBOutlet UITextView *consoleView;
 @property (weak, nonatomic) IBOutlet UIButton *settingsButton;
 @property (weak, nonatomic) IBOutlet UILabel *reinstallBootstrapLabel;
+@property (weak, nonatomic) IBOutlet UIButton *goButton;
+@property (weak, nonatomic) IBOutlet UITextView *consoleView;
+@property (weak, nonatomic) IBOutlet UIView *metersView;
 
 @property (nonatomic, strong) Meter *cpuMeter;
 @property (nonatomic, strong) Meter *ramMeter;
@@ -97,7 +95,7 @@ static uint64_t kcred;
 //static uint64_t selfproc;
 //static uint64_t origcred;
 
-BOOL respringNeeded;
+BOOL jailbroken;
 BOOL fun;
 AVPlayer *player;
 AVPlayerViewController *cont;
@@ -116,10 +114,19 @@ AVPlayerViewController *cont;
     
     self.reinstallBootstrapLabel.hidden = YES;
     
+    // fun
+    self.logoView.userInteractionEnabled = YES;
+    UITapGestureRecognizer *tripleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(fun:)];
+    tripleTap.delaysTouchesBegan = YES;
+    tripleTap.numberOfTapsRequired = 3;
+    [self.logoView addGestureRecognizer:tripleTap];
+    
     // print kernel version
     struct utsname u;
     uname(&u);
     [self log:[NSString stringWithFormat:@"%s \n", u.version]];
+    [self log:[NSString stringWithFormat:@"Hardware: %s", u.machine]];
+    [self log:[NSString stringWithFormat:@"Software: %@ \n", [[NSProcessInfo processInfo] operatingSystemVersionString]]];
     
     
 #pragma mark - meters
@@ -138,6 +145,7 @@ AVPlayerViewController *cont;
                                                 _uploadMeter,
                                                 _downloadMeter ]];
     // create views
+    self.metersView.backgroundColor = UIColor.clearColor;
     for (Meter *meter in self.meters) {
         UIButton *icon = [[UIButton alloc] init];
         icon.userInteractionEnabled = NO;
@@ -147,7 +155,7 @@ AVPlayerViewController *cont;
         [icon setImage:iconImage forState:UIControlStateNormal];
         icon.tintColor = METER_ICON_COLOR;
         //icon.layer.compositingFilter = @"plusL";
-        [self.view addSubview:icon];
+        [self.metersView addSubview:icon];
         meter.icon = icon;
         
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -156,20 +164,27 @@ AVPlayerViewController *cont;
         label.text = meter.title;
         label.textColor = METER_TEXT_COLOR;
         //label.layer.compositingFilter = @"plusL";
-        [self.view addSubview:label];
+        [self.metersView addSubview:label];
         meter.label = label;
     }
     
 #pragma mark -
     
-    // abort if already jailbroken
+    
+    jailbroken = NO;
+    
     if (strstr(u.version, "MarijuanARM")) {
+        jailbroken = YES;
+        
         self.goButton.enabled = NO;
         self.goButton.backgroundColor = UIColor.darkGrayColor;
-        [self.goButton setTitle:@"jailbroke yo!" forState:UIControlStateDisabled];
+        [self.goButton setTitle:@"jailbroken" forState:UIControlStateDisabled];
+        
+        [self log:@"Enjoy! \n"];
+        
+        return;
     }
     
-    // try to load offsets for device
     if (init_offsets() == KERN_SUCCESS) {
         [self log:@"Ready. \n"];
     } else {
@@ -177,13 +192,6 @@ AVPlayerViewController *cont;
         self.goButton.backgroundColor = UIColor.darkGrayColor;
         [self.goButton setTitle:@"device not supported" forState:UIControlStateDisabled];
     }
-    
-    // fun
-    self.logoView.userInteractionEnabled = YES;
-    UITapGestureRecognizer *tripleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(fun:)];
-    tripleTap.delaysTouchesBegan = YES;
-    tripleTap.numberOfTapsRequired = 3;
-    [self.logoView addGestureRecognizer:tripleTap];
 }
 
 - (void)log:(NSString *)text {
@@ -205,7 +213,7 @@ AVPlayerViewController *cont;
     self.goButton.backgroundColor = UIColor.darkGrayColor;
     [self.goButton setTitle:@"jailbreaking" forState:UIControlStateDisabled];
     
-    [self log:@"exploiting kernel"];
+    [self log:@"exploiting kernel..."];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         
@@ -235,10 +243,10 @@ AVPlayerViewController *cont;
 }
 
 - (void)bypassKPP {
-    [self log:@"pwning kernel"];
+    [self log:@"patching kernel..."];
     
     if (do_kpp(1, 0, kbase, kslide, tfp0) == KERN_SUCCESS) {
-        LOG("you down with kpp? yeah you know me");
+        LOG("♬ you done with kpp? yeah you know me");
         [self remount];
     } else {
         [self log:@"ERROR: kpp bypass failed \n"];
@@ -246,7 +254,7 @@ AVPlayerViewController *cont;
 }
 
 - (void)remount {
-    [self log:@"remounting"];
+    [self log:@"remounting..."];
     
     if (do_remount(kslide) == KERN_SUCCESS) {
         [self bootstrap];
@@ -256,7 +264,7 @@ AVPlayerViewController *cont;
 }
 
 - (void)bootstrap {
-    [self log:@"bootstrapping"];
+    [self log:@"bootstrapping..."];
     
     BOOL force = NO;
     if (self.reinstallBootstrapLabel.hidden == NO) {
@@ -272,7 +280,9 @@ AVPlayerViewController *cont;
 }
 
 - (void)finish {
-    [self log:@"device is now jailbroken!"];
+    [self log:@"device is now jailbroken !!"];
+    [self log:@""];
+    [self log:@"please wait while we restart SpringBoard..."];
     [self log:@""];
     
     [self.goButton setTitle:@"finishing" forState:UIControlStateDisabled];
@@ -382,15 +392,14 @@ AVPlayerViewController *cont;
     
     int count = (int)visibleMeters.count;
     if (count > 0) {
-        int topMargin = (self.goButton.frame.origin.y - ICON_HEIGHT - LABEL_HEIGHT) - 30;
-        int width = self.view.bounds.size.width / count;
+        float height = floor(self.metersView.bounds.size.height / 2.0);
+        float width = floor(self.metersView.bounds.size.width / count);
         int x = 0;
-        
         for (Meter *meter in visibleMeters) {
-            meter.icon.frame = CGRectMake(x, topMargin, width, ICON_HEIGHT);
-            meter.label.frame = CGRectMake(x, topMargin + ICON_HEIGHT, width, LABEL_HEIGHT);
+            meter.icon.frame = CGRectMake(x, 0, width, height);
+            meter.label.frame = CGRectMake(x, height, width, height);
             x += width;
-            NSLog(@"Meters: Layed out meter (%@): Icon = %@; Label = %@", meter.name, NSStringFromCGRect(meter.icon.frame), NSStringFromCGRect(meter.label.frame));
+            //NSLog(@"[Meters] Layed out meter (%@): Icon = %@; Label = %@", meter.name, NSStringFromCGRect(meter.icon.frame), NSStringFromCGRect(meter.label.frame));
         }
     }
 }
@@ -398,8 +407,7 @@ AVPlayerViewController *cont;
 - (void)startUpdating {
     // bail if the meters are already running
     if ([self.meterUpdateTimer isValid]) {
-        //HBLogDebug(@"meters are already running, no need to start them again");
-        NSLog(@"meters are already running, no need to start them again");
+        NSLog(@"[Meters] meters are already running, no need to start them again");
         
     } else {
         // show placeholder values
@@ -417,21 +425,20 @@ AVPlayerViewController *cont;
                                                       userInfo:nil
                                                        repeats:YES];
         [[NSRunLoop mainRunLoop] addTimer:self.meterUpdateTimer forMode:NSRunLoopCommonModes];
-        NSLog(@"Started Timer ••••• (%@)", self.meterUpdateTimer);
+        NSLog(@"[Meters] Started Timer ••••• (%@)", self.meterUpdateTimer);
     }
 }
 
 - (void)stopUpdating {
     if (self.meterUpdateTimer) {
-        NSLog(@"Stopping Timer ••••• (%@)", self.meterUpdateTimer);
+        NSLog(@"[Meters] Stopping Timer ••••• (%@)", self.meterUpdateTimer);
         [self.meterUpdateTimer invalidate];
         self.meterUpdateTimer = nil;
     }
 }
 
 - (void)updateMeters:(NSTimer *)timer {
-    //HBLogDebug(@"updateMeters called (timer %@)", timer);
-    NSLog(@"updateMeters called (timer %@)", timer);
+    NSLog(@"[Meters] updating meters (timer: %@)", timer);
     
     // Disk Meter: free space on /User
     if (self.diskMeter.enabled) {
@@ -515,7 +522,7 @@ AVPlayerViewController *cont;
     
     // get page size
     vm_size_t pagesize = vm_kernel_page_size;
-    NSLog(@"Using page size of: %d bytes", (int)pagesize);
+    //NSLog(@"[Meters] using page size: %d bytes", (int)pagesize);
     
     // get stats
     kern_return_t kr;
@@ -524,13 +531,13 @@ AVPlayerViewController *cont;
     
     kr = host_statistics(mach_host_self(), HOST_VM_INFO, (host_info_t)&vm_stat, &count);
     if (kr != KERN_SUCCESS) {
-        NSLog(@"Meters] Error getting VM_INFO from host!");
+        NSLog(@"[Meters] Error getting VM_INFO from host!");
         
     } else {
         unsigned long bytesInactive = vm_stat.inactive_count * pagesize;
         unsigned long bytesFree = vm_stat.free_count * pagesize;
         bytesAvailable = (uint32_t)(bytesFree + bytesInactive);
-        NSLog(@"[Meters] Got RAM stats: Free=%lu B; Inactive=%lu B; Total Available=%u B", bytesFree, bytesInactive, bytesAvailable);
+        //NSLog(@"[Meters] Got RAM stats: Free=%lu B; Inactive=%lu B; Total Available=%u B", bytesFree, bytesInactive, bytesAvailable);
     }
     
     return bytesAvailable;
@@ -550,7 +557,7 @@ AVPlayerViewController *cont;
     kr = host_statistics(mach_host_self(), HOST_CPU_LOAD_INFO, (int *)&r_load, &count);
     
     if (kr != KERN_SUCCESS) {
-        NSLog(@"######## Meters: error fetching HOST_CPU_LOAD_INFO !#");
+        NSLog(@"[Meters] Error fetching HOST_CPU_LOAD_INFO !");
     } else {
         sample.totalUserTime = r_load.cpu_ticks[CPU_STATE_USER] + r_load.cpu_ticks[CPU_STATE_NICE];
         sample.totalSystemTime = r_load.cpu_ticks[CPU_STATE_SYSTEM];
@@ -619,16 +626,16 @@ AVPlayerViewController *cont;
             sample.totalDownloadBytes = totalibytes;
             
         } else {
-            NSLog(@"######## Meters: sysctl error !#");
+            NSLog(@"[Meters] sysctl error !");
         }
         
         free(buf);
         
     } else {
-        NSLog(@"######## Meters: sysctl error !#");
+        NSLog(@"[Meters]  sysctl error !");
     }
     
-    //HBLogDebug(@"got Net sample [ up:%llu; down=%llu ]", sample.totalUploadBytes, sample.totalDownloadBytes);
+    //NSLog(@"[Meters] got Net sample [ up:%llu; down=%llu ]", sample.totalUploadBytes, sample.totalDownloadBytes);
     
     return sample;
 }
