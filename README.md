@@ -38,8 +38,7 @@ Remember to change your passwords!
 ## major issues
 
 - Touch ID does not work in App Store apps while in jailbroken mode
-- Cydia icon is hidden (set SBShowNonDefaultApps=YES in /User/Library/Preferences/com.apple.springboard.plist)
-- Respring button is panicky (you don't have to click it)
+- ~~Cydia icon is hidden (set SBShowNonDefaultApps=YES in /User/Library/Preferences/com.apple.springboard.plist)~~
 
 
 ## instructions
