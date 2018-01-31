@@ -110,9 +110,11 @@ kern_return_t do_bootstrap(bool force) {
         LOG("running uicache...");
         gsystem("su -c uicache mobile");
         
+        
         LOG("finished installing bootstrap");
     }
     LOG("Cydia is installed");
+    
     
     // copy reload script
     unlink("/usr/libexec/reload");
@@ -121,14 +123,15 @@ kern_return_t do_bootstrap(bool force) {
     chmod("/usr/libexec/reload", 0755);
     chown("/usr/libexec/reload", 0, 0);
     
-    // copy reload daemon
+    // copy reload plist
     unlink("/Library/LaunchDaemons/0.reload.plist");
     NSString *reloadPlist = [[NSBundle mainBundle] URLForResource:@"0.reload" withExtension:@"plist"].path;
     copyfile([reloadPlist UTF8String], "/Library/LaunchDaemons/0.reload.plist", 0, COPYFILE_ALL);
     chmod("/Library/LaunchDaemons/0.reload.plist", 0644);
     chown("/Library/LaunchDaemons/0.reload.plist", 0, 0);
     
-    // update permissions
+    
+    // permissions fix
     chmod("/private", 0777);
     chmod("/private/var", 0777);
     chmod("/private/var/mobile", 0777);
