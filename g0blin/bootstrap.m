@@ -138,9 +138,15 @@ kern_return_t do_bootstrap(bool force) {
     chmod("/private/var/mobile/Library", 0777);
     chmod("/private/var/mobile/Library/Preferences", 0777);
     
-    // stop softwareupdate daemon
+    
+    // kill Software Update
+    gsystem("launchctl unload /System/Library/LaunchDaemons/com.apple.mobile.softwareupdated.plist");
     unlink("/System/Library/LaunchDaemons/com.apple.mobile.softwareupdated.plist");
-    gsystem("rm -f /System/Library/LaunchDaemons/com.apple.mobile.softwareupdated.plist");
+    gsystem("launchctl kill 9 system/com.apple.mobile.softwareupdated");
+    
+    // obliterate Software Update
+    //unlink("/System/Library/PrivateFrameworks/MobileSoftwareUpdate.framework/Support/softwareupdated")
+    
     
     // kill OTA updater
     gsystem("rm -rf /var/MobileAsset/Assets/com_apple_MobileAsset_SoftwareUpdate; touch /var/MobileAsset/Assets/com_apple_MobileAsset_SoftwareUpdate; chmod 000 /var/MobileAsset/Assets/com_apple_MobileAsset_SoftwareUpdate; chown 0:0 /var/MobileAsset/Assets/com_apple_MobileAsset_SoftwareUpdate");
