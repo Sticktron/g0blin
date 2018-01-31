@@ -24,21 +24,23 @@ iPad Air, Air 2, 5G (2017), Pro 1G 9.7", Pro 1G 12.9", Mini 2, Mini 3, Mini 4
 + Cydia by Jay Freeman (saurik)
 
 
-## notes
+## Dropbear vs OpenSSH
 
-Spawns a dropbear SSH server listening on port 2222.
-Remember to change your passwords!
+RC1 installed the Dropbear SSH server by default. Because people may not end changing their passwords I want to make SSH optional, so RC2 uninstalls Dropbear. Use OpenSSH from Cydia instead. RC3 will allow you re-install Dropbear in you want, just don't use two servers at once unless they have different ports.
 
-| user   | password |
-| ---    | ---      |
-| root   | alpine   |
-| mobile | alpine   |
+If you use any SSH server remember to change your passwords!
 
 
-## major issues
+## what's broken?
 
 - Touch ID does not work in App Store apps while in jailbroken mode
-- ~~Cydia icon is hidden (set SBShowNonDefaultApps=YES in /User/Library/Preferences/com.apple.springboard.plist)~~
+- see the Issue tracker
+
+
+## tips
+
+- if the Cydia icon is hidden you can fix it by adding a new key `SBShowNonDefaultApps` and binary value `YES` to `/User/Library/Preferences/com.apple.springboard.plist` using Filza
+- A temporary workaround for TouchID is to turn it off before jailbreaking and then turn it back on afterward
 
 
 ## instructions
