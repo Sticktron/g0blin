@@ -85,8 +85,10 @@ kern_return_t do_bootstrap(bool force) {
         waitpid(pid, 0, 0);
         LOG("unpacked bootstrap ");
         
+        
         // !!! DO NOT USE TRADITIONAL STASHING !!!
         gsystem("touch /.cydia_no_stash");
+        
         
         // run Cydia install scripts
         LOG("running Cydia extrainst scripts...");
@@ -95,13 +97,14 @@ kern_return_t do_bootstrap(bool force) {
         gsystem("/var/lib/dpkg/info/uikittools.extrainst_");
         gsystem("/var/lib/dpkg/info/com.saurik.patcyh.extrainst_");
         
-        // don't phone home
+        
+        // modify hosts (don't phone home)
         gsystem("echo '127.0.0.1 iphonesubmissions.apple.com' >> /etc/hosts");
         gsystem("echo '127.0.0.1 radarsubmissions.apple.com' >> /etc/hosts");
         
-        // don't check for updates
-        //gsystem("echo '127.0.0.1 mesu.apple.com' >> /etc/hosts");
-        //gsystem("echo '127.0.0.1 appldnld.apple.com' >> /etc/hosts");
+        // modify hosts (block Software Update)
+        gsystem("echo '127.0.0.1 mesu.apple.com' >> /etc/hosts");
+        
         
         // rebuild icon cache
         LOG("running uicache...");
