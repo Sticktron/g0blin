@@ -22,7 +22,6 @@
 		EE9402621FF375E700C9325F /* kpp.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9402611FF375E600C9325F /* kpp.m */; };
 		EE9402651FF3766500C9325F /* patchfinder64.c in Sources */ = {isa = PBXBuildFile; fileRef = EE9402641FF3766500C9325F /* patchfinder64.c */; };
 		EE9402681FF376E400C9325F /* kernel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9402661FF376E400C9325F /* kernel.m */; };
-		EE95FECE201EA0ED00D5377E /* grief.m4v in Resources */ = {isa = PBXBuildFile; fileRef = EE95FECD201EA0ED00D5377E /* grief.m4v */; };
 		EE9828C01FF3E2C50085B633 /* remount.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9828BE1FF3E2C40085B633 /* remount.m */; };
 		EE9828C31FF3E9AA0085B633 /* bootstrap.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9828C21FF3E9AA0085B633 /* bootstrap.m */; };
 		EE9828C81FF418800085B633 /* tar in Resources */ = {isa = PBXBuildFile; fileRef = EE9828C41FF4187F0085B633 /* tar */; };
@@ -61,7 +60,6 @@
 		EE9402641FF3766500C9325F /* patchfinder64.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = patchfinder64.c; sourceTree = "<group>"; };
 		EE9402661FF376E400C9325F /* kernel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = kernel.m; sourceTree = "<group>"; };
 		EE9402671FF376E400C9325F /* kernel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = kernel.h; sourceTree = "<group>"; };
-		EE95FECD201EA0ED00D5377E /* grief.m4v */ = {isa = PBXFileReference; lastKnownFileType = file; path = grief.m4v; sourceTree = "<group>"; };
 		EE95FECF201EA10B00D5377E /* y0nkers.m4v */ = {isa = PBXFileReference; lastKnownFileType = file; path = y0nkers.m4v; sourceTree = "<group>"; };
 		EE9828BE1FF3E2C40085B633 /* remount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = remount.m; sourceTree = "<group>"; };
 		EE9828BF1FF3E2C40085B633 /* remount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = remount.h; sourceTree = "<group>"; };
@@ -71,6 +69,7 @@
 		EE9828C61FF4187F0085B633 /* launchctl */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = launchctl; sourceTree = "<group>"; };
 		EE9DD8C8201E6D1000CE61E8 /* reload */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = reload; sourceTree = "<group>"; };
 		EE9DD8C9201E6D1000CE61E8 /* 0.reload.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = 0.reload.plist; sourceTree = "<group>"; };
+		EECBF75E2020DA370078A0D8 /* sbops.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sbops.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,7 +135,6 @@
 			isa = PBXGroup;
 			children = (
 				EE95FECF201EA10B00D5377E /* y0nkers.m4v */,
-				EE95FECD201EA0ED00D5377E /* grief.m4v */,
 				EE9DD8C9201E6D1000CE61E8 /* 0.reload.plist */,
 				EE9DD8C8201E6D1000CE61E8 /* reload */,
 				EE1C60E31FFACA3500D30AAC /* bootstrap.tar */,
@@ -181,6 +179,7 @@
 				EE9828BE1FF3E2C40085B633 /* remount.m */,
 				EE9402551FF33CF000C9325F /* v0rtex.h */,
 				EE9402561FF33CF000C9325F /* v0rtex.m */,
+				EECBF75E2020DA370078A0D8 /* sbops.h */,
 			);
 			name = Jailbreak;
 			sourceTree = "<group>";
@@ -247,7 +246,6 @@
 				EE1C60E41FFACA3600D30AAC /* bootstrap.tar in Resources */,
 				EE9828C81FF418800085B633 /* tar in Resources */,
 				EE9828CA1FF418800085B633 /* launchctl in Resources */,
-				EE95FECE201EA0ED00D5377E /* grief.m4v in Resources */,
 				EE94024B1FF33CAE00C9325F /* LaunchScreen.storyboard in Resources */,
 				EE9DD8CB201E6D1000CE61E8 /* 0.reload.plist in Resources */,
 				EE9DD8CA201E6D1000CE61E8 /* reload in Resources */,
