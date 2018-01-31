@@ -1,23 +1,28 @@
 #!/bin/bash
 
-#ls /etc/rc.d | while read a; do /etc/rc.d/$a; done
+## do run commands in /etc/rc.d
 for file in /etc/rc.d/*; do
   echo "$file"
   $file
 done
-
 sleep 1
 
+## Unload Launch Daemons
 #launchctl unload $(ls /System/Library/LaunchDaemons/ | grep -v logd | grep -v fud | grep -v ReportCrash | while read a; do printf /System/Library/LaunchDaemons/$a\ ; done)
 #launchctl unload /System/Library/NanoLaunchDaemons
 #sleep 1
 
+## Load Launch Daemons
 #launchctl load /System/Library/LaunchDaemons
 #launchctl load /System/Library/NanoLaunchDaemons
 launchctl load /Library/LaunchDaemons
-
 sleep 1
 
+## OpenSSH workaround (launchdaemon won't load on iOS 10+)
+launchctl unload /Library/LaunchDaemons/com.openssh.sshd.plist;/usr/libexec/sshd-keygen-wrapper
+sleep 1
+
+## Restart SpringBoard/BackBoard for extension loading
 launchctl stop com.apple.backboardd
 killall backboardd SpringBoard
 
