@@ -1,8 +1,6 @@
 # g0blin
 
-a work-in-progress jailbreak for iOS 10.3 - 10.3.3
-
-*For 64-bit devices prior to the iPhone 7 (A7 - A9)*
+A work-in-progress iOS 10.3.x jailbreak for 64-bit devices (A7 - A9)
 
 Made from off the shelf parts and shared research, long live the jailbreak community!
 
@@ -24,22 +22,25 @@ iPad Air, Air 2, 5G (2017), Pro 1G 9.7", Pro 1G 12.9", Mini 2, Mini 3, Mini 4
 + Cydia by Jay Freeman (saurik)
 
 
-## notes
+## dropbear vs OpenSSH
 
-Spawns a dropbear SSH server listening on port 2222.
-Remember to change your passwords!
+RC1 installed the dropbear SSH server by default. I would rather make SSH optional because some people may not need it or may forget to their passwords.
 
-| user   | password |
-| ---    | ---      |
-| root   | alpine   |
-| mobile | alpine   |
+RC2 uninstalls Dropbear for everyone. If you want to use ssh you can install OpenSSH from Cydia.
+
+RC3 will allow you re-install Dropbear in you want instead of OpenSSH.
 
 
-## major issues
+## what's broken?
 
 - Touch ID does not work in App Store apps while in jailbroken mode
-- Cydia icon is hidden (set SBShowNonDefaultApps=YES in /User/Library/Preferences/com.apple.springboard.plist)
-- Respring button is panicky (you don't have to click it)
+- see the Issue tracker
+
+
+## tips
+
+- if the Cydia icon is hidden you can fix it by adding a new key `SBShowNonDefaultApps` and binary value `YES` to `/User/Library/Preferences/com.apple.springboard.plist` using Filza
+- A temporary workaround for TouchID is to turn it off before jailbreaking and then turn it back on afterward
 
 
 ## instructions
