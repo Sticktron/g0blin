@@ -1,8 +1,7 @@
 # g0blin
 
-A work-in-progress iOS 10.3.x jailbreak for 64-bit devices (A7 - A9)
-
-Made from off the shelf parts and shared research, long live the jailbreak community!
+A work-in-progress iOS 10.3.x jailbreak for 64-bit iDevices (A7 - A9) made from off the shelf parts and shared research.
+Long live jailbreaking!
 
 
 ## supported devices
@@ -24,11 +23,11 @@ iPad Air, Air 2, 5G (2017), Pro 1G 9.7", Pro 1G 12.9", Mini 2, Mini 3, Mini 4
 
 ## dropbear vs OpenSSH
 
-RC1 installed the dropbear SSH server by default. I would rather make SSH optional because some people may not need it or may forget to their passwords.
+RC1 installed the dropbear SSH server by default. I would rather make SSH optional because some people may not need it or may forget to change their passwords.
 
-RC2 uninstalls Dropbear for everyone. If you want to use ssh you can install OpenSSH from Cydia.
+RC2 uninstalls dropbear for everyone. If you want to use ssh you can install OpenSSH from Cydia.
 
-RC3 will allow you re-install Dropbear in you want instead of OpenSSH.
+RC3 will remove that behaviour allowing you to re-install dropbear if that's your preference.
 
 
 ## what's broken?
