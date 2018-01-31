@@ -220,11 +220,10 @@ AVPlayerViewController *cont;
         kern_return_t ret = v0rtex(&tfp0, &kslide, &kcred);
         if (ret != KERN_SUCCESS) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                self.goButton.enabled = YES;
-                self.goButton.backgroundColor = GRAPE;
-                [self.goButton setTitle:@"try again" forState:UIControlStateNormal];
-                
-                [self log:@"ERROR: exploit failed \n"];
+                [self.goButton setTitle:@"failed, rebooting" forState:UIControlStateNormal];
+                [self log:@"ERROR: exploit failed, rebooting... \n"];
+                sleep(2);
+                gsystem("reboot");
             });
             return;
         }
