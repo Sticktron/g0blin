@@ -1,8 +1,8 @@
 # g0blin
 
-A work-in-progress iOS 10.3.x jailbreak for 64-bit iDevices (A7 - A9)
+A work-in-progress iOS 10.3.x jailbreak for 64-bit iDevices (A7 - A9) made from off the shelf parts and shared research.
 
-Made from off the shelf parts and shared research, long live the jailbreak community!
+Long live the jailbreak!
 
 
 ## supported devices
