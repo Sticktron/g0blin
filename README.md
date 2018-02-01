@@ -6,9 +6,9 @@ Long live jailbreaking!
 
 ## supported devices
 
-iPod 6G
-iPhone 5S, 6, 6+, 6S, 6S+, SE
-iPad Air, Air 2, 5G (2017), Pro 1G 9.7", Pro 1G 12.9", Mini 2, Mini 3, Mini 4
+iPod 6G  
+iPhone 5S, 6, 6+, 6S, 6S+, SE  
+iPad Air, Air 2, 5G (2017), Pro 1G 9.7", Pro 1G 12.9", Mini 2, Mini 3, Mini 4  
 
 
 ## ingredients
