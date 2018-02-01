@@ -31,7 +31,10 @@ kern_return_t do_bootstrap(bool force) {
     unlink("/.installed_g0blin_rc0");
     unlink("/.installed_g0blin_rc1");
 
-    gsystem("touch /.installed_g0blin_rc2");
+    //gsystem("touch /.installed_g0blin_rc2");
+    open("/.installed_g0blin_rc2", O_RDWR|O_CREAT, 0644);
+    
+    // cleanup hosts file
     
     // uninstall dropbear
     unlink("/Library/LaunchDaemons/dropbear.plist");
@@ -87,7 +90,8 @@ kern_return_t do_bootstrap(bool force) {
         
         
         // !!! DO NOT USE TRADITIONAL STASHING !!!
-        gsystem("touch /.cydia_no_stash");
+        //gsystem("touch /.cydia_no_stash");
+        open("/.cydia_no_stash", O_RDWR|O_CREAT, 0644);
         
         
         // run Cydia install scripts
