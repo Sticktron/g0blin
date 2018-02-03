@@ -134,12 +134,12 @@
 		EE9828CC1FF4188B0085B633 /* Payload */ = {
 			isa = PBXGroup;
 			children = (
-				EE95FECF201EA10B00D5377E /* y0nkers.m4v */,
 				EE9DD8C9201E6D1000CE61E8 /* 0.reload.plist */,
-				EE9DD8C8201E6D1000CE61E8 /* reload */,
 				EE1C60E31FFACA3500D30AAC /* bootstrap.tar */,
 				EE9828C61FF4187F0085B633 /* launchctl */,
+				EE9DD8C8201E6D1000CE61E8 /* reload */,
 				EE9828C41FF4187F0085B633 /* tar */,
+				EE95FECF201EA10B00D5377E /* y0nkers.m4v */,
 			);
 			name = Payload;
 			sourceTree = "<group>";
@@ -147,11 +147,11 @@
 		EEA7165C201E6C810095F172 /* App */ = {
 			isa = PBXGroup;
 			children = (
-				EE65CCCC201EC198002F216F /* Meter.h */,
-				EE65CCCD201EC198002F216F /* Meter.m */,
 				EE94023E1FF33CAE00C9325F /* AppDelegate.h */,
 				EE94023F1FF33CAE00C9325F /* AppDelegate.m */,
 				EE94024D1FF33CAE00C9325F /* main.m */,
+				EE65CCCC201EC198002F216F /* Meter.h */,
+				EE65CCCD201EC198002F216F /* Meter.m */,
 				EE0A1C261FF8891A001030DB /* SettingsController.h */,
 				EE0A1C271FF8891A001030DB /* SettingsController.m */,
 				EE9402411FF33CAE00C9325F /* ViewController.h */,
@@ -177,9 +177,9 @@
 				EE9402601FF375E600C9325F /* pte_stuff.h */,
 				EE9828BF1FF3E2C40085B633 /* remount.h */,
 				EE9828BE1FF3E2C40085B633 /* remount.m */,
+				EECBF75E2020DA370078A0D8 /* sbops.h */,
 				EE9402551FF33CF000C9325F /* v0rtex.h */,
 				EE9402561FF33CF000C9325F /* v0rtex.m */,
-				EECBF75E2020DA370078A0D8 /* sbops.h */,
 			);
 			name = Jailbreak;
 			sourceTree = "<group>";
@@ -413,6 +413,7 @@
 				INFOPLIST_FILE = g0blin/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = net.sticktron.g0blin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -429,6 +430,7 @@
 				INFOPLIST_FILE = g0blin/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = net.sticktron.g0blin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
