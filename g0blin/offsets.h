@@ -24,7 +24,9 @@ extern uint64_t OFFSET_OSSERIALIZER_SERIALIZE;
 extern uint64_t OFFSET_ROP_LDR_X0_X0_0x10;
 
 extern uint64_t OFFSET_ROOTVNODE;
+extern uint64_t OFFSET_BASE;
 
+// unused
 extern uint64_t OFFSET_BZERO;
 extern uint64_t OFFSET_BCOPY;
 extern uint64_t OFFSET_IOSURFACEROOTUSERCLIENT_VTAB;

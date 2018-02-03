@@ -26,7 +26,9 @@ uint64_t OFFSET_CHGPROCCNT;
 uint64_t OFFSET_KAUTH_CRED_REF;
 uint64_t OFFSET_OSSERIALIZER_SERIALIZE;
 uint64_t OFFSET_ROP_LDR_X0_X0_0x10;
+
 uint64_t OFFSET_ROOTVNODE;
+uint64_t OFFSET_BASE;
 
 //unused
 uint64_t OFFSET_BZERO;
@@ -52,11 +54,10 @@ kern_return_t init_offsets()
     sysctl(version_prop, 2, osversion, &version_prop_len, NULL, 0);
     LOG("version: %s", osversion);
     
+    OFFSET_BASE = 0xfffffff007004000;
     
     
-/*
- 
-Supported devices ...
+/** Supported devices ...
 
 iPod7,1 - iPod 6
 
@@ -103,9 +104,9 @@ iPad6,11 - iPad 5/2017 (WiFi)
 iPad6,12 - iPad 5/2017 (Cellular)
  
 */
-
     
 //------------------------------------------------------------------------------
+
     
 #pragma mark iPhone 6 (iPhone7,2)
     
