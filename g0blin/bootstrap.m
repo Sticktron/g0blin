@@ -53,10 +53,19 @@ kern_return_t do_bootstrap(bool force) {
     gsystem("killall -9 cfprefsd");
     
     // set SBShowNonDefaultSystemApps = YES in com.apple.springboard.plist
-    //CFStringRef appName = CFSTR("com.apple.springboard");
-    //CFPreferencesAppSynchronize(appName);
-    //CFPreferencesSetAppValue(CFSTR("SBShowNonDefaultSystemApps"), kCFBooleanTrue, appName);
-    //CFPreferencesAppSynchronize(appName);
+    CFStringRef appName = CFSTR("com.apple.springboard");
+    CFPreferencesAppSynchronize(appName);
+    CFPreferencesSetAppValue(CFSTR("AAATest1"), kCFBooleanTrue, appName);
+    CFPreferencesAppSynchronize(appName);
+
+    CFPreferencesSetAppValue(CFSTR("AAATest2"), CFSTR("Mike"), appName);
+    CFPreferencesAppSynchronize(appName);
+    
+    appName = CFSTR("/private/var/mobile/Library/Preferences/com.apple.springboard.plist");
+    CFPreferencesAppSynchronize(appName);
+    CFPreferencesSetAppValue(CFSTR("AAATest3"), CFSTR("Mike G."), appName);
+    CFPreferencesAppSynchronize(appName);
+
     
     //--------------------------------------------------------------------------
     
