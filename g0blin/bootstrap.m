@@ -37,17 +37,13 @@ kern_return_t do_bootstrap(bool force) {
     // cleanup hosts file
     
     // uninstall dropbear
-    unlink("/Library/LaunchDaemons/dropbear.plist");
-    unlink("/etc/dropbear/dropbear_ecdsa_host_key");
-    unlink("/etc/dropbear/dropbear_rsa_host_key");
-    rmdir("/etc/dropbear");
-    unlink("/usr/local/bin/dropbear");
-    unlink("/usr/local/bin/dropbearconvert");
-    unlink("/usr/local/bin/dropbearkey");
-    
-    // delete reload daemon and script
-    //unlink("/usr/libexec/reload");
-    //unlink("/Library/LaunchDaemons/0.reload.plist");
+    //unlink("/Library/LaunchDaemons/dropbear.plist");
+    //unlink("/etc/dropbear/dropbear_ecdsa_host_key");
+    //unlink("/etc/dropbear/dropbear_rsa_host_key");
+    //rmdir("/etc/dropbear");
+    //unlink("/usr/local/bin/dropbear");
+    //unlink("/usr/local/bin/dropbearconvert");
+    //unlink("/usr/local/bin/dropbearkey");
     
     // set SBShowNonDefaultSystemApps = YES in com.apple.springboard.plist
     gsystem("killall -SIGSTOP cfprefsd");
