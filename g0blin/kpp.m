@@ -7,11 +7,9 @@
 //
 
 #import "kpp.h"
+#import "offsets.h"
 #import "kernel.h"
-
-
-// This is @qwertyoruiop's KPP bypass from Yalu102 -----------------------------
-
+#import "sbops.h"
 #import "pte_stuff.h"
 #import "patchfinder64.h"
 
