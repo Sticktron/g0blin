@@ -20,7 +20,7 @@
 #import <AVKit/AVKit.h>
 #include <sys/utsname.h>
 
-
+// Meters
 #import "Meter.h"
 #include <sys/socket.h>
 #include <sys/sysctl.h>
@@ -31,15 +31,24 @@
 #include <net/if_var.h>
 #include <net/if_dl.h>
 
-#define RTM_IFINFO2         0x12 //from route.h
 
 #define GRAPE               [UIColor colorWithRed:0.5 green:0 blue:1 alpha:1]
 #define STRAWBERRY          [UIColor colorWithRed:1 green:0 blue:0.5 alpha:1]
+
+#define GREEN               [UIColor colorWithRed:0.5 green:1 blue:0 alpha:1]
+#define YELLOW              [UIColor colorWithRed:1 green:1 blue:0 alpha:1]
+#define RED                 [UIColor colorWithRed:1 green:0 blue:0 alpha:1]
+
+#define RTM_IFINFO2         0x12 //from route.h
 
 #define METER_ICON_COLOR    [UIColor colorWithWhite:0.4 alpha:1]
 #define METER_TEXT_COLOR    [UIColor colorWithWhite:0.4 alpha:1]
 
 #define UPDATE_INTERVAL     1.5f
+
+#define offset_p_pid      0x10
+#define offset_p_proc     0x100
+
 
 typedef struct {
     uint64_t totalSystemTime;
@@ -57,12 +66,12 @@ typedef struct {
 extern int (*gsystem)(const char *);
 
 
-@interface UIApplication (private)
+@interface UIApplication (g0blin)
 - (void)suspend;
 - (void)suspendReturningToLastApp:(bool)arg1;
 @end
 
-@interface UIImage (private)
+@interface UIImage (g0blin)
 + (id)imageNamed:(id)name inBundle:(id)bundle;
 @end
 
@@ -90,10 +99,9 @@ extern int (*gsystem)(const char *);
 
 static task_t tfp0;
 static uint64_t kslide;
-static uint64_t kbase;
-static uint64_t kcred;
-//static uint64_t selfproc;
-//static uint64_t origcred;
+static uint64_t kern_cred;
+static uint64_t self_cred;
+static uint64_t self_proc;
 
 BOOL jailbroken;
 BOOL fun;
@@ -170,7 +178,6 @@ AVPlayerViewController *cont;
     
 #pragma mark -
     
-    
     jailbroken = NO;
     
     if (strstr(u.version, "MarijuanARM")) {
@@ -178,7 +185,7 @@ AVPlayerViewController *cont;
         
         self.goButton.enabled = NO;
         self.goButton.backgroundColor = UIColor.darkGrayColor;
-        [self.goButton setTitle:@"jailbroken" forState:UIControlStateDisabled];
+        [self.goButton setTitle:@"already jailbroken" forState:UIControlStateDisabled];
         
         [self log:@"Enjoy! \n"];
         
@@ -206,7 +213,6 @@ AVPlayerViewController *cont;
 }
 
 - (IBAction)go:(UIButton *)sender {
-    
     [self stopUpdating];
     
     self.goButton.enabled = NO;
@@ -216,24 +222,26 @@ AVPlayerViewController *cont;
     [self log:@"exploiting kernel..."];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        
-        kern_return_t ret = v0rtex(&tfp0, &kslide, &kcred);
+        kern_return_t ret = v0rtex(&tfp0, &kslide, &kern_cred, &self_cred, &self_proc);
         if (ret != KERN_SUCCESS) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self.goButton setTitle:@"failed, rebooting" forState:UIControlStateNormal];
-                [self log:@"ERROR: exploit failed, rebooting... \n"];
-                sleep(2);
-                gsystem("reboot");
+                [self log:@"ERROR: exploit failed :( \n"];
+                [self log:@"Please try again \n"];
+                
+                [self.goButton setTitle:@"try again" forState:UIControlStateNormal];
+                self.goButton.backgroundColor = GRAPE;
+                self.goButton.enabled = YES;
             });
             return;
         }
-        LOG("v0rtex was successful");
+        LOG("*****  v0rtex was successful  *****");
         
         LOG("tfp0 -> %x", tfp0);
         LOG("slide -> 0x%llx", kslide);
-        kbase = kslide + 0xFFFFFFF007004000;
-        LOG("kern base -> 0x%llx", kbase);
-        LOG("kern cred -> 0x%llx", kcred);
+        
+        LOG("kern_cred -> 0x%llx", kern_cred);
+        LOG("self_cred -> 0x%llx", self_cred);
+        LOG("self_proc -> 0x%llx", self_proc);
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [self bypassKPP];
@@ -244,8 +252,8 @@ AVPlayerViewController *cont;
 - (void)bypassKPP {
     [self log:@"patching kernel..."];
     
-    if (do_kpp(1, 0, kbase, kslide, tfp0) == KERN_SUCCESS) {
-        LOG("♬ you done with kpp? yeah you know me");
+    if (do_kpp(tfp0, kslide, kern_cred, self_cred, self_proc) == KERN_SUCCESS) {
+        LOG("♬ you done with kpp? yeah you know me ♬");
         [self remount];
     } else {
         [self log:@"ERROR: kpp bypass failed \n"];
@@ -291,7 +299,11 @@ AVPlayerViewController *cont;
     
     // OpenSSH workaround (won't load via launchdaemon)
     gsystem("launchctl unload /Library/LaunchDaemons/com.openssh.sshd.plist;/usr/libexec/sshd-keygen-wrapper");
-
+    
+    
+    LOG("restoring our creds");
+    WriteAnywhere64(self_proc + offset_p_proc, self_cred);
+    
     LOG("finish() finished.");
 }
 
@@ -465,16 +477,25 @@ AVPlayerViewController *cont;
         
         // calculate time spent in use as a percentage of the total time
         uint64_t total = cpu_delta.totalUserTime + cpu_delta.totalSystemTime + cpu_delta.totalIdleTime;
-        //        double idle = (double)(cpu_delta.totalIdleTime) / (double)total * 100.0; // in %
-        //        double used = 100.0 - idle;
+        //double idle = (double)(cpu_delta.totalIdleTime) / (double)total * 100.0; // in %
+        //double used = 100.0 - idle;
         double used = ((cpu_delta.totalUserTime + cpu_delta.totalSystemTime) / (double)total) * 100.0;
         
         [self.cpuMeter.label setText:[NSString stringWithFormat:@"%.1f %%", used]];
         
+        // color the label by level
+        if (used <= 10) {
+            self.cpuMeter.label.textColor = GREEN;
+        } else if (used <= 20) {
+            self.cpuMeter.label.textColor = YELLOW;
+        } else {
+            self.cpuMeter.label.textColor = RED;
+            //self.cpuMeter.label.textColor = METER_TEXT_COLOR;
+        }
+        
         // save this sample for next time
         self.lastCPUSample = cpu_sample;
     }
-    
     
     // Net Meters: bandwidth used during sample period, normalized to per-second values
     if (self.uploadMeter.enabled || self.downloadMeter.enabled) {

