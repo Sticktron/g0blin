@@ -9,7 +9,11 @@
 /* Begin PBXBuildFile section */
 		EE0A1C281FF8891A001030DB /* SettingsController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE0A1C271FF8891A001030DB /* SettingsController.m */; };
 		EE1C60E41FFACA3600D30AAC /* bootstrap.tar in Resources */ = {isa = PBXBuildFile; fileRef = EE1C60E31FFACA3500D30AAC /* bootstrap.tar */; };
-		EE65CCCE201EC198002F216F /* Meter.m in Sources */ = {isa = PBXBuildFile; fileRef = EE65CCCD201EC198002F216F /* Meter.m */; };
+		EE62D30F202E0A7800749002 /* BEMLine.m in Sources */ = {isa = PBXBuildFile; fileRef = EE62D305202E043000749002 /* BEMLine.m */; };
+		EE62D310202E0A7800749002 /* BEMAverageLine.m in Sources */ = {isa = PBXBuildFile; fileRef = EE62D309202E043000749002 /* BEMAverageLine.m */; };
+		EE62D311202E0A7800749002 /* BEMPermanentPopupView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE62D30B202E043000749002 /* BEMPermanentPopupView.m */; };
+		EE62D312202E0A7800749002 /* BEMCircle.m in Sources */ = {isa = PBXBuildFile; fileRef = EE62D30C202E043000749002 /* BEMCircle.m */; };
+		EE62D313202E0A7800749002 /* BEMSimpleLineGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE62D30D202E043000749002 /* BEMSimpleLineGraphView.m */; };
 		EE9402401FF33CAE00C9325F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EE94023F1FF33CAE00C9325F /* AppDelegate.m */; };
 		EE9402431FF33CAE00C9325F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9402421FF33CAE00C9325F /* ViewController.m */; };
 		EE9402461FF33CAE00C9325F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EE9402441FF33CAE00C9325F /* Main.storyboard */; };
@@ -35,8 +39,16 @@
 		EE0A1C261FF8891A001030DB /* SettingsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsController.h; sourceTree = "<group>"; };
 		EE0A1C271FF8891A001030DB /* SettingsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingsController.m; sourceTree = "<group>"; };
 		EE1C60E31FFACA3500D30AAC /* bootstrap.tar */ = {isa = PBXFileReference; lastKnownFileType = archive.tar; path = bootstrap.tar; sourceTree = "<group>"; };
-		EE65CCCC201EC198002F216F /* Meter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Meter.h; sourceTree = "<group>"; };
-		EE65CCCD201EC198002F216F /* Meter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Meter.m; sourceTree = "<group>"; };
+		EE62D305202E043000749002 /* BEMLine.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BEMLine.m; sourceTree = "<group>"; };
+		EE62D306202E043000749002 /* BEMCircle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BEMCircle.h; sourceTree = "<group>"; };
+		EE62D307202E043000749002 /* BEMSimpleLineGraphView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BEMSimpleLineGraphView.h; sourceTree = "<group>"; };
+		EE62D308202E043000749002 /* BEMPermanentPopupView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BEMPermanentPopupView.h; sourceTree = "<group>"; };
+		EE62D309202E043000749002 /* BEMAverageLine.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BEMAverageLine.m; sourceTree = "<group>"; };
+		EE62D30A202E043000749002 /* BEMLine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BEMLine.h; sourceTree = "<group>"; };
+		EE62D30B202E043000749002 /* BEMPermanentPopupView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BEMPermanentPopupView.m; sourceTree = "<group>"; };
+		EE62D30C202E043000749002 /* BEMCircle.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BEMCircle.m; sourceTree = "<group>"; };
+		EE62D30D202E043000749002 /* BEMSimpleLineGraphView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BEMSimpleLineGraphView.m; sourceTree = "<group>"; };
+		EE62D30E202E043000749002 /* BEMAverageLine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BEMAverageLine.h; sourceTree = "<group>"; };
 		EE94023B1FF33CAE00C9325F /* g0blin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = g0blin.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE94023E1FF33CAE00C9325F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		EE94023F1FF33CAE00C9325F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -95,6 +107,23 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		EE62D304202E043000749002 /* BEMSimpleLineGraph */ = {
+			isa = PBXGroup;
+			children = (
+				EE62D305202E043000749002 /* BEMLine.m */,
+				EE62D306202E043000749002 /* BEMCircle.h */,
+				EE62D307202E043000749002 /* BEMSimpleLineGraphView.h */,
+				EE62D308202E043000749002 /* BEMPermanentPopupView.h */,
+				EE62D309202E043000749002 /* BEMAverageLine.m */,
+				EE62D30A202E043000749002 /* BEMLine.h */,
+				EE62D30B202E043000749002 /* BEMPermanentPopupView.m */,
+				EE62D30C202E043000749002 /* BEMCircle.m */,
+				EE62D30D202E043000749002 /* BEMSimpleLineGraphView.m */,
+				EE62D30E202E043000749002 /* BEMAverageLine.h */,
+			);
+			path = BEMSimpleLineGraph;
+			sourceTree = "<group>";
+		};
 		EE9402321FF33CAE00C9325F = {
 			isa = PBXGroup;
 			children = (
@@ -147,11 +176,10 @@
 		EEA7165C201E6C810095F172 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				EE62D304202E043000749002 /* BEMSimpleLineGraph */,
 				EE94023E1FF33CAE00C9325F /* AppDelegate.h */,
 				EE94023F1FF33CAE00C9325F /* AppDelegate.m */,
 				EE94024D1FF33CAE00C9325F /* main.m */,
-				EE65CCCC201EC198002F216F /* Meter.h */,
-				EE65CCCD201EC198002F216F /* Meter.m */,
 				EE0A1C261FF8891A001030DB /* SettingsController.h */,
 				EE0A1C271FF8891A001030DB /* SettingsController.m */,
 				EE9402411FF33CAE00C9325F /* ViewController.h */,
@@ -261,10 +289,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE62D30F202E0A7800749002 /* BEMLine.m in Sources */,
+				EE62D310202E0A7800749002 /* BEMAverageLine.m in Sources */,
+				EE62D311202E0A7800749002 /* BEMPermanentPopupView.m in Sources */,
+				EE62D312202E0A7800749002 /* BEMCircle.m in Sources */,
+				EE62D313202E0A7800749002 /* BEMSimpleLineGraphView.m in Sources */,
 				EE94024E1FF33CAE00C9325F /* main.m in Sources */,
 				EE9402401FF33CAE00C9325F /* AppDelegate.m in Sources */,
 				EE9402431FF33CAE00C9325F /* ViewController.m in Sources */,
-				EE65CCCE201EC198002F216F /* Meter.m in Sources */,
 				EE94025B1FF340D400C9325F /* offsets.m in Sources */,
 				EE9402581FF3404700C9325F /* v0rtex.m in Sources */,
 				EE9402651FF3766500C9325F /* patchfinder64.c in Sources */,

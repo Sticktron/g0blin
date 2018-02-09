@@ -37,6 +37,7 @@
 // Not sure what'll really become of this, but it's certainly not done yet.
 // Pretty sure I'll leave iOS 11 to Ian Beer though, for the time being.
 
+
 #include <errno.h>              // errno
 #include <sched.h>              // sched_yield
 #include <stdlib.h>             // malloc, free
@@ -61,7 +62,7 @@ uint64_t OFFSET_realhost_special                   = 0x10;
 uint64_t OFFSET_vtab_get_retain_count              = 0x3;
 uint64_t OFFSET_vtab_get_external_trap_for_index   = 0xb7;
 
-uint64_t OFFSET_proc_csflags                       = 0x2a8;
+//uint64_t OFFSET_proc_csflags                       = 0x2a8;
 
 
 // ********** ********** ********** constants ********** ********** **********
@@ -542,14 +543,11 @@ typedef union
 
 
 
-#pragma mark - v0rtex()
+//------------------------------------------------------------------------------
+#pragma mark - v0rtex exploit
+//------------------------------------------------------------------------------
 
-
-// ********** ********** ********** exploit ********** ********** **********
-// ********** ********** ********** exploit ********** ********** **********
-
-kern_return_t v0rtex(task_t *tfp0, kptr_t *kslide, uint64_t *kerncred, uint64_t *selfcred, uint64_t *selfproc)
-{
+kern_return_t v0rtex(task_t *tfp0, uint64_t *kslide, uint64_t *kerncred, uint64_t *selfcred, uint64_t *selfproc) {
     kern_return_t retval = KERN_FAILURE,
     ret = 0;
     task_t self = mach_task_self();
@@ -1468,10 +1466,10 @@ zm_tmp < zm_hdr.start ? zm_tmp + 0x100000000 : zm_tmp \
     
     *tfp0 = kernel_task;
     *kslide = slide;
-    //*kerncred = kern_ucred;
-    //*selfcred = self_ucred;
-    //*selfproc = self_proc;
-
+    *kerncred = kern_ucred;
+    *selfcred = self_ucred;
+    *selfproc = self_proc;
+    
     
     retval = KERN_SUCCESS;
     
@@ -1515,3 +1513,29 @@ zm_tmp < zm_hdr.start ? zm_tmp + 0x100000000 : zm_tmp \
     
     return retval;
 }
+
+
+/*
+ MIT License
+ 
+ Copyright (c) 2017 Siguza
+ 
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+ 
+ The above copyright notice and this permission notice shall be included in all
+ copies or substantial portions of the Software.
+ 
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ SOFTWARE.
+*/
+

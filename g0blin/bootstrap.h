@@ -10,4 +10,4 @@
 #include <stdio.h>
 #include <mach/mach.h>
 
-kern_return_t do_bootstrap(bool force);
+kern_return_t do_bootstrap(void);

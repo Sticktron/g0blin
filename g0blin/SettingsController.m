@@ -20,9 +20,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.redditButton.layer.cornerRadius = 10;
-    self.discordButton.layer.cornerRadius = 10;
-    self.issuesButton.layer.cornerRadius = 10;
+    self.redditButton.layer.cornerRadius = 16;
+    self.discordButton.layer.cornerRadius = 16;
+    self.issuesButton.layer.cornerRadius = 16;
 
     [self.reinstallBootstrapSwitch setOn:NO animated:NO];
 }

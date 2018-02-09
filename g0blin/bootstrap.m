@@ -13,37 +13,22 @@
 #include <copyfile.h>
 #include <mach-o/dyld.h>
 
+
 extern int (*gsystem)(const char *);
 
 
-// void touch_file(char *path) {
-//     fclose(fopen(path, "w+"));
-// }
-
-
-kern_return_t do_bootstrap(bool force) {
+kern_return_t do_bootstrap() {
     
-    
-    //--------------------------------------------------------------------------
-    /* Cleanup from RC0/RC1 */
+#pragma mark - Cleanup
     
     unlink("/.installed_g0blin");
     unlink("/.installed_g0blin_rc0");
     unlink("/.installed_g0blin_rc1");
+    unlink("/.installed_g0blin_rc2");
+    
+    unlink("/usr/libexec/reload");
+    unlink("/Library/LaunchDaemons/0.reload.plist");
 
-    //gsystem("touch /.installed_g0blin_rc2");
-    open("/.installed_g0blin_rc2", O_RDWR|O_CREAT, 0644);
-    
-    // cleanup hosts file
-    
-    // uninstall dropbear
-    //unlink("/Library/LaunchDaemons/dropbear.plist");
-    //unlink("/etc/dropbear/dropbear_ecdsa_host_key");
-    //unlink("/etc/dropbear/dropbear_rsa_host_key");
-    //rmdir("/etc/dropbear");
-    //unlink("/usr/local/bin/dropbear");
-    //unlink("/usr/local/bin/dropbearconvert");
-    //unlink("/usr/local/bin/dropbearkey");
     
     // set SBShowNonDefaultSystemApps = YES in com.apple.springboard.plist
     gsystem("killall -SIGSTOP cfprefsd");
@@ -52,26 +37,10 @@ kern_return_t do_bootstrap(bool force) {
     [plist writeToFile:@"/var/mobile/Library/Preferences/com.apple.springboard.plist" atomically:YES];
     gsystem("killall -9 cfprefsd");
     
-    // set SBShowNonDefaultSystemApps = YES in com.apple.springboard.plist
-    CFStringRef appName = CFSTR("com.apple.springboard");
-    CFPreferencesAppSynchronize(appName);
-    CFPreferencesSetAppValue(CFSTR("AAATest1"), kCFBooleanTrue, appName);
-    CFPreferencesAppSynchronize(appName);
-
-    CFPreferencesSetAppValue(CFSTR("AAATest2"), CFSTR("Mike"), appName);
-    CFPreferencesAppSynchronize(appName);
     
-    appName = CFSTR("/private/var/mobile/Library/Preferences/com.apple.springboard.plist");
-    CFPreferencesAppSynchronize(appName);
-    CFPreferencesSetAppValue(CFSTR("AAATest3"), CFSTR("Mike G."), appName);
-    CFPreferencesAppSynchronize(appName);
-
+#pragma mark - Install Cydia?
     
-    //--------------------------------------------------------------------------
-    
-    
-    // Install Cydia if necessary or requested
-    if (![[NSFileManager defaultManager] fileExistsAtPath:@"/Applications/Cydia.app/"] || force) {
+    if (![[NSFileManager defaultManager] fileExistsAtPath:@"/Applications/Cydia.app/"]) {
         LOG("installing Cydia...");
         
         // copy launchctl
@@ -93,11 +62,8 @@ kern_return_t do_bootstrap(bool force) {
         waitpid(pid, 0, 0);
         LOG("unpacked bootstrap ");
         
-        
-        // !!! DO NOT USE TRADITIONAL STASHING !!!
-        //gsystem("touch /.cydia_no_stash");
+        // DO NOT USE TRADITIONAL STASHING !!!
         open("/.cydia_no_stash", O_RDWR|O_CREAT, 0644);
-        
         
         // run Cydia install scripts
         LOG("running Cydia extrainst scripts...");
@@ -106,7 +72,6 @@ kern_return_t do_bootstrap(bool force) {
         gsystem("/var/lib/dpkg/info/uikittools.extrainst_");
         gsystem("/var/lib/dpkg/info/com.saurik.patcyh.extrainst_");
         
-        
         // modify hosts (don't phone home)
         gsystem("echo '127.0.0.1 iphonesubmissions.apple.com' >> /etc/hosts");
         gsystem("echo '127.0.0.1 radarsubmissions.apple.com' >> /etc/hosts");
@@ -114,30 +79,16 @@ kern_return_t do_bootstrap(bool force) {
         // modify hosts (block Software Update)
         gsystem("echo '127.0.0.1 mesu.apple.com' >> /etc/hosts");
         
-        
         // rebuild icon cache
         LOG("running uicache...");
         gsystem("su -c uicache mobile");
-        
         
         LOG("finished installing bootstrap");
     }
     LOG("Cydia is installed");
     
     
-    // copy reload script
-    unlink("/usr/libexec/reload");
-    NSString *reload = [[NSBundle mainBundle] URLForResource:@"reload" withExtension:@""].path;
-    copyfile([reload UTF8String], "/usr/libexec/reload", 0, COPYFILE_ALL);
-    chmod("/usr/libexec/reload", 0755);
-    chown("/usr/libexec/reload", 0, 0);
-    
-    // copy reload plist
-    unlink("/Library/LaunchDaemons/0.reload.plist");
-    NSString *reloadPlist = [[NSBundle mainBundle] URLForResource:@"0.reload" withExtension:@"plist"].path;
-    copyfile([reloadPlist UTF8String], "/Library/LaunchDaemons/0.reload.plist", 0, COPYFILE_ALL);
-    chmod("/Library/LaunchDaemons/0.reload.plist", 0644);
-    chown("/Library/LaunchDaemons/0.reload.plist", 0, 0);
+#pragma mark - Common
     
     
     // permissions fix
@@ -147,22 +98,29 @@ kern_return_t do_bootstrap(bool force) {
     chmod("/private/var/mobile/Library", 0777);
     chmod("/private/var/mobile/Library/Preferences", 0777);
     
-    
     // kill Software Update
     gsystem("launchctl unload /System/Library/LaunchDaemons/com.apple.mobile.softwareupdated.plist");
     unlink("/System/Library/LaunchDaemons/com.apple.mobile.softwareupdated.plist");
     gsystem("launchctl kill 9 system/com.apple.mobile.softwareupdated");
-    
+    LOG("killed Software Update");
+
     // obliterate Software Update
     //unlink("/System/Library/PrivateFrameworks/MobileSoftwareUpdate.framework/Support/softwareupdated")
-    
+    //LOG("obliterated Software Update");
     
     // kill OTA updater
     gsystem("rm -rf /var/MobileAsset/Assets/com_apple_MobileAsset_SoftwareUpdate; touch /var/MobileAsset/Assets/com_apple_MobileAsset_SoftwareUpdate; chmod 000 /var/MobileAsset/Assets/com_apple_MobileAsset_SoftwareUpdate; chown 0:0 /var/MobileAsset/Assets/com_apple_MobileAsset_SoftwareUpdate");
     LOG("killed OTA updater");
     
+    // load user launch daemons; do run commands
+    LOG("launching user daemons...");
+    gsystem("ls /Library/LaunchDaemons | while read a; do launchctl load /Library/LaunchDaemons/$a; done;");
+    gsystem("for file in /etc/rc.d/*; do $file; done;");
+    
+    // OpenSSH launch workaround (won't load via launchdaemon)
+    gsystem("launchctl unload /Library/LaunchDaemons/com.openssh.sshd.plist;/usr/libexec/sshd-keygen-wrapper");
     
     LOG("finished bootstrapping.");
-        
-    return KERN_SUCCESS; // TODO: handle errors?
+    
+    return KERN_SUCCESS;
 }

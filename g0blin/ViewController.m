@@ -15,39 +15,22 @@
 #import "kpp.h"
 #import "remount.h"
 #import "bootstrap.h"
-
 #import <AVFoundation/AVFoundation.h>
 #import <AVKit/AVKit.h>
 #include <sys/utsname.h>
+#import "BEMSimpleLineGraphView.h"
 
-// Meters
-#import "Meter.h"
-#include <sys/socket.h>
-#include <sys/sysctl.h>
-#include <sys/types.h>
-#include <mach/mach_host.h>
-#include <mach/mach_time.h>
-#include <net/if.h>
-#include <net/if_var.h>
-#include <net/if_dl.h>
 
+#define RTM_IFINFO2         0x12 //from route.h
 
 #define GRAPE               [UIColor colorWithRed:0.5 green:0 blue:1 alpha:1]
 #define STRAWBERRY          [UIColor colorWithRed:1 green:0 blue:0.5 alpha:1]
 
-#define GREEN               [UIColor colorWithRed:0.5 green:1 blue:0 alpha:1]
-#define YELLOW              [UIColor colorWithRed:1 green:1 blue:0 alpha:1]
-#define RED                 [UIColor colorWithRed:1 green:0 blue:0 alpha:1]
-
-#define RTM_IFINFO2         0x12 //from route.h
-
-#define METER_ICON_COLOR    [UIColor colorWithWhite:0.4 alpha:1]
-#define METER_TEXT_COLOR    [UIColor colorWithWhite:0.4 alpha:1]
-
 #define UPDATE_INTERVAL     1.5f
+#define GRAPH_MAX_POINTS    20
 
-#define offset_p_pid      0x10
-#define offset_p_proc     0x100
+#define offset_p_pid        0x10
+#define offset_p_proc       0x100
 
 
 typedef struct {
@@ -56,52 +39,31 @@ typedef struct {
     uint64_t totalIdleTime;
 } CPUSample;
 
-typedef struct {
-    uint64_t timestamp;
-    uint64_t totalDownloadBytes;
-    uint64_t totalUploadBytes;
-} NetSample;
-
 
 extern int (*gsystem)(const char *);
 
 
-@interface UIApplication (g0blin)
-- (void)suspend;
-- (void)suspendReturningToLastApp:(bool)arg1;
-@end
-
-@interface UIImage (g0blin)
-+ (id)imageNamed:(id)name inBundle:(id)bundle;
-@end
-
-
-@interface ViewController ()
+@interface ViewController () <BEMSimpleLineGraphDelegate, BEMSimpleLineGraphDataSource>
 @property (weak, nonatomic) IBOutlet UIImageView *logoView;
 @property (weak, nonatomic) IBOutlet UIButton *settingsButton;
-@property (weak, nonatomic) IBOutlet UILabel *reinstallBootstrapLabel;
 @property (weak, nonatomic) IBOutlet UIButton *goButton;
 @property (weak, nonatomic) IBOutlet UITextView *consoleView;
-@property (weak, nonatomic) IBOutlet UIView *metersView;
+@property (weak, nonatomic) IBOutlet UILabel *cpuMeterLabel;
+@property (weak, nonatomic) IBOutlet UILabel *ramMeterLabel;
+@property (weak, nonatomic) IBOutlet BEMSimpleLineGraphView *cpuGraph;
 
-@property (nonatomic, strong) Meter *cpuMeter;
-@property (nonatomic, strong) Meter *ramMeter;
-@property (nonatomic, strong) Meter *diskMeter;
-@property (nonatomic, strong) Meter *uploadMeter;
-@property (nonatomic, strong) Meter *downloadMeter;
-@property (nonatomic, strong) NSMutableArray *meters;
 @property (nonatomic, strong) NSTimer *meterUpdateTimer;
 @property (nonatomic, assign) CPUSample lastCPUSample;
-@property (nonatomic, assign) NetSample lastNetSample;
-- (void)updateLayout;
+@property (nonatomic, strong) NSMutableArray *cpuHistory;
 @end
 
 
 static task_t tfp0;
-static uint64_t kslide;
-static uint64_t kern_cred;
-static uint64_t self_cred;
-static uint64_t self_proc;
+
+uint64_t kslide;
+uint64_t kern_cred;
+uint64_t self_cred;
+uint64_t self_proc;
 
 BOOL jailbroken;
 BOOL fun;
@@ -113,70 +75,25 @@ AVPlayerViewController *cont;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
     
     self.consoleView.layer.cornerRadius = 6;
     self.consoleView.text = nil;
     
     self.goButton.layer.cornerRadius = 16;
     
-    self.reinstallBootstrapLabel.hidden = YES;
+    // print kernel version
+    struct utsname u;
+    uname(&u);
+    [self log:[NSString stringWithFormat:@"%s \n", u.version]];
+    [self log:[NSString stringWithFormat:@"H/W: %s", u.machine]];
+    [self log:[NSString stringWithFormat:@"S/W: %@ \n", [[NSProcessInfo processInfo] operatingSystemVersionString]]];
     
-    // fun
+    // setup fun
     self.logoView.userInteractionEnabled = YES;
     UITapGestureRecognizer *tripleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(fun:)];
     tripleTap.delaysTouchesBegan = YES;
     tripleTap.numberOfTapsRequired = 3;
     [self.logoView addGestureRecognizer:tripleTap];
-    
-    // print kernel version
-    struct utsname u;
-    uname(&u);
-    [self log:[NSString stringWithFormat:@"%s \n", u.version]];
-    [self log:[NSString stringWithFormat:@"Hardware: %s", u.machine]];
-    [self log:[NSString stringWithFormat:@"Software: %@ \n", [[NSProcessInfo processInfo] operatingSystemVersionString]]];
-    
-    
-#pragma mark - meters
-    
-    // create meters
-    _cpuMeter = [[Meter alloc] initWithName:@"cpu" title:@"CPU"];
-    _ramMeter = [[Meter alloc] initWithName:@"ram" title:@"RAM"];
-    _diskMeter = [[Meter alloc] initWithName:@"disk" title:@"DISK"];
-    _uploadMeter = [[Meter alloc] initWithName:@"upload" title:@"U/L"];
-    _downloadMeter = [[Meter alloc] initWithName:@"download" title:@"D/L"];
-    
-    // store meters in order
-    _meters = [NSMutableArray arrayWithArray:@[ _cpuMeter,
-                                                _ramMeter,
-                                                _diskMeter,
-                                                _uploadMeter,
-                                                _downloadMeter ]];
-    // create views
-    self.metersView.backgroundColor = UIColor.clearColor;
-    for (Meter *meter in self.meters) {
-        UIButton *icon = [[UIButton alloc] init];
-        icon.userInteractionEnabled = NO;
-        
-        UIImage *iconImage = [UIImage imageNamed:meter.name inBundle:[NSBundle mainBundle]];
-        iconImage = [iconImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-        [icon setImage:iconImage forState:UIControlStateNormal];
-        icon.tintColor = METER_ICON_COLOR;
-        //icon.layer.compositingFilter = @"plusL";
-        [self.metersView addSubview:icon];
-        meter.icon = icon;
-        
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
-        label.font = [UIFont systemFontOfSize:11];
-        label.textAlignment = NSTextAlignmentCenter;
-        label.text = meter.title;
-        label.textColor = METER_TEXT_COLOR;
-        //label.layer.compositingFilter = @"plusL";
-        [self.metersView addSubview:label];
-        meter.label = label;
-    }
-    
-#pragma mark -
     
     jailbroken = NO;
     
@@ -199,17 +116,98 @@ AVPlayerViewController *cont;
         self.goButton.backgroundColor = UIColor.darkGrayColor;
         [self.goButton setTitle:@"device not supported" forState:UIControlStateDisabled];
     }
+    
+    // setup graph...
+    
+    self.cpuGraph.layer.cornerRadius = 4;
+    self.cpuGraph.clipsToBounds = YES;
+    
+    self.cpuGraph.animationGraphStyle = BEMLineAnimationNone;
+    
+    self.cpuGraph.averageLine.enableAverageLine = NO;
+    self.cpuGraph.enableTouchReport = NO;
+    self.cpuGraph.enablePopUpReport = NO;
+    
+    self.cpuGraph.colorReferenceLines = [UIColor colorWithWhite:0.66 alpha:1];
+
+    self.cpuGraph.autoScaleYAxis = NO;
+    self.cpuGraph.positionYAxisRight = YES;
+    self.cpuGraph.enableReferenceYAxisLines = YES;
+    self.cpuGraph.lineDashPatternForReferenceYAxisLines = @[@(2),@(2)];
+
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    LOG("Starting Meters !!!");
+    [self startUpdating];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    
+    LOG("Stopping Meters");
+    [self stopUpdating];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+    
+    // make SURE the timer is dead.
+    [_meterUpdateTimer invalidate];
+    _meterUpdateTimer = nil;
+}
+
+- (void)dealloc {
+    // make SURE the timer is dead.
+    [_meterUpdateTimer invalidate];
+    _meterUpdateTimer = nil;
+}
+
+
+#pragma mark - jailbreak
+
+- (IBAction)fun:(UITapGestureRecognizer *)recognizer {
+    LOG("got secret tap 3");
+    
+    if (!fun) {
+        fun = YES;
+        
+        BOOL hasAudio = [AVAudioSession.sharedInstance setCategory:AVAudioSessionCategoryPlayback error:nil];
+        if (!hasAudio) {
+            LOG("no audio :/");
+        }
+        
+        NSURL *url = [NSBundle.mainBundle URLForResource:@"y0nkers" withExtension:@"m4v"];
+        LOG("url = %@", url);
+        if (!url) {
+            LOG("filenotfound");
+            return;
+        }
+        
+        player = [AVPlayer playerWithURL:url];
+        cont = [[AVPlayerViewController alloc] init];
+        cont.player = player;
+        cont.showsPlaybackControls = NO;
+        cont.updatesNowPlayingInfoCenter = YES;
+        cont.view.frame = self.consoleView.bounds;
+        [self.consoleView addSubview:cont.view];
+        [player play];
+        cont.showsPlaybackControls = YES;
+        
+    } else {
+        [player pause];
+        [cont.view removeFromSuperview];
+        player = nil;
+        cont = nil;
+        fun = NO;
+    }
 }
 
 - (void)log:(NSString *)text {
     self.consoleView.text = [NSString stringWithFormat:@"%@%@ \n", self.consoleView.text, text];
-}
-
-- (IBAction)prepareForUnwind:(UIStoryboardSegue *)segue {
-    //segue exit marker
-    
-    SettingsController *settingsController = segue.sourceViewController;
-    self.reinstallBootstrapLabel.hidden = !settingsController.reinstallBootstrapSwitch.on;
 }
 
 - (IBAction)go:(UIButton *)sender {
@@ -231,17 +229,18 @@ AVPlayerViewController *cont;
                 [self.goButton setTitle:@"try again" forState:UIControlStateNormal];
                 self.goButton.backgroundColor = GRAPE;
                 self.goButton.enabled = YES;
+                
+                [self startUpdating];
             });
             return;
         }
         LOG("*****  v0rtex was successful  *****");
-        
         LOG("tfp0 -> %x", tfp0);
         LOG("slide -> 0x%llx", kslide);
-        
         LOG("kern_cred -> 0x%llx", kern_cred);
         LOG("self_cred -> 0x%llx", self_cred);
         LOG("self_proc -> 0x%llx", self_proc);
+        LOG("***********************************");
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [self bypassKPP];
@@ -273,13 +272,7 @@ AVPlayerViewController *cont;
 - (void)bootstrap {
     [self log:@"bootstrapping..."];
     
-    BOOL force = NO;
-    if (self.reinstallBootstrapLabel.hidden == NO) {
-        force = YES;
-        [self log:@"(forcing reinstall)"];
-    }
-    
-    if (do_bootstrap(force) == KERN_SUCCESS) {
+    if (do_bootstrap() == KERN_SUCCESS) {
         [self finish];
     } else {
         [self log:@"ERROR: failed to bootstrap \n"];
@@ -289,146 +282,40 @@ AVPlayerViewController *cont;
 - (void)finish {
     [self log:@"device is now jailbroken !!"];
     [self log:@""];
-    [self log:@"please wait while we restart SpringBoard..."];
+    [self log:@"restarting SpringBoard..."];
     [self log:@""];
     
     [self.goButton setTitle:@"finishing" forState:UIControlStateDisabled];
-        
-    // load user launchdaemons; do run commands
-    gsystem("(echo 'really jailbroken'; launchctl load /Library/LaunchDaemons/0.reload.plist)&");
     
-    // OpenSSH workaround (won't load via launchdaemon)
-    gsystem("launchctl unload /Library/LaunchDaemons/com.openssh.sshd.plist;/usr/libexec/sshd-keygen-wrapper");
-    
+    LOG("killing backboardd...");
+    gsystem("(killall backboardd)&");
+    //gsystem("killall -9 backboardd");
     
     LOG("restoring our creds");
     WriteAnywhere64(self_proc + offset_p_proc, self_cred);
     
-    LOG("finish() finished.");
-}
-
-- (IBAction)fun:(UITapGestureRecognizer *)recognizer {
-    LOG("got secret tap 3");
-    
-    if (!fun) {
-        fun = YES;
-        
-        BOOL hasAudio = [AVAudioSession.sharedInstance setCategory:AVAudioSessionCategoryPlayback error:nil];
-        if (!hasAudio) {
-            LOG("no audio :/");
-        }
-        
-        NSURL *url = [NSBundle.mainBundle URLForResource:@"y0nkers" withExtension:@"m4v"];
-        LOG("url = %@", url);
-        if (!url) {
-            LOG("filenotfound");
-            return;
-        }
-        
-        player = [AVPlayer playerWithURL:url];
-        cont = [[AVPlayerViewController alloc] init];
-        cont.player = player;
-        cont.showsPlaybackControls = NO;
-        cont.updatesNowPlayingInfoCenter = NO;
-        
-        cont.view.frame = self.consoleView.bounds;
-        [self.consoleView addSubview:cont.view];
-        [player play];
-        
-    } else {
-        [player pause];
-        [cont.view removeFromSuperview];
-        player = nil;
-        cont = nil;
-        fun = NO;
-    }
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-    
-    // make SURE the timer is dead.
-    [_meterUpdateTimer invalidate];
-    _meterUpdateTimer = nil;
-}
-
-- (void)dealloc {
-    // make SURE the timer is dead.
-    [_meterUpdateTimer invalidate];
-    _meterUpdateTimer = nil;
 }
 
 
-#pragma mark - Meters
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    
-    LOG("METERS > Starting Meters !!!");
-    [self startUpdating];
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    
-    LOG("METERS > Stopping Meters.");
-    [self stopUpdating];
-}
-
-- (void)viewWillLayoutSubviews {
-    [super viewWillLayoutSubviews];
-    [self updateLayout];
-}
-
-- (void)updateLayout {
-    
-    // update visibility...
-    
-    NSMutableArray *visibleMeters = [NSMutableArray array];
-    
-    for (Meter *meter in self.meters) {
-        if (meter.enabled) {
-            meter.icon.hidden = NO;
-            meter.label.hidden = NO;
-            [visibleMeters addObject:meter];
-        } else {
-            meter.icon.hidden = YES;
-            meter.label.hidden = YES;
-        }
-    }
-    
-    
-    // update position...
-    
-    int count = (int)visibleMeters.count;
-    if (count > 0) {
-        float height = floor(self.metersView.bounds.size.height / 2.0);
-        float width = floor(self.metersView.bounds.size.width / count);
-        int x = 0;
-        for (Meter *meter in visibleMeters) {
-            meter.icon.frame = CGRectMake(x, 0, width, height);
-            meter.label.frame = CGRectMake(x, height, width, height);
-            x += width;
-            //NSLog(@"[Meters] Layed out meter (%@): Icon = %@; Label = %@", meter.name, NSStringFromCGRect(meter.icon.frame), NSStringFromCGRect(meter.label.frame));
-        }
-    }
-}
+#pragma mark - meters
 
 - (void)startUpdating {
     // bail if the meters are already running
     if ([self.meterUpdateTimer isValid]) {
-        NSLog(@"[Meters] meters are already running, no need to start them again");
+        LOG("meters are already running, no need to start them again");
         
     } else {
+        // reset graph
+        //self.cpuHistory = [NSMutableArray arrayWithArray:@[@0,@0]];
+        self.cpuHistory = [NSMutableArray array];
+        [self.cpuGraph reloadGraph];
+        
         // show placeholder values
-        for (Meter *meter in self.meters) {
-            meter.label.text = meter.title;
-        }
+        self.cpuMeterLabel.text = @"_";
+        self.ramMeterLabel.text = @"_";
         
         // get new starting measurements
         self.lastCPUSample = [self getCPUSample];
-        self.lastNetSample = [self getNetSample];
         
         // start timer
         self.meterUpdateTimer = [NSTimer timerWithTimeInterval:UPDATE_INTERVAL target:self
@@ -436,103 +323,51 @@ AVPlayerViewController *cont;
                                                       userInfo:nil
                                                        repeats:YES];
         [[NSRunLoop mainRunLoop] addTimer:self.meterUpdateTimer forMode:NSRunLoopCommonModes];
-        NSLog(@"[Meters] Started Timer ••••• (%@)", self.meterUpdateTimer);
+        LOG("Started Timer ••••• (%@)", self.meterUpdateTimer);
     }
 }
 
 - (void)stopUpdating {
     if (self.meterUpdateTimer) {
-        NSLog(@"[Meters] Stopping Timer ••••• (%@)", self.meterUpdateTimer);
+        LOG("Stopping Timer ••••• (%@)", self.meterUpdateTimer);
         [self.meterUpdateTimer invalidate];
         self.meterUpdateTimer = nil;
     }
 }
 
 - (void)updateMeters:(NSTimer *)timer {
-    NSLog(@"[Meters] updating meters (timer: %@)", timer);
-    
-    // Disk Meter: free space on /User
-    if (self.diskMeter.enabled) {
-        long long bytesFree = [self diskFreeInBytesForPath:@"/private/var"];
-        double gigsFree = (double)bytesFree / (1024*1024*1024);
-        [self.diskMeter.label setText:[NSString stringWithFormat:@"%.1f GB", gigsFree]];
-    }
+    LOG("updating meters (timer: %@)", timer);
     
     // RAM Meter: "available" memory (free + inactive)
-    if (self.ramMeter.enabled) {
-        uint32_t ram = [self memoryAvailableInBytes];
-        ram /= (1024*1024); // convert to MB
-        [self.ramMeter.label setText:[NSString stringWithFormat:@"%u MB", ram]];
-    }
+    uint32_t ram = [self memoryAvailableInBytes];
+    ram /= (1024*1024); // convert to MB
+    self.ramMeterLabel.text = [NSString stringWithFormat:@"%u MB", ram];
+    
     
     // CPU Meter: percentage of time in use since last sample
-    if (self.cpuMeter.enabled) {
-        CPUSample cpu_delta;
-        CPUSample cpu_sample = [self getCPUSample];
-        
-        // get usage for period
-        cpu_delta.totalUserTime = cpu_sample.totalUserTime - self.lastCPUSample.totalUserTime;
-        cpu_delta.totalSystemTime = cpu_sample.totalSystemTime - self.lastCPUSample.totalSystemTime;
-        cpu_delta.totalIdleTime = cpu_sample.totalIdleTime - self.lastCPUSample.totalIdleTime;
-        
-        // calculate time spent in use as a percentage of the total time
-        uint64_t total = cpu_delta.totalUserTime + cpu_delta.totalSystemTime + cpu_delta.totalIdleTime;
-        //double idle = (double)(cpu_delta.totalIdleTime) / (double)total * 100.0; // in %
-        //double used = 100.0 - idle;
-        double used = ((cpu_delta.totalUserTime + cpu_delta.totalSystemTime) / (double)total) * 100.0;
-        
-        [self.cpuMeter.label setText:[NSString stringWithFormat:@"%.1f %%", used]];
-        
-        // color the label by level
-        if (used <= 10) {
-            self.cpuMeter.label.textColor = GREEN;
-        } else if (used <= 20) {
-            self.cpuMeter.label.textColor = YELLOW;
-        } else {
-            self.cpuMeter.label.textColor = RED;
-            //self.cpuMeter.label.textColor = METER_TEXT_COLOR;
-        }
-        
-        // save this sample for next time
-        self.lastCPUSample = cpu_sample;
-    }
+    CPUSample cpu_delta;
+    CPUSample cpu_sample = [self getCPUSample];
     
-    // Net Meters: bandwidth used during sample period, normalized to per-second values
-    if (self.uploadMeter.enabled || self.downloadMeter.enabled) {
-        NetSample net_delta;
-        NetSample net_sample = [self getNetSample];
-        
-        // calculate period length
-        net_delta.timestamp = (net_sample.timestamp - self.lastNetSample.timestamp);
-        double interval = net_delta.timestamp / 1000.0 / 1000.0 / 1000.0; // ns-to-s
-        //HBLogDebug(@"Net Meters sample delta: %fs", interval);
-        
-        // get bytes transferred since last sample was taken
-        net_delta.totalUploadBytes = net_sample.totalUploadBytes - self.lastNetSample.totalUploadBytes;
-        net_delta.totalDownloadBytes = net_sample.totalDownloadBytes - self.lastNetSample.totalDownloadBytes;
-        
-        if (self.uploadMeter.enabled) {
-            double ul = (double)net_delta.totalUploadBytes / interval;
-            self.uploadMeter.label.text = [self formatBytes:ul];
-        }
-        
-        if (self.downloadMeter.enabled) {
-            double dl = net_delta.totalDownloadBytes / interval;
-            self.downloadMeter.label.text = [self formatBytes:dl];
-        }
-        
-        // save this sample for next time
-        self.lastNetSample = net_sample;
+    // get usage for period
+    cpu_delta.totalUserTime = cpu_sample.totalUserTime - self.lastCPUSample.totalUserTime;
+    cpu_delta.totalSystemTime = cpu_sample.totalSystemTime - self.lastCPUSample.totalSystemTime;
+    cpu_delta.totalIdleTime = cpu_sample.totalIdleTime - self.lastCPUSample.totalIdleTime;
+    
+    // calculate time spent in use as a percentage of the total time
+    uint64_t total = cpu_delta.totalUserTime + cpu_delta.totalSystemTime + cpu_delta.totalIdleTime;
+    double used = ((cpu_delta.totalUserTime + cpu_delta.totalSystemTime) / (double)total) * 100.0;
+    
+    self.cpuMeterLabel.text = [NSString stringWithFormat:@"%.1f %%", used];
+    
+    self.lastCPUSample = cpu_sample;
+    
+    
+    // update graph
+    [self.cpuHistory addObject:[NSNumber numberWithDouble:used]];
+    if (self.cpuHistory.count > GRAPH_MAX_POINTS) {
+        [self.cpuHistory removeObjectAtIndex:0];
     }
-}
-
-- (long long)diskFreeInBytesForPath:(NSString *)path {
-    long long result = 0;
-    NSDictionary *attr = [[NSFileManager defaultManager] attributesOfFileSystemForPath:path error:nil];
-    if (attr && attr[@"NSFileSystemFreeSize"]) {
-        result = [attr[@"NSFileSystemFreeSize"] longLongValue];
-    }
-    return result;
+    [self.cpuGraph reloadGraph];
 }
 
 - (uint32_t)memoryAvailableInBytes {
@@ -551,15 +386,13 @@ AVPlayerViewController *cont;
     
     kr = host_statistics(mach_host_self(), HOST_VM_INFO, (host_info_t)&vm_stat, &count);
     if (kr != KERN_SUCCESS) {
-        NSLog(@"[Meters] Error getting VM_INFO from host!");
-        
+        LOG("Error getting VM_INFO from host!");
     } else {
         unsigned long bytesInactive = vm_stat.inactive_count * pagesize;
         unsigned long bytesFree = vm_stat.free_count * pagesize;
         bytesAvailable = (uint32_t)(bytesFree + bytesInactive);
-        //NSLog(@"[Meters] Got RAM stats: Free=%lu B; Inactive=%lu B; Total Available=%u B", bytesFree, bytesInactive, bytesAvailable);
+        //LOG(@"Got RAM stats: Free=%lu B; Inactive=%lu B; Total Available=%u B", bytesFree, bytesInactive, bytesAvailable);
     }
-    
     return bytesAvailable;
 }
 
@@ -577,86 +410,13 @@ AVPlayerViewController *cont;
     kr = host_statistics(mach_host_self(), HOST_CPU_LOAD_INFO, (int *)&r_load, &count);
     
     if (kr != KERN_SUCCESS) {
-        NSLog(@"[Meters] Error fetching HOST_CPU_LOAD_INFO !");
+        LOG("Error fetching HOST_CPU_LOAD_INFO !");
     } else {
         sample.totalUserTime = r_load.cpu_ticks[CPU_STATE_USER] + r_load.cpu_ticks[CPU_STATE_NICE];
         sample.totalSystemTime = r_load.cpu_ticks[CPU_STATE_SYSTEM];
         sample.totalIdleTime = r_load.cpu_ticks[CPU_STATE_IDLE];
+        //LOG(@"got CPU sample [ user:%llu; sys:%llu; idle:%llu ]", sample.totalUserTime, sample.totalSystemTime, sample.totalIdleTime);
     }
-    
-    //HBLogDebug(@"got CPU sample [ user:%llu; sys:%llu; idle:%llu ]", sample.totalUserTime, sample.totalSystemTime, sample.totalIdleTime);
-    
-    return sample;
-}
-
-- (NetSample)getNetSample {
-    /*
-     NetSample: { timestamp, totalUploadBytes, totalDownloadBytes }
-     */
-    NetSample sample = {0, 0, 0};
-    
-    int mib[] = {
-        CTL_NET,
-        PF_ROUTE,
-        0,
-        0,
-        NET_RT_IFLIST2,
-        0
-    };
-    
-    size_t len = 0;
-    
-    if (sysctl(mib, 6, NULL, &len, NULL, 0) >= 0) {
-        char *buf = (char *)malloc(len);
-        
-        if (sysctl(mib, 6, buf, &len, NULL, 0) >= 0) {
-            
-            // read interface stats ...
-            
-            char *lim = buf + len;
-            char *next = NULL;
-            u_int64_t totalibytes = 0;
-            u_int64_t totalobytes = 0;
-            char name[32];
-            
-            for (next = buf; next < lim; ) {
-                struct if_msghdr *ifm = (struct if_msghdr *)next;
-                next += ifm->ifm_msglen;
-                
-                if (ifm->ifm_type == RTM_IFINFO2) {
-                    struct if_msghdr2 *if2m = (struct if_msghdr2 *)ifm;
-                    struct sockaddr_dl *sdl = (struct sockaddr_dl *)(if2m + 1);
-                    
-                    strncpy(name, sdl->sdl_data, sdl->sdl_nlen);
-                    name[sdl->sdl_nlen] = 0;
-                    
-                    NSString *interface = [NSString stringWithUTF8String:name];
-                    //HBLogDebug(@"interface (%u) name=%@", if2m->ifm_index, interface);
-                    
-                    // skip local interface (lo0)
-                    if (![interface isEqualToString:@"lo0"]) {
-                        totalibytes += if2m->ifm_data.ifi_ibytes;
-                        totalobytes += if2m->ifm_data.ifi_obytes;
-                    }
-                }
-            }
-            
-            sample.timestamp = [self timestamp];
-            sample.totalUploadBytes = totalobytes;
-            sample.totalDownloadBytes = totalibytes;
-            
-        } else {
-            NSLog(@"[Meters] sysctl error !");
-        }
-        
-        free(buf);
-        
-    } else {
-        NSLog(@"[Meters]  sysctl error !");
-    }
-    
-    //NSLog(@"[Meters] got Net sample [ up:%llu; down=%llu ]", sample.totalUploadBytes, sample.totalDownloadBytes);
-    
     return sample;
 }
 
@@ -694,14 +454,27 @@ AVPlayerViewController *cont;
     return result;
 }
 
-- (Meter *)meterForName:(NSString *)name {
-    //HBLogDebug(@"looking for meter (%@) in self.meters=%@", name, self.meters);
-    for (Meter *meter in self.meters) {
-        if ([meter.name isEqualToString:name]) {
-            return meter;
-        }
-    }
-    return nil;
+
+#pragma mark - graph
+
+- (NSInteger)numberOfPointsInLineGraph:(BEMSimpleLineGraphView *)graph {
+    return (int)(self.cpuHistory.count);
 }
+
+- (CGFloat)lineGraph:(BEMSimpleLineGraphView *)graph valueForPointAtIndex:(NSInteger)index {
+    NSNumber *val = self.cpuHistory[index];
+    float fval = [val floatValue];
+    fval = self.cpuGraph.bounds.size.height * (fval/100.0);
+    //LOG("val[%d] = %0.1f  (y=%0.1f)", (int)index, [val floatValue], fval);
+    return fval;
+}
+
+- (NSString *)noDataLabelTextForLineGraph:(BEMSimpleLineGraphView *)graph {
+    return @"";
+}
+
+//- (NSInteger)numberOfYAxisLabelsOnLineGraph:(BEMSimpleLineGraphView *)graph {
+//    return 10;
+//}
 
 @end

@@ -45,6 +45,7 @@ kern_return_t mach_vm_allocate(vm_map_t target, mach_vm_address_t *address, mach
 #define copyin(to, from, size) kread(from, to, size)
 #define copyout(to, from, size) kwrite(to, from, size)
 
+
 #define CS_VALID                    0x0000001    /* dynamically valid */
 #define CS_ADHOC                    0x0000002    /* ad hoc signed */
 #define CS_GET_TASK_ALLOW           0x0000004    /* has get-task-allow entitlement */

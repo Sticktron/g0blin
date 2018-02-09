@@ -24,7 +24,7 @@ kern_return_t do_remount(uint64_t slide) {
     uint32_t v_flag = rk32(v_mount + KSTRUCT_OFFSET_MOUNT_MNT_FLAG);
     
     // unset readonly, nosuid
-    v_flag = v_flag & ~MNT_NOSUID; //?
+    //v_flag = v_flag & ~MNT_NOSUID; //?
     v_flag = v_flag & ~MNT_RDONLY;
     
     // write new flags, temporarily unsetting rootfs flag

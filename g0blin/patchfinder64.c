@@ -4,11 +4,13 @@
 //
 //  Copyright © 2017 xerub. All rights reserved.
 //
+//  Modified by Sticktron for g0blin.
 
 #include <assert.h>
 #include <stdint.h>
 #include <string.h>
 #import "kernel.h"
+
 
 typedef unsigned long long addr_t;
 
@@ -16,18 +18,10 @@ typedef unsigned long long addr_t;
 
 #define MACHO(p) ((*(unsigned int *)(p) & ~1) == 0xfeedface)
 
-
-
-//------------------------------------------------------------------------------
-#pragma mark - general
-//------------------------------------------------------------------------------
-
 #define UCHAR_MAX 255
 
-static unsigned char *
-boyermoore_horspool_memmem(const unsigned char* haystack, size_t hlen,
-                           const unsigned char* needle,   size_t nlen)
-{
+
+static unsigned char *boyermoore_horspool_memmem(const unsigned char* haystack, size_t hlen, const unsigned char* needle,   size_t nlen) {
     size_t last, scan = 0;
     size_t bad_char_skip[UCHAR_MAX + 1]; /* Officially called:
                                           * bad character shift */
@@ -80,13 +74,11 @@ boyermoore_horspool_memmem(const unsigned char* haystack, size_t hlen,
 }
 
 
-
 //------------------------------------------------------------------------------
 #pragma mark - disassembler
 //------------------------------------------------------------------------------
 
-static int HighestSetBit(int N, uint32_t imm)
-{
+static int HighestSetBit(int N, uint32_t imm) {
 	int i;
 	for (i = N - 1; i >= 0; i--) {
 		if (imm & (1 << i)) {
@@ -96,14 +88,13 @@ static int HighestSetBit(int N, uint32_t imm)
 	return -1;
 }
 
-static uint64_t ZeroExtendOnes(unsigned M, unsigned N)	// zero extend M ones to N width
-{
+// zero extend M ones to N width
+static uint64_t ZeroExtendOnes(unsigned M, unsigned N) {
 	(void)N;
 	return ((uint64_t)1 << M) - 1;
 }
 
-static uint64_t RORZeroExtendOnes(unsigned M, unsigned N, unsigned R)
-{
+static uint64_t RORZeroExtendOnes(unsigned M, unsigned N, unsigned R) {
 	uint64_t val = ZeroExtendOnes(M, N);
 	if (R == 0) {
 		return val;
@@ -111,8 +102,7 @@ static uint64_t RORZeroExtendOnes(unsigned M, unsigned N, unsigned R)
 	return ((val >> R) & (((uint64_t)1 << (N - R)) - 1)) | ((val & (((uint64_t)1 << R) - 1)) << (N - R));
 }
 
-static uint64_t Replicate(uint64_t val, unsigned bits)
-{
+static uint64_t Replicate(uint64_t val, unsigned bits) {
 	uint64_t ret = val;
 	unsigned shift;
 	for (shift = bits; shift < 64; shift += bits) {	// XXX actually, it is either 32 or 64
@@ -121,8 +111,7 @@ static uint64_t Replicate(uint64_t val, unsigned bits)
 	return ret;
 }
 
-static int DecodeBitMasks(unsigned immN, unsigned imms, unsigned immr, int immediate, uint64_t *newval)
-{
+static int DecodeBitMasks(unsigned immN, unsigned imms, unsigned immr, int immediate, uint64_t *newval) {
 	unsigned levels, S, R, esize;
 	int len = HighestSetBit(7, (immN << 6) | (~imms & 0x3F));
 	if (len < 1) {
@@ -139,8 +128,7 @@ static int DecodeBitMasks(unsigned immN, unsigned imms, unsigned immr, int immed
 	return 0;
 }
 
-static int DecodeMov(uint32_t opcode, uint64_t total, int first, uint64_t *newval)
-{
+static int DecodeMov(uint32_t opcode, uint64_t total, int first, uint64_t *newval) {
 	unsigned o = (opcode >> 29) & 3;
 	unsigned k = (opcode >> 23) & 0x3F;
 	unsigned rn, rd;
@@ -202,15 +190,12 @@ static int DecodeMov(uint32_t opcode, uint64_t total, int first, uint64_t *newva
 	return -1;
 }
 
-
  
 //------------------------------------------------------------------------------
-#pragma mark - Patchfinder
+#pragma mark - helpers
 //------------------------------------------------------------------------------
 
-static addr_t
-step64(const uint8_t *buf, addr_t start, size_t length, uint32_t what, uint32_t mask)
-{
+static addr_t step64(const uint8_t *buf, addr_t start, size_t length, uint32_t what, uint32_t mask) {
     addr_t end = start + length;
     while (start < end) {
         uint32_t x = *(uint32_t *)(buf + start);
@@ -222,9 +207,7 @@ step64(const uint8_t *buf, addr_t start, size_t length, uint32_t what, uint32_t 
     return 0;
 }
 
-static addr_t
-step64_back(const uint8_t *buf, addr_t start, size_t length, uint32_t what, uint32_t mask)
-{
+static addr_t step64_back(const uint8_t *buf, addr_t start, size_t length, uint32_t what, uint32_t mask) {
     addr_t end = start - length;
     while (start >= end) {
         uint32_t x = *(uint32_t *)(buf + start);
@@ -236,9 +219,7 @@ step64_back(const uint8_t *buf, addr_t start, size_t length, uint32_t what, uint
     return 0;
 }
 
-static addr_t
-bof64(const uint8_t *buf, addr_t start, addr_t where)
-{
+static addr_t bof64(const uint8_t *buf, addr_t start, addr_t where) {
     for (; where >= start; where -= 4) {
         uint32_t op = *(uint32_t *)(buf + where);
         if ((op & 0xFFC003FF) == 0x910003FD) {
@@ -257,9 +238,7 @@ bof64(const uint8_t *buf, addr_t start, addr_t where)
     return 0;
 }
 
-static addr_t
-xref64(const uint8_t *buf, addr_t start, addr_t end, addr_t what)
-{
+static addr_t xref64(const uint8_t *buf, addr_t start, addr_t end, addr_t what) {
     addr_t i;
     uint64_t value[32];
 
@@ -318,9 +297,7 @@ xref64(const uint8_t *buf, addr_t start, addr_t end, addr_t what)
     return 0;
 }
 
-static addr_t
-calc64(const uint8_t *buf, addr_t start, addr_t end, int which)
-{
+static addr_t calc64(const uint8_t *buf, addr_t start, addr_t end, int which) {
     addr_t i;
     uint64_t value[32];
 
@@ -376,9 +353,7 @@ calc64(const uint8_t *buf, addr_t start, addr_t end, int which)
     return value[which];
 }
 
-static addr_t
-calc64mov(const uint8_t *buf, addr_t start, addr_t end, int which)
-{
+static addr_t calc64mov(const uint8_t *buf, addr_t start, addr_t end, int which) {
     addr_t i;
     uint64_t value[32];
 
@@ -400,15 +375,11 @@ calc64mov(const uint8_t *buf, addr_t start, addr_t end, int which)
     return value[which];
 }
 
-static addr_t
-find_call64(const uint8_t *buf, addr_t start, size_t length)
-{
+static addr_t find_call64(const uint8_t *buf, addr_t start, size_t length) {
     return step64(buf, start, length, 0x94000000, 0xFC000000);
 }
 
-static addr_t
-follow_call64(const uint8_t *buf, addr_t call)
-{
+static addr_t follow_call64(const uint8_t *buf, addr_t call) {
     long long w;
     w = *(uint32_t *)(buf + call) & 0x3FFFFFF;
     w <<= 64 - 26;
@@ -416,16 +387,13 @@ follow_call64(const uint8_t *buf, addr_t call)
     return call + w;
 }
 
-static addr_t
-follow_cbz(const uint8_t *buf, addr_t cbz)
-{
+static addr_t follow_cbz(const uint8_t *buf, addr_t cbz) {
     return cbz + ((*(int *)(buf + cbz) & 0x3FFFFE0) << 10 >> 13);
 }
 
 
-
 //------------------------------------------------------------------------------
-#pragma mark - iOS 10 kernel
+#pragma mark - patchfinder
 //------------------------------------------------------------------------------
 
 #include <fcntl.h>
@@ -433,13 +401,14 @@ follow_cbz(const uint8_t *buf, addr_t cbz)
 #include <stdlib.h>
 #include <unistd.h>
 #include <mach-o/loader.h>
+#include <mach-o/nlist.h>
 
 #ifdef __ENVIRONMENT_IPHONE_OS_VERSION_MIN_REQUIRED__
 #include <mach/mach.h>
 size_t kread(uint64_t where, void *p, size_t size);
 #endif
 
-task_t tfp0;
+static task_t tfp0;
 
 static uint8_t *kernel = NULL;
 static size_t kernel_size = 0;
@@ -457,9 +426,8 @@ static addr_t kernel_entry = 0;
 static void *kernel_mh = 0;
 static addr_t kernel_delta = 0;
 
-int
-init_patchfinder(task_t taskfp0, addr_t base, const char *filename)
-{
+
+int init_patchfinder(task_t taskfp0, addr_t base, const char *filename) {
     tfp0 = taskfp0;
     
     size_t rv;
@@ -471,7 +439,7 @@ init_patchfinder(task_t taskfp0, addr_t base, const char *filename)
     addr_t max = 0;
     int is64 = 0;
     
-    init_kernel(taskfp0);
+    init_kernel(tfp0);
 
 #ifdef __ENVIRONMENT_IPHONE_OS_VERSION_MIN_REQUIRED__
 #define close(f)
@@ -626,11 +594,10 @@ init_patchfinder(task_t taskfp0, addr_t base, const char *filename)
     return 0;
 }
 
-void
-term_kernel(void)
-{
+void term_kernel(void) {
     free(kernel);
 }
+
 
 /* these operate on VA ******************************************************/
 
@@ -639,9 +606,8 @@ term_kernel(void)
 #define INSN_B    0x14000000, 0xFC000000
 #define INSN_CBZ  0x34000000, 0xFC000000
 
-addr_t
-find_register_value(addr_t where, int reg)
-{
+
+addr_t find_register_value(addr_t where, int reg) {
     addr_t val;
     addr_t bof = 0;
     where -= kerndumpbase;
@@ -663,9 +629,7 @@ find_register_value(addr_t where, int reg)
     return val + kerndumpbase;
 }
 
-addr_t
-find_reference(addr_t to, int n, int prelink)
-{
+addr_t find_reference(addr_t to, int n, int prelink) {
     addr_t ref, end;
     addr_t base = xnucore_base;
     addr_t size = xnucore_size;
@@ -688,9 +652,7 @@ find_reference(addr_t to, int n, int prelink)
     return ref + kerndumpbase;
 }
 
-addr_t
-find_strref(const char *string, int n, int prelink)
-{
+addr_t find_strref(const char *string, int n, int prelink) {
     uint8_t *str;
     addr_t base = cstring_base;
     addr_t size = cstring_size;
@@ -705,9 +667,7 @@ find_strref(const char *string, int n, int prelink)
     return find_reference(str - kernel + kerndumpbase, n, prelink);
 }
 
-addr_t
-find_gPhysBase(void)
-{
+addr_t find_gPhysBase(void) {
     addr_t ret, val;
 //    addr_t ref = find_strref("\"pmap_map_high_window_bd: insufficient pages", 1, 0);
     addr_t ref = find_strref("\"pmap_map_high_window_bd: area too large", 1, 0);
@@ -726,9 +686,7 @@ find_gPhysBase(void)
     return val + kerndumpbase;
 }
 
-addr_t
-find_kernel_pmap(void)
-{
+addr_t find_kernel_pmap(void) {
     addr_t call, bof, val;
     addr_t ref = find_strref("\"pmap_map_bd\"", 1, 0);
     if (!ref) {
@@ -750,14 +708,13 @@ find_kernel_pmap(void)
     return val + kerndumpbase;
 }
 
-addr_t
-find_amfiret(void)
-{
+addr_t find_amfiret(void) {
     addr_t ret;
     addr_t ref = find_strref("AMFI: hook..execve() killing pid %u: %s\n", 1, 1);
     if (!ref) {
         return 0;
     }
+    printf("found AMFI: hook..execve() at: 0x%llx\n", ref);
     ref -= kerndumpbase;
     ret = step64(kernel, ref, 512, INSN_RET);
     if (!ret) {
@@ -766,9 +723,7 @@ find_amfiret(void)
     return ret + kerndumpbase;
 }
 
-addr_t
-find_ret_0(void)
-{
+addr_t find_ret_0(void) {
     addr_t off;
     uint32_t *k;
     k = (uint32_t *)(kernel + xnucore_base);
@@ -786,9 +741,7 @@ find_ret_0(void)
     return 0;
 }
 
-addr_t
-find_amfi_memcmpstub(void)
-{
+addr_t find_amfi_memcmpstub(void) {
     addr_t call, dest, reg;
     addr_t ref = find_strref("%s: Possible race detected. Rejecting.", 1, 1);
     if (!ref) {
@@ -810,9 +763,7 @@ find_amfi_memcmpstub(void)
     return reg + kerndumpbase;
 }
 
-addr_t
-find_sbops(void)
-{
+addr_t find_sbops(void) {
     addr_t off, what;
     uint8_t *str = boyermoore_horspool_memmem(kernel + pstring_base, pstring_size, (uint8_t *)"Seatbelt sandbox policy", sizeof("Seatbelt sandbox policy") - 1);
     if (!str) {
@@ -827,9 +778,7 @@ find_sbops(void)
     return 0;
 }
 
-addr_t
-find_lwvm_mapio_patch(void)
-{
+addr_t find_lwvm_mapio_patch(void) {
     addr_t call, dest, reg;
     addr_t ref = find_strref("_mapForIO", 1, 1);
     if (!ref) {
@@ -855,9 +804,7 @@ find_lwvm_mapio_patch(void)
     return reg + kerndumpbase;
 }
 
-addr_t
-find_lwvm_mapio_newj(void)
-{
+addr_t find_lwvm_mapio_newj(void) {
     addr_t call;
     addr_t ref = find_strref("_mapForIO", 1, 1);
     if (!ref) {
@@ -883,9 +830,7 @@ find_lwvm_mapio_newj(void)
     return call + 4 + kerndumpbase;
 }
 
-addr_t
-find_cpacr_write(void)
-{
+addr_t find_cpacr_write(void) {
     addr_t off;
     uint32_t *k;
     k = (uint32_t *)(kernel + xnucore_base);
@@ -897,9 +842,7 @@ find_cpacr_write(void)
     return 0;
 }
 
-addr_t
-find_str(const char *string)
-{
+addr_t find_str(const char *string) {
     uint8_t *str = boyermoore_horspool_memmem(kernel, kernel_size, (uint8_t *)string, strlen(string));
     if (!str) {
         return 0;
@@ -907,22 +850,16 @@ find_str(const char *string)
     return str - kernel + kerndumpbase;
 }
 
-addr_t
-find_entry(void)
-{
+addr_t find_entry(void) {
     /* XXX returns an unslid address */
     return kernel_entry;
 }
 
-const unsigned char *
-find_mh(void)
-{
+const unsigned char *find_mh(void) {
     return kernel_mh;
 }
 
-addr_t
-find_amfiops(void)
-{
+addr_t find_amfiops(void) {
     addr_t off, what;
     uint8_t *str = boyermoore_horspool_memmem(kernel + pstring_base, pstring_size, (uint8_t *)"Apple Mobile File Integrity", sizeof("Apple Mobile File Integrity") - 1);
     if (!str) {
@@ -938,9 +875,7 @@ find_amfiops(void)
     return 0;
 }
 
-addr_t
-find_sysbootnonce(void)
-{
+addr_t find_sysbootnonce(void) {
     addr_t off, what;
     uint8_t *str = boyermoore_horspool_memmem(kernel + cstring_base, cstring_size, (uint8_t *)"com.apple.System.boot-nonce", sizeof("com.apple.System.boot-nonce") - 1);
     if (!str) {
@@ -1077,16 +1012,13 @@ addr_t find_amficache(void) {
 }
 
 
+//------------------------------------------------------------------------------
 
-//------------------------------------------------------------------------------
-#pragma mark - extra_recipe
-//------------------------------------------------------------------------------
+//extra_recipe
 
 #define INSN_STR8 0xF9000000 | 8, 0xFFC00000 | 0x1F
 
-addr_t
-find_AGXCommandQueue_vtable(void)
-{
+addr_t find_AGXCommandQueue_vtable(void) {
     addr_t val, str8;
     addr_t ref = find_strref("AGXCommandQueue", 1, 1);
     if (!ref) {
@@ -1112,9 +1044,7 @@ find_AGXCommandQueue_vtable(void)
     return val + kerndumpbase;
 }
 
-addr_t
-find_call5(void)
-{
+addr_t find_call5(void) {
     addr_t bof;
     uint8_t gadget[] = { 0x95, 0x5A, 0x40, 0xF9, 0x68, 0x02, 0x40, 0xF9, 0x88, 0x5A, 0x00, 0xF9, 0x60, 0xA2, 0x40, 0xA9 };
     uint8_t *str = boyermoore_horspool_memmem(kernel + prelink_base, prelink_size, gadget, sizeof(gadget));
@@ -1128,9 +1058,7 @@ find_call5(void)
     return bof + kerndumpbase;
 }
 
-addr_t
-find_realhost(addr_t priv)
-{
+addr_t find_realhost(addr_t priv) {
     addr_t val;
     if (!priv) {
         return 0;
@@ -1143,11 +1071,7 @@ find_realhost(addr_t priv)
     return val + kerndumpbase;
 }
 
-#include <mach-o/nlist.h>
-
-addr_t
-find_symbol(const char *symbol)
-{
+addr_t find_symbol(const char *symbol) {
     unsigned i;
     const struct mach_header *hdr = kernel_mh;
     const uint8_t *q;
@@ -1191,14 +1115,11 @@ find_symbol(const char *symbol)
 }
 
 
-
-//------------------------------------------------------------------------------
-#pragma mark - g0blin
 //------------------------------------------------------------------------------
 
-addr_t
-find_allproc(void)
-{
+// g0blin
+
+addr_t find_allproc(void) {
     addr_t val, bof, str8;
     addr_t ref = find_strref("\"pgrp_add : pgrp is dead adding process\"", 1, 0); // modified
     if (!ref) {
@@ -1221,33 +1142,17 @@ find_allproc(void)
 }
 
 addr_t find_sandbox_label_update_execve(void) {
-    
     addr_t ref;
-    for (int i = 1; (ref  = find_strref("process-exec denied while updating label", i, 1)); i++) {
+    for (int i = 1; (ref = find_strref("process-exec denied while updating label", i, 1)); i++) {
         if (ref) {
-            printf("process-exec string at 0x%llx\n", ref);
             ref = ref - 0x368;
-            printf("patch location -> 0x%llx\n", ref);
-            
             return ref;
         }
     }
-    
-//    addr_t off, what;
-//    uint8_t *str = boyermoore_horspool_memmem(kernel + pstring_base, pstring_size, (uint8_t *)"process-exec denied", sizeof("process-exec denied") - 1);
-//    if (str) {
-//        what = str - kernel + kerndumpbase;
-//        for (off = 0; off < kernel_size - prelink_base; off += 8) {
-//            if (*(uint64_t *)(kernel + prelink_base + off) == what) {
-//                ref = *(uint64_t *)(kernel + prelink_base + off + 24);
-//                printf("found process-exec denied at: 0x%llx\n", ref);
-//            }
-//        }
-//        ref = ref - 0x368;
-//    }
-    
     return 0;
 }
+
+
 
 
 
@@ -1255,6 +1160,7 @@ addr_t find_sandbox_label_update_execve(void) {
 #pragma mark - test
 //------------------------------------------------------------------------------
 
+/*
 #if HAVE_MAIN
 
 int main(int argc, char **argv) {
@@ -1285,4 +1191,5 @@ int main(int argc, char **argv) {
     return 0;
 }
 
-#endif    /* HAVE_MAIN */
+#endif //HAVE_MAIN
+*/
