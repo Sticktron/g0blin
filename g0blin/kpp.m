@@ -2,6 +2,8 @@
 //  kpp.m
 //  g0blin
 //
+//  Bypass KPP and apply kernel patches.
+//
 //  Created by Sticktron on 2017-12-26.
 //  Copyright © 2017 qwertyoruiop. All rights reserved.
 //
