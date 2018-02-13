@@ -2,7 +2,7 @@
 //  kernel.h
 //  g0blin
 //
-//  Created by Ben on 16/12/2017.
+//  Created by Ben (@PsychoTea) on 16/12/2017.
 //
 
 #include <mach/mach.h>

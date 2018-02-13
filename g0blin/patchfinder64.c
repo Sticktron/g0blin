@@ -1,10 +1,13 @@
 //
 //  patchfinder64.c
-//  extra_recipe
+//  g0blin
 //
+//  Originally from extra_recipe.
+//
+//  Created by Sticktron on 2017-12-26.
+//  Copyright © 2017 Sticktron. All rights reserved.
 //  Copyright © 2017 xerub. All rights reserved.
 //
-//  Modified by Sticktron for g0blin.
 
 #include <assert.h>
 #include <stdint.h>

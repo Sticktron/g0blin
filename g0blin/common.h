@@ -1,5 +1,9 @@
-#include <stdint.h>             // uint*_t
+// v0rtex
+// Bug by Ian Beer.
+// Exploit by Siguza.
+
 #import <Foundation/Foundation.h>
+#include <stdint.h> // uint*_t
 
 
 #ifdef __LP64__
@@ -12,9 +16,7 @@
 
 #define LOG(str, args...) do { NSLog(@str "\n", ##args); } while(0)
 
-
-// Re-direct LOG macro to GUI ...
-
+/* Re-direct LOG macro to GUI */
 //#include "ViewController.h"
 //extern id controller;
 //#define LOG(str, args...) do { \

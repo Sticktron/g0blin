@@ -1,8 +1,7 @@
 //
 //  pte_stuff.h
-//  extra_recipe
+//  g0blin
 //
-//  Copyright © 2017 xerub. All rights reserved.
 //  Copyright © 2017 qwertyoruiop. All rights reserved.
 //
 
