@@ -37,7 +37,6 @@
 // Not sure what'll really become of this, but it's certainly not done yet.
 // Pretty sure I'll leave iOS 11 to Ian Beer though, for the time being.
 
-
 #include <errno.h>              // errno
 #include <sched.h>              // sched_yield
 #include <stdlib.h>             // malloc, free
@@ -789,8 +788,9 @@ kern_return_t v0rtex(task_t *tfp0, uint64_t *kslide, uint64_t *kerncred, uint64_
     {
         goto out;
     }
-    LOG("herp derp mcgerp");
-    usleep(300000);
+    //LOG("herp derp mcgerp");
+    //usleep(300000);
+    
     // Prevent cleanup
     fakeport = port;
     port = MACH_PORT_NULL;
@@ -805,9 +805,8 @@ kern_return_t v0rtex(task_t *tfp0, uint64_t *kslide, uint64_t *kerncred, uint64_
         LOG("mach_zone_force_gc: %s", mach_error_string(ret));
         goto out;
     }
-    
-    LOG("herp derp bajerp");
-    usleep(300000);
+    //LOG("herp derp bajerp");
+    //usleep(300000);
     
     for(uint32_t i = 0; i < NUM_DATA; ++i)
     {
@@ -890,9 +889,9 @@ kern_return_t v0rtex(task_t *tfp0, uint64_t *kslide, uint64_t *kerncred, uint64_
     {
         goto out;
     }
+    //LOG("herp derp fasherp");
+    //usleep(300000);
     
-    LOG("herp derp fasherp");
-    usleep(300000);
     // Register realport on fakeport
     mach_port_t notify = MACH_PORT_NULL;
     //XXX: dies here a lot
