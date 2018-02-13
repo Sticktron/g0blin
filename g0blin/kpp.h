@@ -46,6 +46,12 @@ kern_return_t mach_vm_allocate(vm_map_t target, mach_vm_address_t *address, mach
 #define copyout(to, from, size) kwrite(to, from, size)
 
 
+#define offset_p_pid        0x10
+#define offset_p_cred       0x100
+#define offset_p_comm       0x26c
+#define offset_p_csflags    0x2a8
+
+
 #define CS_VALID                    0x0000001    /* dynamically valid */
 #define CS_ADHOC                    0x0000002    /* ad hoc signed */
 #define CS_GET_TASK_ALLOW           0x0000004    /* has get-task-allow entitlement */

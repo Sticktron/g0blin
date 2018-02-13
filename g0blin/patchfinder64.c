@@ -726,18 +726,22 @@ addr_t find_amfiret(void) {
     return ret + kerndumpbase;
 }
 
+
+
 addr_t find_ret_0(void) {
     addr_t off;
     uint32_t *k;
     k = (uint32_t *)(kernel + xnucore_base);
     for (off = 0; off < xnucore_size - 4; off += 4, k++) {
         if (k[0] == 0xAA1F03E0 && k[1] == 0xD65F03C0) {
+        //if (k[0] == 0x52800000 && k[1] == 0xD65F03C0) {
             return off + xnucore_base + kerndumpbase;
         }
     }
     k = (uint32_t *)(kernel + prelink_base);
     for (off = 0; off < prelink_size - 4; off += 4, k++) {
         if (k[0] == 0xAA1F03E0 && k[1] == 0xD65F03C0) {
+        //if (k[0] == 0x52800000 && k[1] == 0xD65F03C0) {
             return off + prelink_base + kerndumpbase;
         }
     }
@@ -1144,7 +1148,7 @@ addr_t find_allproc(void) {
     return val + kerndumpbase;
 }
 
-addr_t find_sandbox_label_update_execve(void) {
+addr_t find_sandbox_label_update(void) {
     addr_t ref;
     for (int i = 1; (ref = find_strref("process-exec denied while updating label", i, 1)); i++) {
         if (ref) {

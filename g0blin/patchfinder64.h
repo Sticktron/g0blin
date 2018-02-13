@@ -41,8 +41,7 @@ uint64_t find_trustcache(void);
 uint64_t find_amficache(void);
 
 uint64_t find_allproc(void);
-
-uint64_t find_sandbox_label_update_execve(void);
+uint64_t find_sandbox_label_update(void);
 
 
 #endif
