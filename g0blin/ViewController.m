@@ -15,10 +15,10 @@
 #import "kpp.h"
 #import "remount.h"
 #import "bootstrap.h"
+#import "BEMSimpleLineGraphView.h"
 #import <AVFoundation/AVFoundation.h>
 #import <AVKit/AVKit.h>
 #include <sys/utsname.h>
-#import "BEMSimpleLineGraphView.h"
 
 
 #define RTM_IFINFO2         0x12 //from route.h
@@ -26,11 +26,11 @@
 #define GRAPE               [UIColor colorWithRed:0.5 green:0 blue:1 alpha:1]
 #define STRAWBERRY          [UIColor colorWithRed:1 green:0 blue:0.5 alpha:1]
 
-#define UPDATE_INTERVAL     1.5f
-#define GRAPH_MAX_POINTS    20
+#define LEAD                [UIColor colorWithRed:0.13 green:0.13 blue:0.13 alpha:1]
 
-#define offset_p_pid        0x10
-#define offset_p_proc       0x100
+#define UPDATE_INTERVAL     1.0f
+
+#define GRAPH_MAX_POINTS    40
 
 
 typedef struct {
@@ -50,25 +50,24 @@ extern int (*gsystem)(const char *);
 @property (weak, nonatomic) IBOutlet UITextView *consoleView;
 @property (weak, nonatomic) IBOutlet UILabel *cpuMeterLabel;
 @property (weak, nonatomic) IBOutlet UILabel *ramMeterLabel;
-@property (weak, nonatomic) IBOutlet BEMSimpleLineGraphView *cpuGraph;
+@property (weak, nonatomic) IBOutlet UIView *cpuGraphContainer;
 
+@property (nonatomic, assign) BOOL jailbroken;
+@property (nonatomic, assign) BOOL fun;
+@property (nonatomic, strong) AVPlayerViewController *playerController;
 @property (nonatomic, strong) NSTimer *meterUpdateTimer;
 @property (nonatomic, assign) CPUSample lastCPUSample;
 @property (nonatomic, strong) NSMutableArray *cpuHistory;
+@property (nonatomic, strong) BEMSimpleLineGraphView *cpuGraph;
 @end
 
 
-static task_t tfp0;
+task_t tfp0;
 
 uint64_t kslide;
 uint64_t kern_cred;
 uint64_t self_cred;
 uint64_t self_proc;
-
-BOOL jailbroken;
-BOOL fun;
-AVPlayer *player;
-AVPlayerViewController *cont;
 
 
 @implementation ViewController
@@ -76,39 +75,41 @@ AVPlayerViewController *cont;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.goButton.layer.cornerRadius = 16;
     self.consoleView.layer.cornerRadius = 6;
     self.consoleView.text = nil;
     
-    self.goButton.layer.cornerRadius = 16;
+    self.cpuMeterLabel.text = @"_";
+    self.ramMeterLabel.text = @"_";
     
-    // print kernel version
-    struct utsname u;
-    uname(&u);
-    [self log:[NSString stringWithFormat:@"%s \n", u.version]];
-    [self log:[NSString stringWithFormat:@"H/W: %s", u.machine]];
-    [self log:[NSString stringWithFormat:@"S/W: %@ \n", [[NSProcessInfo processInfo] operatingSystemVersionString]]];
+    [self setupGraph];
     
-    // setup fun
+    // setup fun trigger
     self.logoView.userInteractionEnabled = YES;
     UITapGestureRecognizer *tripleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(fun:)];
     tripleTap.delaysTouchesBegan = YES;
     tripleTap.numberOfTapsRequired = 3;
     [self.logoView addGestureRecognizer:tripleTap];
     
-    jailbroken = NO;
+    // print device info
+    struct utsname u;
+    uname(&u);
+    [self log:[NSString stringWithFormat:@"%s \n", u.version]];
+    [self log:[NSString stringWithFormat:@"H/W: %s", u.machine]];
+    [self log:[NSString stringWithFormat:@"S/W: %@ \n", [[NSProcessInfo processInfo] operatingSystemVersionString]]];
     
+    // abort if already jailbroken
+    self.jailbroken = NO;
     if (strstr(u.version, "MarijuanARM")) {
-        jailbroken = YES;
-        
+        self.jailbroken = YES;
         self.goButton.enabled = NO;
         self.goButton.backgroundColor = UIColor.darkGrayColor;
         [self.goButton setTitle:@"already jailbroken" forState:UIControlStateDisabled];
-        
         [self log:@"Enjoy! \n"];
-        
         return;
     }
     
+    // check if device is supported
     if (init_offsets() == KERN_SUCCESS) {
         [self log:@"Ready. \n"];
     } else {
@@ -116,25 +117,6 @@ AVPlayerViewController *cont;
         self.goButton.backgroundColor = UIColor.darkGrayColor;
         [self.goButton setTitle:@"device not supported" forState:UIControlStateDisabled];
     }
-    
-    // setup graph...
-    
-    self.cpuGraph.layer.cornerRadius = 4;
-    self.cpuGraph.clipsToBounds = YES;
-    
-    self.cpuGraph.animationGraphStyle = BEMLineAnimationNone;
-    
-    self.cpuGraph.averageLine.enableAverageLine = NO;
-    self.cpuGraph.enableTouchReport = NO;
-    self.cpuGraph.enablePopUpReport = NO;
-    
-    self.cpuGraph.colorReferenceLines = [UIColor colorWithWhite:0.66 alpha:1];
-
-    self.cpuGraph.autoScaleYAxis = NO;
-    self.cpuGraph.positionYAxisRight = YES;
-    self.cpuGraph.enableReferenceYAxisLines = YES;
-    self.cpuGraph.lineDashPatternForReferenceYAxisLines = @[@(2),@(2)];
-
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -172,8 +154,7 @@ AVPlayerViewController *cont;
 - (IBAction)fun:(UITapGestureRecognizer *)recognizer {
     LOG("got secret tap 3");
     
-    if (!fun) {
-        fun = YES;
+    if (self.fun == NO) {
         
         BOOL hasAudio = [AVAudioSession.sharedInstance setCategory:AVAudioSessionCategoryPlayback error:nil];
         if (!hasAudio) {
@@ -187,22 +168,23 @@ AVPlayerViewController *cont;
             return;
         }
         
-        player = [AVPlayer playerWithURL:url];
-        cont = [[AVPlayerViewController alloc] init];
-        cont.player = player;
-        cont.showsPlaybackControls = NO;
-        cont.updatesNowPlayingInfoCenter = YES;
-        cont.view.frame = self.consoleView.bounds;
-        [self.consoleView addSubview:cont.view];
-        [player play];
-        cont.showsPlaybackControls = YES;
+        self.playerController = [[AVPlayerViewController alloc] init];
+        self.playerController.view.frame = self.consoleView.bounds;
+        self.playerController.showsPlaybackControls = YES;
+        self.playerController.updatesNowPlayingInfoCenter = YES;
+        self.playerController.player = [AVPlayer playerWithURL:url];
+        
+        [self.consoleView addSubview:self.playerController.view];
+        [self.playerController.player play];
+        
+        self.fun = YES;
         
     } else {
-        [player pause];
-        [cont.view removeFromSuperview];
-        player = nil;
-        cont = nil;
-        fun = NO;
+        [self.playerController.player pause];
+        [self.playerController.view removeFromSuperview];
+        self.playerController.player = nil;
+        self.playerController = nil;
+        self.fun = NO;
     }
 }
 
@@ -292,7 +274,7 @@ AVPlayerViewController *cont;
     //gsystem("killall -9 backboardd");
     
     LOG("restoring our creds");
-    WriteAnywhere64(self_proc + offset_p_proc, self_cred);
+    WriteAnywhere64(self_proc + offset_p_cred, self_cred);
     
 }
 
@@ -303,28 +285,19 @@ AVPlayerViewController *cont;
     // bail if the meters are already running
     if ([self.meterUpdateTimer isValid]) {
         LOG("meters are already running, no need to start them again");
-        
-    } else {
-        // reset graph
-        //self.cpuHistory = [NSMutableArray arrayWithArray:@[@0,@0]];
-        self.cpuHistory = [NSMutableArray array];
-        [self.cpuGraph reloadGraph];
-        
-        // show placeholder values
-        self.cpuMeterLabel.text = @"_";
-        self.ramMeterLabel.text = @"_";
-        
-        // get new starting measurements
-        self.lastCPUSample = [self getCPUSample];
-        
-        // start timer
-        self.meterUpdateTimer = [NSTimer timerWithTimeInterval:UPDATE_INTERVAL target:self
-                                                      selector:@selector(updateMeters:)
-                                                      userInfo:nil
-                                                       repeats:YES];
-        [[NSRunLoop mainRunLoop] addTimer:self.meterUpdateTimer forMode:NSRunLoopCommonModes];
-        LOG("Started Timer ••••• (%@)", self.meterUpdateTimer);
+        return;
     }
+    
+    // get new starting measurements
+    self.lastCPUSample = [self getCPUSample];
+    
+    // start timer
+    self.meterUpdateTimer = [NSTimer timerWithTimeInterval:UPDATE_INTERVAL target:self
+                                                  selector:@selector(updateMeters:)
+                                                  userInfo:nil
+                                                   repeats:YES];
+    [[NSRunLoop mainRunLoop] addTimer:self.meterUpdateTimer forMode:NSRunLoopCommonModes];
+    LOG("Started Timer ••••• (%@)", self.meterUpdateTimer);
 }
 
 - (void)stopUpdating {
@@ -332,6 +305,16 @@ AVPlayerViewController *cont;
         LOG("Stopping Timer ••••• (%@)", self.meterUpdateTimer);
         [self.meterUpdateTimer invalidate];
         self.meterUpdateTimer = nil;
+        
+        // show meter placeholders
+        self.cpuMeterLabel.text = @"_";
+        self.ramMeterLabel.text = @"_";
+        
+        // reset graph
+        for (int i=0; i<self.cpuHistory.count; i++) {
+            self.cpuHistory[i] = @0;
+        }
+        [self.cpuGraph reloadGraph];
     }
 }
 
@@ -457,21 +440,60 @@ AVPlayerViewController *cont;
 
 #pragma mark - graph
 
+- (void)setupGraph {
+    // seed graph data with zeros
+    self.cpuHistory = [NSMutableArray array];
+    for (int i=0; i<GRAPH_MAX_POINTS; i++) {
+        [self.cpuHistory addObject:@0];
+    }
+    
+    self.cpuGraphContainer.backgroundColor = self.view.backgroundColor;
+    self.cpuGraphContainer.opaque = YES;
+    
+    self.cpuGraph = [[BEMSimpleLineGraphView alloc] initWithFrame:self.cpuGraphContainer.bounds];
+    self.cpuGraph.delegate = self;
+    self.cpuGraph.dataSource = self;
+
+    self.cpuGraph.backgroundColor = [UIColor colorWithWhite:0.15 alpha:1];
+    self.cpuGraph.opaque = YES;
+    self.cpuGraph.layer.cornerRadius = 4;
+    self.cpuGraph.clipsToBounds = YES;
+
+    self.cpuGraph.animationGraphStyle = BEMLineAnimationNone;
+    self.cpuGraph.averageLine.enableAverageLine = NO;
+    self.cpuGraph.enableTouchReport = NO;
+    self.cpuGraph.enablePopUpReport = NO;
+    self.cpuGraph.enableYAxisLabel = NO;
+    self.cpuGraph.autoScaleYAxis = NO;
+    self.cpuGraph.colorTop = [UIColor colorWithWhite:0.15 alpha:1];
+    self.cpuGraph.colorBottom = [UIColor colorWithWhite:0.15 alpha:1];
+    self.cpuGraph.colorLine = self.cpuMeterLabel.textColor;
+    
+    [self.cpuGraphContainer addSubview:self.cpuGraph];
+}
+
 - (NSInteger)numberOfPointsInLineGraph:(BEMSimpleLineGraphView *)graph {
-    return (int)(self.cpuHistory.count);
+    return self.cpuHistory.count; // == GRAPH_MAX_POINTS
 }
 
 - (CGFloat)lineGraph:(BEMSimpleLineGraphView *)graph valueForPointAtIndex:(NSInteger)index {
-    NSNumber *val = self.cpuHistory[index];
-    float fval = [val floatValue];
-    fval = self.cpuGraph.bounds.size.height * (fval/100.0);
-    //LOG("val[%d] = %0.1f  (y=%0.1f)", (int)index, [val floatValue], fval);
-    return fval;
+    float val = [self.cpuHistory[index] floatValue];
+//    LOG("val[%d] = %0.1f", (int)index, val);
+    
+    float adj_val = self.cpuGraph.bounds.size.height * (val/100.0);
+//    LOG("adj_val = %0.1f", adj_val);
+    val = adj_val;
+    
+    return val;
 }
 
 - (NSString *)noDataLabelTextForLineGraph:(BEMSimpleLineGraphView *)graph {
     return @"";
 }
+
+//- (CGFloat)maxValueForLineGraph:(BEMSimpleLineGraphView *)graph {
+//    return 100;
+//}
 
 //- (NSInteger)numberOfYAxisLabelsOnLineGraph:(BEMSimpleLineGraphView *)graph {
 //    return 10;
