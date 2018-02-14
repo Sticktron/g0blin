@@ -79,7 +79,6 @@ static unsigned char *boyermoore_horspool_memmem(const unsigned char* haystack, 
 
 //------------------------------------------------------------------------------
 #pragma mark - disassembler
-//------------------------------------------------------------------------------
 
 static int HighestSetBit(int N, uint32_t imm) {
 	int i;
@@ -196,7 +195,6 @@ static int DecodeMov(uint32_t opcode, uint64_t total, int first, uint64_t *newva
  
 //------------------------------------------------------------------------------
 #pragma mark - helpers
-//------------------------------------------------------------------------------
 
 static addr_t step64(const uint8_t *buf, addr_t start, size_t length, uint32_t what, uint32_t mask) {
     addr_t end = start + length;
@@ -397,7 +395,6 @@ static addr_t follow_cbz(const uint8_t *buf, addr_t cbz) {
 
 //------------------------------------------------------------------------------
 #pragma mark - patchfinder
-//------------------------------------------------------------------------------
 
 #include <fcntl.h>
 #include <stdio.h>
@@ -410,8 +407,6 @@ static addr_t follow_cbz(const uint8_t *buf, addr_t cbz) {
 #include <mach/mach.h>
 size_t kread(uint64_t where, void *p, size_t size);
 #endif
-
-static task_t tfp0;
 
 static uint8_t *kernel = NULL;
 static size_t kernel_size = 0;
@@ -430,9 +425,7 @@ static void *kernel_mh = 0;
 static addr_t kernel_delta = 0;
 
 
-int init_patchfinder(task_t taskfp0, addr_t base, const char *filename) {
-    tfp0 = taskfp0;
-    
+int init_patchfinder(task_t tfp0, addr_t base, const char *filename) {
     size_t rv;
     uint8_t buf[0x4000];
     unsigned i, j;
@@ -601,14 +594,12 @@ void term_kernel(void) {
     free(kernel);
 }
 
-
 /* these operate on VA ******************************************************/
 
 #define INSN_RET  0xD65F03C0, 0xFFFFFFFF
 #define INSN_CALL 0x94000000, 0xFC000000
 #define INSN_B    0x14000000, 0xFC000000
 #define INSN_CBZ  0x34000000, 0xFC000000
-
 
 addr_t find_register_value(addr_t where, int reg) {
     addr_t val;
@@ -726,22 +717,18 @@ addr_t find_amfiret(void) {
     return ret + kerndumpbase;
 }
 
-
-
 addr_t find_ret_0(void) {
     addr_t off;
     uint32_t *k;
     k = (uint32_t *)(kernel + xnucore_base);
     for (off = 0; off < xnucore_size - 4; off += 4, k++) {
         if (k[0] == 0xAA1F03E0 && k[1] == 0xD65F03C0) {
-        //if (k[0] == 0x52800000 && k[1] == 0xD65F03C0) {
             return off + xnucore_base + kerndumpbase;
         }
     }
     k = (uint32_t *)(kernel + prelink_base);
     for (off = 0; off < prelink_size - 4; off += 4, k++) {
         if (k[0] == 0xAA1F03E0 && k[1] == 0xD65F03C0) {
-        //if (k[0] == 0x52800000 && k[1] == 0xD65F03C0) {
             return off + prelink_base + kerndumpbase;
         }
     }
@@ -1020,8 +1007,7 @@ addr_t find_amficache(void) {
 
 
 //------------------------------------------------------------------------------
-
-//extra_recipe
+#pragma mark - extra_recipe
 
 #define INSN_STR8 0xF9000000 | 8, 0xFFC00000 | 0x1F
 
@@ -1123,12 +1109,11 @@ addr_t find_symbol(const char *symbol) {
 
 
 //------------------------------------------------------------------------------
-
-// g0blin
+#pragma mark - g0blin
 
 addr_t find_allproc(void) {
     addr_t val, bof, str8;
-    addr_t ref = find_strref("\"pgrp_add : pgrp is dead adding process\"", 1, 0); // modified
+    addr_t ref = find_strref("\"pgrp_add : pgrp is dead adding process\"", 1, 0);
     if (!ref) {
         return 0;
     }
@@ -1160,12 +1145,8 @@ addr_t find_sandbox_label_update(void) {
 }
 
 
-
-
-
 //------------------------------------------------------------------------------
 #pragma mark - test
-//------------------------------------------------------------------------------
 
 /*
 #if HAVE_MAIN

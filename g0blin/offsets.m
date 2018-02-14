@@ -14,6 +14,7 @@
 #include <sys/sysctl.h>
 #include <mach/mach.h>
 
+
 uint64_t OFFSET_ZONE_MAP;
 uint64_t OFFSET_KERNEL_MAP;
 uint64_t OFFSET_KERNEL_TASK;
