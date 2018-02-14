@@ -54,6 +54,7 @@ extern int (*gsystem)(const char *);
 
 @property (nonatomic, assign) BOOL jailbroken;
 @property (nonatomic, assign) BOOL fun;
+@property (nonatomic, assign) BOOL needsReboot;
 @property (nonatomic, strong) AVPlayerViewController *playerController;
 @property (nonatomic, strong) NSTimer *meterUpdateTimer;
 @property (nonatomic, assign) CPUSample lastCPUSample;
@@ -74,6 +75,10 @@ uint64_t self_proc;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.jailbroken = NO;
+    self.fun = NO;
+    self.needsReboot = NO;
     
     self.goButton.layer.cornerRadius = 16;
     self.consoleView.layer.cornerRadius = 6;
@@ -99,7 +104,6 @@ uint64_t self_proc;
     [self log:[NSString stringWithFormat:@"S/W: %@ \n", [[NSProcessInfo processInfo] operatingSystemVersionString]]];
     
     // abort if already jailbroken
-    self.jailbroken = NO;
     if (strstr(u.version, "MarijuanARM")) {
         self.jailbroken = YES;
         self.goButton.enabled = NO;
@@ -151,43 +155,6 @@ uint64_t self_proc;
 
 #pragma mark - jailbreak
 
-- (IBAction)fun:(UITapGestureRecognizer *)recognizer {
-    LOG("got secret tap 3");
-    
-    if (self.fun == NO) {
-        
-        BOOL hasAudio = [AVAudioSession.sharedInstance setCategory:AVAudioSessionCategoryPlayback error:nil];
-        if (!hasAudio) {
-            LOG("no audio :/");
-        }
-        
-        NSURL *url = [NSBundle.mainBundle URLForResource:@"y0nkers" withExtension:@"m4v"];
-        LOG("url = %@", url);
-        if (!url) {
-            LOG("filenotfound");
-            return;
-        }
-        
-        self.playerController = [[AVPlayerViewController alloc] init];
-        self.playerController.view.frame = self.consoleView.bounds;
-        self.playerController.showsPlaybackControls = YES;
-        self.playerController.updatesNowPlayingInfoCenter = YES;
-        self.playerController.player = [AVPlayer playerWithURL:url];
-        
-        [self.consoleView addSubview:self.playerController.view];
-        [self.playerController.player play];
-        
-        self.fun = YES;
-        
-    } else {
-        [self.playerController.player pause];
-        [self.playerController.view removeFromSuperview];
-        self.playerController.player = nil;
-        self.playerController = nil;
-        self.fun = NO;
-    }
-}
-
 - (void)log:(NSString *)text {
     self.consoleView.text = [NSString stringWithFormat:@"%@%@ \n", self.consoleView.text, text];
 }
@@ -197,22 +164,27 @@ uint64_t self_proc;
     
     self.goButton.enabled = NO;
     self.goButton.backgroundColor = UIColor.darkGrayColor;
-    [self.goButton setTitle:@"jailbreaking" forState:UIControlStateDisabled];
     
-    [self log:@"exploiting kernel..."];
+    if (self.needsReboot) {
+        [self.goButton setTitle:@"rebooting" forState:UIControlStateDisabled];
+        [self log:@"rebooting..."];
+    } else {
+        [self.goButton setTitle:@"jailbreaking" forState:UIControlStateDisabled];
+        [self log:@"exploiting kernel..."];
+    }
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         kern_return_t ret = v0rtex(&tfp0, &kslide, &kern_cred, &self_cred, &self_proc);
         if (ret != KERN_SUCCESS) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self log:@"ERROR: exploit failed :( \n"];
-                [self log:@"Please try again \n"];
+                [self log:@"ERROR: exploit failed :( \n\n"];
+                [self log:@"Please reboot and try again. \n"];
                 
-                [self.goButton setTitle:@"try again" forState:UIControlStateNormal];
+                self.needsReboot = YES;
+                
+                [self.goButton setTitle:@"failed, reboot" forState:UIControlStateNormal];
                 self.goButton.backgroundColor = GRAPE;
                 self.goButton.enabled = YES;
-                
-                [self startUpdating];
             });
             return;
         }
@@ -271,11 +243,54 @@ uint64_t self_proc;
     
     LOG("killing backboardd...");
     gsystem("(killall backboardd)&");
-    //gsystem("killall -9 backboardd");
     
     LOG("restoring our creds");
     WriteAnywhere64(self_proc + offset_p_cred, self_cred);
+}
+
+
+#pragma mark - fun
+
+- (IBAction)fun:(UITapGestureRecognizer *)recognizer {
+    LOG("got secret tap 3");
     
+    if (self.fun == NO) {
+        
+        BOOL hasAudio = [AVAudioSession.sharedInstance setCategory:AVAudioSessionCategoryPlayback error:nil];
+        if (!hasAudio) {
+            LOG("no audio :/");
+        }
+        
+        NSURL *url = [NSBundle.mainBundle URLForResource:@"y0nkers" withExtension:@"m4v"];
+        LOG("url = %@", url);
+        if (!url) {
+            LOG("filenotfound");
+            return;
+        }
+        
+        self.playerController = [[AVPlayerViewController alloc] init];
+        self.playerController.view.frame = self.consoleView.bounds;
+        self.playerController.showsPlaybackControls = YES;
+        self.playerController.updatesNowPlayingInfoCenter = YES;
+        self.playerController.player = [AVPlayer playerWithURL:url];
+        
+        [self.consoleView addSubview:self.playerController.view];
+        [self.playerController.player play];
+        
+        self.logoView.image = [UIImage imageNamed:@"logo-lit"];
+        
+        self.fun = YES;
+        
+    } else {
+        [self.playerController.player pause];
+        [self.playerController.view removeFromSuperview];
+        self.playerController.player = nil;
+        self.playerController = nil;
+        
+        self.logoView.image = [UIImage imageNamed:@"logo"];
+        
+        self.fun = NO;
+    }
 }
 
 
@@ -490,13 +505,5 @@ uint64_t self_proc;
 - (NSString *)noDataLabelTextForLineGraph:(BEMSimpleLineGraphView *)graph {
     return @"";
 }
-
-//- (CGFloat)maxValueForLineGraph:(BEMSimpleLineGraphView *)graph {
-//    return 100;
-//}
-
-//- (NSInteger)numberOfYAxisLabelsOnLineGraph:(BEMSimpleLineGraphView *)graph {
-//    return 10;
-//}
 
 @end
