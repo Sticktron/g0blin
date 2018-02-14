@@ -29,9 +29,7 @@
 		EE9828C01FF3E2C50085B633 /* remount.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9828BE1FF3E2C40085B633 /* remount.m */; };
 		EE9828C31FF3E9AA0085B633 /* bootstrap.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9828C21FF3E9AA0085B633 /* bootstrap.m */; };
 		EE9828C81FF418800085B633 /* tar in Resources */ = {isa = PBXBuildFile; fileRef = EE9828C41FF4187F0085B633 /* tar */; };
-		EE9828CA1FF418800085B633 /* launchctl in Resources */ = {isa = PBXBuildFile; fileRef = EE9828C61FF4187F0085B633 /* launchctl */; };
-		EE9DD8CA201E6D1000CE61E8 /* reload in Resources */ = {isa = PBXBuildFile; fileRef = EE9DD8C8201E6D1000CE61E8 /* reload */; };
-		EE9DD8CB201E6D1000CE61E8 /* 0.reload.plist in Resources */ = {isa = PBXBuildFile; fileRef = EE9DD8C9201E6D1000CE61E8 /* 0.reload.plist */; };
+		EE9C13042034A3E500C25AAC /* launchctl in Resources */ = {isa = PBXBuildFile; fileRef = EE9828C61FF4187F0085B633 /* launchctl */; };
 		EEC032D6201EDF8A00E70E6E /* y0nkers.m4v in Resources */ = {isa = PBXBuildFile; fileRef = EE95FECF201EA10B00D5377E /* y0nkers.m4v */; };
 /* End PBXBuildFile section */
 
@@ -270,13 +268,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE9C13042034A3E500C25AAC /* launchctl in Resources */,
 				EEC032D6201EDF8A00E70E6E /* y0nkers.m4v in Resources */,
 				EE1C60E41FFACA3600D30AAC /* bootstrap.tar in Resources */,
 				EE9828C81FF418800085B633 /* tar in Resources */,
-				EE9828CA1FF418800085B633 /* launchctl in Resources */,
 				EE94024B1FF33CAE00C9325F /* LaunchScreen.storyboard in Resources */,
-				EE9DD8CB201E6D1000CE61E8 /* 0.reload.plist in Resources */,
-				EE9DD8CA201E6D1000CE61E8 /* reload in Resources */,
 				EE9402481FF33CAE00C9325F /* Assets.xcassets in Resources */,
 				EE9402461FF33CAE00C9325F /* Main.storyboard in Resources */,
 			);
