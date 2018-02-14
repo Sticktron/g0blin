@@ -32,7 +32,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LzW-79-NNF">
-                                <rect key="frame" x="48" y="238" width="280" height="60"/>
+                                <rect key="frame" x="48" y="243" width="280" height="60"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.50196078431372548" green="0.0" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" name="Menlo-Bold" family="Menlo" pointSize="20"/>
@@ -45,7 +45,7 @@
                                 </connections>
                             </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="Console" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Elh-sj-UCK">
-                                <rect key="frame" x="19" y="330" width="337" height="249"/>
+                                <rect key="frame" x="19" y="343" width="337" height="236"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="textColor" red="0.66422420739999999" green="0.66424006219999998" blue="0.66423153879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -93,7 +93,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NSy-bL-dLc">
-                                <rect key="frame" x="44" y="190" width="288" height="40"/>
+                                <rect key="frame" x="44" y="195" width="288" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES"/>
                                 <attributedString key="attributedText">
                                     <fragment content="it may take several tries to succeed wait a short time after rebooting">
@@ -124,7 +124,7 @@
                         <gestureRecognizers/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <tabBarItem key="tabBarItem" systemItem="favorites" id="jcZ-pY-2sQ"/>
+                    <tabBarItem key="tabBarItem" title="Jailbreak" image="jailbreak-tab" selectedImage="jailbreak-tab" id="jcZ-pY-2sQ"/>
                     <connections>
                         <outlet property="consoleView" destination="Elh-sj-UCK" id="gJk-Xf-NFc"/>
                         <outlet property="cpuGraphContainer" destination="CF4-6u-REf" id="eWk-J0-MhA"/>
@@ -227,13 +227,14 @@
         <!--Tab Bar Controller-->
         <scene sceneID="LxF-P9-YnC">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="gXS-Nk-YGE" sceneMemberID="viewController">
-                    <extendedEdge key="edgesForExtendedLayout" top="YES"/>
+                <tabBarController id="gXS-Nk-YGE" sceneMemberID="viewController">
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" barStyle="black" id="jOr-lc-OXG">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="tintColor" red="0.50196078431372548" green="0.0" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="selectedImageTintColor" red="0.50196078431372548" green="0.0" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </tabBar>
                     <connections>
@@ -247,6 +248,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="jailbreak-tab" width="48" height="32"/>
         <image name="logo" width="180" height="44"/>
     </resources>
 </document>
