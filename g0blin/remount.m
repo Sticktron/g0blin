@@ -12,8 +12,9 @@
 #import "kernel.h"
 #include <sys/mount.h>
 
-#define KSTRUCT_OFFSET_MOUNT_MNT_FLAG   0x70
-#define KSTRUCT_OFFSET_VNODE_V_UN       0xd8
+static const uint64_t KSTRUCT_OFFSET_MOUNT_MNT_FLAG   = 0x70;
+static const uint64_t KSTRUCT_OFFSET_VNODE_V_UN       = 0xd8;
+
 
 kern_return_t do_remount(uint64_t slide) {
     uint64_t _rootnode = OFFSET_ROOTVNODE + slide;
@@ -23,8 +24,8 @@ kern_return_t do_remount(uint64_t slide) {
     uint64_t v_mount = rk64(rootfs_vnode + KSTRUCT_OFFSET_VNODE_V_UN);
     uint32_t v_flag = rk32(v_mount + KSTRUCT_OFFSET_MOUNT_MNT_FLAG);
     
-    // unset readonly, nosuid
-    //v_flag = v_flag & ~MNT_NOSUID; //?
+    // unset flags
+    v_flag = v_flag & ~MNT_NOSUID; // necessary?
     v_flag = v_flag & ~MNT_RDONLY;
     
     // write new flags, temporarily unsetting rootfs flag
