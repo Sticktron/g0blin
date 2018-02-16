@@ -12,6 +12,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *redditButton;
 @property (weak, nonatomic) IBOutlet UIButton *discordButton;
 @property (weak, nonatomic) IBOutlet UIButton *issuesButton;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet UIView *contentView;
 @end
 
 @implementation SettingsController
@@ -23,8 +25,15 @@
     self.redditButton.layer.cornerRadius = 16;
     self.discordButton.layer.cornerRadius = 16;
     self.issuesButton.layer.cornerRadius = 16;
+    
+    self.scrollView.contentSize = CGSizeMake(self.scrollView.bounds.size.width, self.contentView.frame.size.height);
 
     [self.reinstallBootstrapSwitch setOn:NO animated:NO];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.scrollView.contentOffset = CGPointMake(0, 0);
 }
 
 - (IBAction)goIssues:(UIButton *)sender {
