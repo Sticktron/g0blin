@@ -28,9 +28,9 @@
 
 #define LEAD                [UIColor colorWithRed:0.13 green:0.13 blue:0.13 alpha:1]
 
-#define UPDATE_INTERVAL     1.0f
+#define UPDATE_INTERVAL     2.0f
 
-#define GRAPH_MAX_POINTS    40
+#define GRAPH_MAX_POINTS    30
 
 
 typedef struct {
