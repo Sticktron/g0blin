@@ -12,13 +12,13 @@
 #import "common.h"
 #import "offsets.h"
 #import "kernel.h"
-#import "kpp.h"
+#import "kppbypass.h"
 #import "remount.h"
 #import "bootstrap.h"
+#include <sys/utsname.h>
 #import "BEMSimpleLineGraphView.h"
 #import <AVFoundation/AVFoundation.h>
 #import <AVKit/AVKit.h>
-#include <sys/utsname.h>
 
 
 #define RTM_IFINFO2         0x12 //from route.h
@@ -205,7 +205,7 @@ uint64_t self_proc = 0;
 - (void)bypassKPP {
     [self log:@"patching kernel..."];
     
-    if (do_kpp(tfp0, kslide, kern_cred, self_cred, self_proc) == KERN_SUCCESS) {
+    if (do_kppbypass(tfp0, kslide, kern_cred, self_cred, self_proc) == KERN_SUCCESS) {
         LOG("♬ you done with kpp? yeah you know me ♬");
         [self remount];
     } else {

@@ -1,5 +1,5 @@
 //
-//  kpp.h
+//  kppbypass.h
 //  g0blin
 //
 //  Created by Sticktron on 2017-12-26.
@@ -20,7 +20,7 @@
 #include <Foundation/Foundation.h>
 
 
-kern_return_t do_kpp(task_t tfp0, uint64_t slide, uint64_t kern_cred, uint64_t self_cred, uint64_t selfproc);
+kern_return_t do_kppbypass(task_t tfp0, uint64_t slide, uint64_t kern_cred, uint64_t self_cred, uint64_t selfproc);
     
 size_t kread(uint64_t where, void *p, size_t size);
 uint64_t kread_uint64(uint64_t where);
