@@ -63,12 +63,12 @@ extern int (*gsystem)(const char *);
 @end
 
 
-task_t tfp0;
+task_t tfp0 = 0;
 
-uint64_t kslide;
-uint64_t kern_cred;
-uint64_t self_cred;
-uint64_t self_proc;
+uint64_t kslide = 0;
+uint64_t kern_cred = 0;
+uint64_t self_cred = 0;
+uint64_t self_proc = 0;
 
 
 @implementation ViewController
