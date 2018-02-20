@@ -254,24 +254,10 @@ kern_return_t do_unjail(task_t tfpzero, uint64_t slide, uint64_t kern_cred, uint
 //    WriteAnywhere32(shc+0x200+n, 0xd65f03c0); n+=4; // ret
 //    WriteAnywhere32(shc+0x200+n, 0x0e00400f); n+=4; // tbl.8b v15, { v0, v1, v2 }, v0
     
-    
-    
-    // 10.3.x
-//    WriteAnywhere32(shc+0x200+n, 0x18000148); n+=4; // ldr      w8, 0x28
-//    WriteAnywhere32(shc+0x200+n, 0xb90002e8); n+=4; // str      w8, [x23]
-//    WriteAnywhere32(shc+0x200+n, 0xaa1f03e0); n+=4; // mov      x0, xzr
-    
-    //test
-    
-    //mov w0, 0
-    //mov w9, 0xA00
-    //orr w8, w8, w9
-    //str w8, [x23]
-    
-    WriteAnywhere32(shc+0x200+n, 0x52800000); n+=4; // mov  w0, 0
-    WriteAnywhere32(shc+0x200+n, 0x52814009); n+=4; // mov  w9, 0xA00
-    WriteAnywhere32(shc+0x200+n, 0x2A090108); n+=4; // orr  w8, w8, w9
-    WriteAnywhere32(shc+0x200+n, 0xB90002E8); n+=4; // str  w8, [x23]
+    // 10.3
+    WriteAnywhere32(shc+0x200+n, 0x18000148); n+=4; // ldr      w8, 0x28
+    WriteAnywhere32(shc+0x200+n, 0xb90002e8); n+=4; // str      w8, [x23]
+    WriteAnywhere32(shc+0x200+n, 0xaa1f03e0); n+=4; // mov      x0, xzr
     
     WriteAnywhere32(shc+0x200+n, 0xA9477BFD); n+=4; // ldp      x29, x30, [sp, #112]
     WriteAnywhere32(shc+0x200+n, 0xA9464FF4); n+=4; // ldp      x20, x19, [sp, #96]
@@ -571,14 +557,6 @@ remappage[remapcnt++] = (x & (~PMK));\
         WriteAnywhere64(remap + 8, shc + 0x200); /* amfi shellcode */
     }
 
-    
-    
-    
-    
-    
-    
-    
-    
     
 #pragma mark -
     
