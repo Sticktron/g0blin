@@ -12,7 +12,7 @@
 #import "common.h"
 #import "offsets.h"
 #import "kernel.h"
-#import "kppbypass.h"
+#import "unjail.h"
 #import "remount.h"
 #import "bootstrap.h"
 #include <sys/utsname.h>
@@ -197,15 +197,16 @@ uint64_t self_proc = 0;
         LOG("***********************************");
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self bypassKPP];
+            //[self unjail];
+            [self performSelector:@selector(unjail) withObject:nil afterDelay:1];
         });
     });
 }
 
-- (void)bypassKPP {
+- (void)unjail {
     [self log:@"patching kernel..."];
     
-    if (do_kppbypass(tfp0, kslide, kern_cred, self_cred, self_proc) == KERN_SUCCESS) {
+    if (do_unjail(tfp0, kslide, kern_cred, self_cred, self_proc) == KERN_SUCCESS) {
         LOG("♬ you done with kpp? yeah you know me ♬");
         [self remount];
     } else {
