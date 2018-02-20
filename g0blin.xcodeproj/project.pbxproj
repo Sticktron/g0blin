@@ -23,7 +23,7 @@
 		EE9402581FF3404700C9325F /* v0rtex.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9402561FF33CF000C9325F /* v0rtex.m */; };
 		EE94025B1FF340D400C9325F /* offsets.m in Sources */ = {isa = PBXBuildFile; fileRef = EE94025A1FF340D400C9325F /* offsets.m */; };
 		EE94025E1FF3453200C9325F /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE94025D1FF3453200C9325F /* IOKit.framework */; };
-		EE9402621FF375E700C9325F /* kpp.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9402611FF375E600C9325F /* kpp.m */; };
+		EE9402621FF375E700C9325F /* unjail.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9402611FF375E600C9325F /* unjail.m */; };
 		EE9402651FF3766500C9325F /* patchfinder64.c in Sources */ = {isa = PBXBuildFile; fileRef = EE9402641FF3766500C9325F /* patchfinder64.c */; };
 		EE9402681FF376E400C9325F /* kernel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9402661FF376E400C9325F /* kernel.m */; };
 		EE9828C01FF3E2C50085B633 /* remount.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9828BE1FF3E2C40085B633 /* remount.m */; };
@@ -63,9 +63,9 @@
 		EE9402591FF340D400C9325F /* offsets.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = offsets.h; sourceTree = "<group>"; };
 		EE94025A1FF340D400C9325F /* offsets.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = offsets.m; sourceTree = "<group>"; };
 		EE94025D1FF3453200C9325F /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = ../../../../System/Library/Frameworks/IOKit.framework; sourceTree = "<group>"; };
-		EE94025F1FF375E600C9325F /* kpp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = kpp.h; sourceTree = "<group>"; };
+		EE94025F1FF375E600C9325F /* unjail.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = unjail.h; sourceTree = "<group>"; };
 		EE9402601FF375E600C9325F /* pte_stuff.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = pte_stuff.h; sourceTree = "<group>"; };
-		EE9402611FF375E600C9325F /* kpp.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = kpp.m; sourceTree = "<group>"; };
+		EE9402611FF375E600C9325F /* unjail.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = unjail.m; sourceTree = "<group>"; };
 		EE9402631FF3766500C9325F /* patchfinder64.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = patchfinder64.h; sourceTree = "<group>"; };
 		EE9402641FF3766500C9325F /* patchfinder64.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = patchfinder64.c; sourceTree = "<group>"; };
 		EE9402661FF376E400C9325F /* kernel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = kernel.m; sourceTree = "<group>"; };
@@ -194,8 +194,8 @@
 				EE9402571FF33CF000C9325F /* common.h */,
 				EE9402671FF376E400C9325F /* kernel.h */,
 				EE9402661FF376E400C9325F /* kernel.m */,
-				EE94025F1FF375E600C9325F /* kpp.h */,
-				EE9402611FF375E600C9325F /* kpp.m */,
+				EE94025F1FF375E600C9325F /* unjail.h */,
+				EE9402611FF375E600C9325F /* unjail.m */,
 				EE9402591FF340D400C9325F /* offsets.h */,
 				EE94025A1FF340D400C9325F /* offsets.m */,
 				EE9402641FF3766500C9325F /* patchfinder64.c */,
@@ -297,7 +297,7 @@
 				EE9402581FF3404700C9325F /* v0rtex.m in Sources */,
 				EE9402651FF3766500C9325F /* patchfinder64.c in Sources */,
 				EE9402681FF376E400C9325F /* kernel.m in Sources */,
-				EE9402621FF375E700C9325F /* kpp.m in Sources */,
+				EE9402621FF375E700C9325F /* unjail.m in Sources */,
 				EE9828C01FF3E2C50085B633 /* remount.m in Sources */,
 				EE9828C31FF3E9AA0085B633 /* bootstrap.m in Sources */,
 				EE0A1C281FF8891A001030DB /* SettingsController.m in Sources */,

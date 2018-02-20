@@ -15,13 +15,14 @@
 #include <copyfile.h>
 #include <mach-o/dyld.h>
 
-
 extern int (*gsystem)(const char *);
 
 
 kern_return_t do_bootstrap() {
     
 #pragma mark - Cleanup
+    
+    /* Make sure these get deleted */
     
     unlink("/.installed_g0blin");
     unlink("/.installed_g0blin_rc0");
@@ -32,12 +33,22 @@ kern_return_t do_bootstrap() {
     unlink("/Library/LaunchDaemons/0.reload.plist");
 
     
-    // set SBShowNonDefaultSystemApps = YES in com.apple.springboard.plist
+    /* Make sure these get updated */
+    
+    unlink("/bin/launchctl");
+    NSString *launchctl = [[NSBundle mainBundle] URLForResource:@"launchctl" withExtension:@""].path;
+    copyfile([launchctl UTF8String], "/bin/launchctl", 0, COPYFILE_ALL);
+    chmod("/bin/launchctl", 0755);
+    
+    
+    /* Do this again everytime because it isn't sticking for some people */
+    
     gsystem("killall -SIGSTOP cfprefsd");
     NSMutableDictionary *plist = [[NSMutableDictionary alloc] initWithContentsOfFile:@"/private/var/mobile/Library/Preferences/com.apple.springboard.plist"];
     [plist setObject:@YES forKey:@"SBShowNonDefaultSystemApps"];
     [plist writeToFile:@"/var/mobile/Library/Preferences/com.apple.springboard.plist" atomically:YES];
     gsystem("killall -9 cfprefsd");
+    
     
     
 #pragma mark - Install Cydia?
@@ -89,10 +100,9 @@ kern_return_t do_bootstrap() {
     }
     LOG("Cydia is installed");
     
+#pragma mark - Finish
     
-#pragma mark - Common
-    
-    
+
     // permissions fix
     chmod("/private", 0777);
     chmod("/private/var", 0777);
@@ -106,10 +116,6 @@ kern_return_t do_bootstrap() {
     gsystem("launchctl kill 9 system/com.apple.mobile.softwareupdated");
     LOG("killed Software Update");
 
-    // obliterate Software Update
-    //unlink("/System/Library/PrivateFrameworks/MobileSoftwareUpdate.framework/Support/softwareupdated")
-    //LOG("obliterated Software Update");
-    
     // kill OTA updater
     gsystem("rm -rf /var/MobileAsset/Assets/com_apple_MobileAsset_SoftwareUpdate; touch /var/MobileAsset/Assets/com_apple_MobileAsset_SoftwareUpdate; chmod 000 /var/MobileAsset/Assets/com_apple_MobileAsset_SoftwareUpdate; chown 0:0 /var/MobileAsset/Assets/com_apple_MobileAsset_SoftwareUpdate");
     LOG("killed OTA updater");

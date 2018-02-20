@@ -1137,6 +1137,7 @@ addr_t find_sandbox_label_update(void) {
     addr_t ref;
     for (int i = 1; (ref = find_strref("process-exec denied while updating label", i, 1)); i++) {
         if (ref) {
+            printf("found process-exec denied while updating label string at: 0x%llx", ref);
             ref = ref - 0x368;
             return ref;
         }

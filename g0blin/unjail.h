@@ -1,5 +1,5 @@
 //
-//  kpp.h
+//  unjail.h
 //  g0blin
 //
 //  Created by Sticktron on 2017-12-26.
@@ -20,8 +20,8 @@
 #include <Foundation/Foundation.h>
 
 
-kern_return_t do_kpp(task_t tfp0, uint64_t slide, uint64_t kern_cred, uint64_t self_cred, uint64_t selfproc);
-    
+kern_return_t do_unjail(task_t tfp0, uint64_t slide, uint64_t kern_cred, uint64_t self_cred, uint64_t selfproc);
+
 size_t kread(uint64_t where, void *p, size_t size);
 uint64_t kread_uint64(uint64_t where);
 uint32_t kread_uint32(uint64_t where);
@@ -45,12 +45,10 @@ kern_return_t mach_vm_allocate(vm_map_t target, mach_vm_address_t *address, mach
 #define copyin(to, from, size) kread(from, to, size)
 #define copyout(to, from, size) kwrite(to, from, size)
 
-
 #define offset_p_pid        0x10
 #define offset_p_cred       0x100
 #define offset_p_comm       0x26c
 #define offset_p_csflags    0x2a8
-
 
 #define CS_VALID                    0x0000001    /* dynamically valid */
 #define CS_ADHOC                    0x0000002    /* ad hoc signed */

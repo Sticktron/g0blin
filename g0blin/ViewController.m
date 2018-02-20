@@ -12,13 +12,13 @@
 #import "common.h"
 #import "offsets.h"
 #import "kernel.h"
-#import "kpp.h"
+#import "unjail.h"
 #import "remount.h"
 #import "bootstrap.h"
+#include <sys/utsname.h>
 #import "BEMSimpleLineGraphView.h"
 #import <AVFoundation/AVFoundation.h>
 #import <AVKit/AVKit.h>
-#include <sys/utsname.h>
 
 
 #define RTM_IFINFO2         0x12 //from route.h
@@ -28,9 +28,9 @@
 
 #define LEAD                [UIColor colorWithRed:0.13 green:0.13 blue:0.13 alpha:1]
 
-#define UPDATE_INTERVAL     1.0f
+#define UPDATE_INTERVAL     2.0f
 
-#define GRAPH_MAX_POINTS    40
+#define GRAPH_MAX_POINTS    30
 
 
 typedef struct {
@@ -63,12 +63,12 @@ extern int (*gsystem)(const char *);
 @end
 
 
-task_t tfp0;
+task_t tfp0 = 0;
 
-uint64_t kslide;
-uint64_t kern_cred;
-uint64_t self_cred;
-uint64_t self_proc;
+uint64_t kslide = 0;
+uint64_t kern_cred = 0;
+uint64_t self_cred = 0;
+uint64_t self_proc = 0;
 
 
 @implementation ViewController
@@ -197,15 +197,16 @@ uint64_t self_proc;
         LOG("***********************************");
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self bypassKPP];
+            //[self unjail];
+            [self performSelector:@selector(unjail) withObject:nil afterDelay:1];
         });
     });
 }
 
-- (void)bypassKPP {
+- (void)unjail {
     [self log:@"patching kernel..."];
     
-    if (do_kpp(tfp0, kslide, kern_cred, self_cred, self_proc) == KERN_SUCCESS) {
+    if (do_unjail(tfp0, kslide, kern_cred, self_cred, self_proc) == KERN_SUCCESS) {
         LOG("♬ you done with kpp? yeah you know me ♬");
         [self remount];
     } else {
