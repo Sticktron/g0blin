@@ -106,10 +106,6 @@ kern_return_t do_bootstrap() {
     gsystem("launchctl kill 9 system/com.apple.mobile.softwareupdated");
     LOG("killed Software Update");
 
-    // obliterate Software Update
-    //unlink("/System/Library/PrivateFrameworks/MobileSoftwareUpdate.framework/Support/softwareupdated")
-    //LOG("obliterated Software Update");
-    
     // kill OTA updater
     gsystem("rm -rf /var/MobileAsset/Assets/com_apple_MobileAsset_SoftwareUpdate; touch /var/MobileAsset/Assets/com_apple_MobileAsset_SoftwareUpdate; chmod 000 /var/MobileAsset/Assets/com_apple_MobileAsset_SoftwareUpdate; chown 0:0 /var/MobileAsset/Assets/com_apple_MobileAsset_SoftwareUpdate");
     LOG("killed OTA updater");
