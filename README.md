@@ -30,10 +30,17 @@ RC2 uninstalls dropbear for everyone. If you want to use ssh you can install Ope
 RC3 will remove that behaviour allowing you to re-install dropbear if that's your preference.
 
 
-## what's broken?
+## what doesn't work yet?
 
-- Touch ID does not work in App Store apps while in jailbroken mode
-- see the Issue tracker
+There are a few things not working yet that are related to a kernel patching issue:
+- Touch ID not working in containerized Apps
+- Preferences behaving badly in containerized Apps
+- debugserver is killed by sandbox when trying to launch an App via Xcode
+
+
+## what does work?
+
+Everything else?
 
 
 ## tips
@@ -51,7 +58,7 @@ RC3 will remove that behaviour allowing you to re-install dropbear if that's you
 
 ## shoutouts
 
-Siguza, Ian Beer, windknown, Luca Todesco, xerub, tihmstar, saurik, uroboro, cheesecakeufo, arx8x, psycho tea, cryptic; Tyler, the Creator, randomblackdude, Mom.
+Siguza, Ian Beer, windknown, Luca Todesco, xerub, tihmstar, saurik, uroboro, cheesecakeufo, arx8x, psycho tea, cryptic; Tyler, the Creator, randomblackdude; Mom.
 
 I am extremely grateful for everyone whose open-source/public contributions to iOS research and developement made this software possible :)
 
@@ -60,7 +67,7 @@ I am extremely grateful for everyone whose open-source/public contributions to i
 &nbsp;
 
 
-<img src="http://data.whicdn.com/images/35103248/original.jpg" width="100%"/>
+<img src="http://data.whicdn.com/images/35103248/original.jpg" width="85%"/>
 
 
 <p align="center">😈</p>
