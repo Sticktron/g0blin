@@ -65,7 +65,7 @@ I am extremely grateful for everyone whose open-source/public contributions to i
 &nbsp;
 
 
-<img src="http://data.whicdn.com/images/35103248/original.jpg" width="85%"/>
+<p align="center"><img src="http://data.whicdn.com/images/35103248/original.jpg" width="85%"/></p>
 
 
 <p align="center">😈</p>
