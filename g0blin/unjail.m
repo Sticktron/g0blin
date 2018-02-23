@@ -59,8 +59,7 @@ kern_return_t do_unjail(task_t tfpzero, uint64_t slide, uint64_t kern_cred, uint
         
         if (pid > 0) {
             uint32_t csflags = ReadAnywhere32(proc + offset_p_csflags);
-            //csflags |= CS_PLATFORM_BINARY|CS_INSTALLER|CS_GET_TASK_ALLOW;
-            csflags |= CS_PLATFORM_BINARY|CS_INSTALLER|CS_GET_TASK_ALLOW|CS_ADHOC|CS_VALID;
+            csflags |= CS_PLATFORM_BINARY|CS_INSTALLER|CS_GET_TASK_ALLOW|CS_VALID;
             csflags &= ~(CS_RESTRICT|CS_KILL|CS_HARD);
             WriteAnywhere32(proc + offset_p_csflags, csflags);
             printf("[INFO]: entitled proc: (%d) %s \n", pid, pname);
