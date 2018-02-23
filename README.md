@@ -16,7 +16,7 @@ iPad Air, Air 2, 5G (2017), Pro 1G 9.7", Pro 1G 12.9", Mini 2, Mini 3, Mini 4
 There are a few things not working yet that are related to a kernel patching issue:
 - Touch ID not working in containerized Apps
 - Preferences behaving badly in containerized Apps
-- debugserver is killed by sandbox when trying to launch an App via Xcode
+- Failure to launch an App via Xcode
 
 
 ## what does work?
