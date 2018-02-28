@@ -3,6 +3,13 @@
 This is a fork of @Sticktron's original g0blin. The key difference is I have modified the xcode project so that it will compile with a version of xcode that still runs on El Capitan (10.11++).
 
 I will try to keep it maintained with the original, while also including some changes ([e.g., Danoded's](https://github.com/Danoded/10.3.x-Jailbreak-Without-Evil/commit/c91d66787921e7d999c18bf165d93dde14b6a11b)).
+
+You will need to clone and build this project. You must change the name and dev team from the xcode general info screen too.
+
+## Quick-n-dirty
+
+Supposing you chose the profile or archive scheme from xcode, you will then dig through the `DerivedData` folders to find the app. In the same directory, create a new folder named `Payload` and move the app into the new directory. Compress the `Payload` folder with `zip`, and then rename it from `Archive.zip` to whatever (e.g., `PoopyButters.ipa`?). Ensure that the extension is changed from .zip to .ipa. Finally, you can put the newly-minted app onto your phone using Cydia Impactor.
+
 ***
 ***
 A work-in-progress iOS 10.3.x jailbreak for 64-bit iDevices (A7 - A9) made from off the shelf parts and shared research.
