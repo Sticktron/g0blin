@@ -354,44 +354,6 @@ static addr_t calc64(const uint8_t *buf, addr_t start, addr_t end, int which) {
     return value[which];
 }
 
-static addr_t calc64mov(const uint8_t *buf, addr_t start, addr_t end, int which) {
-    addr_t i;
-    uint64_t value[32];
-
-    memset(value, 0, sizeof(value));
-
-    end &= ~3;
-    for (i = start & ~3; i < end; i += 4) {
-        uint32_t op = *(uint32_t *)(buf + i);
-        unsigned reg = op & 0x1F;
-        uint64_t newval;
-        int rv = DecodeMov(op, value[reg], 0, &newval);
-        if (rv == 0) {
-            if (((op >> 31) & 1) == 0) {
-                newval &= 0xFFFFFFFF;
-            }
-            value[reg] = newval;
-        }
-    }
-    return value[which];
-}
-
-static addr_t find_call64(const uint8_t *buf, addr_t start, size_t length) {
-    return step64(buf, start, length, 0x94000000, 0xFC000000);
-}
-
-static addr_t follow_call64(const uint8_t *buf, addr_t call) {
-    long long w;
-    w = *(uint32_t *)(buf + call) & 0x3FFFFFF;
-    w <<= 64 - 26;
-    w >>= 64 - 26 - 2;
-    return call + w;
-}
-
-static addr_t follow_cbz(const uint8_t *buf, addr_t cbz) {
-    return cbz + ((*(int *)(buf + cbz) & 0x3FFFFE0) << 10 >> 13);
-}
-
 
 //------------------------------------------------------------------------------
 #pragma mark - patchfinder
@@ -746,10 +708,6 @@ addr_t find_amfi_memcmpstub(void) {
     if (!call) {
         return 0;
     }
-    dest = follow_call64(kernel, call);
-    if (!dest) {
-        return 0;
-    }
     reg = calc64(kernel, dest, dest + 8, 16);
     if (!reg) {
         return 0;
@@ -785,10 +743,6 @@ addr_t find_lwvm_mapio_patch(void) {
     }
     call = step64(kernel, call + 4, 64, INSN_CALL);
     if (!call) {
-        return 0;
-    }
-    dest = follow_call64(kernel, call);
-    if (!dest) {
         return 0;
     }
     reg = calc64(kernel, dest, dest + 8, 16);
@@ -961,11 +915,6 @@ addr_t find_trustcache(void) {
         return 0;
     }
     call = step64(kernel, call+4, 32, INSN_CALL);
-    func = follow_call64(kernel, call);
-    if (!func) {
-        printf("couldn't follow the call\n");
-        return 0;
-    }
     val = calc64(kernel, func, func + 16, 8);
     if (!val) {
         return 0;
@@ -987,11 +936,6 @@ addr_t find_amficache(void) {
         return 0;
     }
     call = step64(kernel, call+4, 32, INSN_CALL);
-    func = follow_call64(kernel, call);
-    if (!func) {
-        printf("couldn't follow the call\n");
-        return 0;
-    }
     bof = bof64(kernel, func - 256, func);
     if (!bof) {
         printf("couldn't find the start of the function\n");
