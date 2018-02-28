@@ -1,5 +1,8 @@
 # g0blin
 
+This is a fork of @Sticktron's original g0blin. The key difference is I have modified the xcode project so that it will compile with a version of xcode that still runs on El Capitan (10.11++). I will try to keep it maintained with the original, while also including some changes ([e.g., Danoded's](https://github.com/Danoded/10.3.x-Jailbreak-Without-Evil/commit/c91d66787921e7d999c18bf165d93dde14b6a11b)).
+***
+***
 A work-in-progress iOS 10.3.x jailbreak for 64-bit iDevices (A7 - A9) made from off the shelf parts and shared research.
 Long live jailbreaking!
 
